@@ -7074,6 +7074,45 @@ mod tests {
         );
     }
 
+    #[test]
+    fn desktop_language_picker_surfaces_chinese_near_the_top() {
+        let manifest = env!("CARGO_MANIFEST_DIR"); // .../tauri/src-tauri
+        let html_path = format!("{}/../src/index.html", manifest);
+        let html = std::fs::read_to_string(&html_path).expect("failed to read index.html");
+
+        let picker_start = html
+            .find(r#"<select id="settings-whisper-language""#)
+            .expect("language picker missing");
+        let picker_end = html[picker_start..]
+            .find("</select>")
+            .map(|offset| picker_start + offset)
+            .expect("language picker closing tag missing");
+        let picker = &html[picker_start..picker_end];
+
+        assert!(
+            picker.contains(r#"<option value="zh">Chinese (Mandarin / 中文)</option>"#),
+            "desktop transcription language picker should label Mandarin Chinese in Chinese"
+        );
+        assert!(
+            picker.contains(r#"<option value="yue">Cantonese (粤语)</option>"#),
+            "desktop transcription language picker should label Cantonese in Chinese"
+        );
+        assert_eq!(
+            picker.matches(r#"<option value="zh">"#).count(),
+            1,
+            "language picker should not duplicate the zh option"
+        );
+        assert_eq!(
+            picker.matches(r#"<option value="yue">"#).count(),
+            1,
+            "language picker should not duplicate the yue option"
+        );
+        assert!(
+            picker.find(r#"<option value="zh">"#) < picker.find(r#"<option value="af">"#),
+            "Chinese should appear near the top of the long language picker"
+        );
+    }
+
     /// Strip the body of the `match (section.as_str(), key.as_str()) { ... }`
     /// expression from commands.rs, replacing it with a blank region so the
     /// proximity-based caller check doesn't count the arm *definitions* as
