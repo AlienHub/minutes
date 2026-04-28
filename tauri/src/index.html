@@ -3735,17 +3735,17 @@
       <div class="brand">
         <div class="brand-copy">
           <div class="brand-label">Minutes</div>
-          <div class="brand-sub">Conversation memory for humans and agents</div>
+          <div class="brand-sub" data-i18n="brand.subtitle">Conversation memory for humans and agents</div>
         </div>
       </div>
       <div class="header-actions">
-        <button class="header-chip active" id="btn-open-md" title="Open file (⌘O)">Open</button>
-        <button class="btn btn-icon" id="btn-settings" title="Settings (⌘,)">⚙</button>
-        <button class="header-chip dictation-shortcut" id="dictation-shortcut-chip">Dictate</button>
-        <button class="header-chip readiness" id="btn-readiness">Readiness</button>
-        <button class="header-chip" id="btn-jobs">Jobs <span id="jobs-count">0</span></button>
-        <button class="header-chip" id="btn-recovery">Recovery <span id="recovery-count">0</span></button>
-        <span class="status-pill" id="status-pill">idle</span>
+        <button class="header-chip active" id="btn-open-md" title="Open file (⌘O)" data-i18n="nav.open" data-i18n-title="nav.openTitle">Open</button>
+        <button class="btn btn-icon" id="btn-settings" title="Settings (⌘,)" data-i18n-title="settings.title">⚙</button>
+        <button class="header-chip dictation-shortcut" id="dictation-shortcut-chip" data-i18n="nav.dictate">Dictate</button>
+        <button class="header-chip readiness" id="btn-readiness" data-i18n="nav.readiness">Readiness</button>
+        <button class="header-chip" id="btn-jobs"><span data-i18n="nav.jobs">Jobs</span> <span id="jobs-count">0</span></button>
+        <button class="header-chip" id="btn-recovery"><span data-i18n="nav.recovery">Recovery</span> <span id="recovery-count">0</span></button>
+        <span class="status-pill" id="status-pill" data-i18n="status.idle">idle</span>
       </div>
     </div>
 
@@ -3754,18 +3754,18 @@
       <div class="top-row">
         <div class="recording-indicator">
           <span class="recording-dot"></span>
-          <span id="recording-label">Recording</span>
+          <span id="recording-label" data-i18n="status.recording">Recording</span>
         </div>
         <span class="recording-time" id="recording-time">0:00</span>
       </div>
       <div class="recording-source-health" id="recording-source-health">
-        <span class="call-health-chip" id="recording-health-mic">Mic waiting</span>
-        <span class="call-health-chip" id="recording-health-audio">Call audio waiting</span>
+        <span class="call-health-chip" id="recording-health-mic" data-i18n="call.micWaiting">Mic waiting</span>
+        <span class="call-health-chip" id="recording-health-audio" data-i18n="call.audioWaiting">Call audio waiting</span>
       </div>
       <div class="audio-viz" id="audio-viz"></div>
       <div class="recording-actions">
-        <button class="btn btn-secondary btn-sm" id="btn-note-inline" title="Add a note">Add Note</button>
-        <button class="btn btn-danger btn-sm" id="btn-stop">Stop Recording</button>
+        <button class="btn btn-secondary btn-sm" id="btn-note-inline" title="Add a note" data-i18n="action.addNote" data-i18n-title="action.addNote">Add Note</button>
+        <button class="btn btn-danger btn-sm" id="btn-stop" data-i18n="action.stopRecording">Stop Recording</button>
       </div>
     </div>
 
@@ -3774,7 +3774,7 @@
       <div class="top-row">
         <div class="live-indicator">
           <span class="live-dot" aria-hidden="true"></span>
-          <span>Live Transcript</span>
+          <span data-i18n="status.liveTranscript">Live Transcript</span>
         </div>
         <span class="live-time" id="live-time">0:00</span>
       </div>
@@ -3783,7 +3783,7 @@
       </div>
       <div class="live-utterances" id="live-utterances">0 utterances</div>
       <div class="live-actions">
-        <button class="btn btn-secondary btn-sm" id="btn-stop-live">Stop Live</button>
+        <button class="btn btn-secondary btn-sm" id="btn-stop-live" data-i18n="action.stopLive">Stop Live</button>
       </div>
     </div>
 
@@ -3792,8 +3792,8 @@
       <div class="processing-row">
         <div class="processing-spinner" aria-hidden="true"></div>
         <div class="processing-copy">
-          <div class="processing-title" id="processing-title">Processing recording</div>
-          <div class="processing-stage" id="processing-stage">Preparing transcript...</div>
+          <div class="processing-title" id="processing-title" data-i18n="status.processingRecording">Processing recording</div>
+          <div class="processing-stage" id="processing-stage" data-i18n="status.preparingTranscript">Preparing transcript...</div>
           <div class="processing-elapsed" id="processing-elapsed"></div>
           <div class="processing-summary" id="processing-summary"></div>
         </div>
@@ -3806,14 +3806,14 @@
       <div class="output-notice-row">
         <div class="output-notice-icon" id="output-notice-icon">✓</div>
         <div class="output-notice-copy">
-          <div class="output-notice-title" id="output-notice-title">Saved meeting</div>
+          <div class="output-notice-title" id="output-notice-title" data-i18n="notice.savedMeeting">Saved meeting</div>
           <div class="output-notice-detail" id="output-notice-detail"></div>
           <div class="output-notice-path" id="output-notice-path"></div>
           <div class="output-notice-actions">
-            <button class="btn btn-secondary btn-sm" id="btn-open-output">Open</button>
-            <button class="btn btn-secondary btn-sm" id="btn-draft-output">Create Draft</button>
-            <button class="btn btn-secondary btn-sm" id="btn-open-output-folder">Show in Folder</button>
-            <button class="btn btn-secondary btn-sm" id="btn-dismiss-output">Dismiss</button>
+            <button class="btn btn-secondary btn-sm" id="btn-open-output" data-i18n="nav.open">Open</button>
+            <button class="btn btn-secondary btn-sm" id="btn-draft-output" data-i18n="action.createDraft">Create Draft</button>
+            <button class="btn btn-secondary btn-sm" id="btn-open-output-folder" data-i18n="action.showInFolder">Show in Folder</button>
+            <button class="btn btn-secondary btn-sm" id="btn-dismiss-output" data-i18n="action.dismiss">Dismiss</button>
           </div>
         </div>
       </div>
@@ -3822,14 +3822,14 @@
     <!-- Quick note (shown when "Add Note" clicked during recording) -->
     <div class="quick-note" id="quick-note">
       <div class="quick-note-row">
-        <input type="text" id="note-inline-input" placeholder="Quick note..." />
-        <button class="btn btn-secondary btn-sm" id="btn-note-save">Save</button>
+        <input type="text" id="note-inline-input" placeholder="Quick note..." data-i18n-placeholder="placeholder.quickNote" />
+        <button class="btn btn-secondary btn-sm" id="btn-note-save" data-i18n="action.save">Save</button>
       </div>
     </div>
 
     <!-- Search -->
     <div class="search-wrap search-icon">
-      <input class="search-box" type="text" placeholder="Search meetings, memos, and dictations..." id="search-input" />
+      <input class="search-box" type="text" placeholder="Search meetings, memos, and dictations..." id="search-input" data-i18n-placeholder="placeholder.search" />
     </div>
 
     <!-- Upcoming meeting suggestion -->
@@ -3839,25 +3839,25 @@
         <div class="upcoming-title" id="upcoming-title"></div>
         <div class="upcoming-time" id="upcoming-time"></div>
       </div>
-      <button class="btn btn-primary btn-sm" id="btn-record-upcoming">Record</button>
+      <button class="btn btn-primary btn-sm" id="btn-record-upcoming" data-i18n="action.record">Record</button>
     </div>
 
     <!-- Call detected banner -->
     <div class="call-detected" id="call-detected-banner">
       <div class="call-detected-icon">📞</div>
       <div class="call-detected-info">
-        <div class="call-detected-title" id="call-detected-title">Call detected</div>
-        <div class="call-detected-subtitle" id="call-detected-subtitle">Ready to record this call</div>
-        <div class="call-detected-detail" id="call-detected-detail">Minutes will stay ready while this call is active.
+        <div class="call-detected-title" id="call-detected-title" data-i18n="call.detected">Call detected</div>
+        <div class="call-detected-subtitle" id="call-detected-subtitle" data-i18n="call.ready">Ready to record this call</div>
+        <div class="call-detected-detail" id="call-detected-detail" data-i18n="call.readyDetail">Minutes will stay ready while this call is active.
         </div>
         <div class="call-detected-health">
-          <span class="call-health-chip" id="call-health-mic">Mic waiting</span>
-          <span class="call-health-chip" id="call-health-audio">Call audio waiting</span>
+          <span class="call-health-chip" id="call-health-mic" data-i18n="call.micWaiting">Mic waiting</span>
+          <span class="call-health-chip" id="call-health-audio" data-i18n="call.audioWaiting">Call audio waiting</span>
         </div>
       </div>
       <div class="call-detected-actions">
-        <button class="btn btn-primary btn-sm" id="btn-record-call">Record</button>
-        <button class="btn btn-secondary btn-sm" id="btn-dismiss-call">Dismiss</button>
+        <button class="btn btn-primary btn-sm" id="btn-record-call" data-i18n="action.record">Record</button>
+        <button class="btn btn-secondary btn-sm" id="btn-dismiss-call" data-i18n="action.dismiss">Dismiss</button>
       </div>
     </div>
 
@@ -3865,13 +3865,13 @@
     <div class="call-ended" id="call-ended-banner" role="alert" aria-live="polite">
       <div class="call-ended-icon">⏲</div>
       <div class="call-ended-info">
-        <div class="call-ended-title" id="call-ended-title">Call ended</div>
+        <div class="call-ended-title" id="call-ended-title" data-i18n="call.ended">Call ended</div>
         <div class="call-ended-subtitle" id="call-ended-subtitle">Stopping in 30s</div>
-        <div class="call-ended-detail" id="call-ended-detail">Keep recording if you're wrapping up notes or takeaways. Otherwise Minutes will stop and process this session.</div>
+        <div class="call-ended-detail" id="call-ended-detail" data-i18n="call.endedDetail">Keep recording if you're wrapping up notes or takeaways. Otherwise Minutes will stop and process this session.</div>
       </div>
       <div class="call-ended-actions">
-        <button class="btn btn-primary btn-sm" id="btn-call-end-stop">Stop now</button>
-        <button class="btn btn-secondary btn-sm" id="btn-call-end-keep">Keep recording</button>
+        <button class="btn btn-primary btn-sm" id="btn-call-end-stop" data-i18n="action.stopNow">Stop now</button>
+        <button class="btn btn-secondary btn-sm" id="btn-call-end-keep" data-i18n="action.keepRecording">Keep recording</button>
       </div>
     </div>
 
@@ -3881,16 +3881,16 @@
         <div class="update-banner-row">
           <div class="update-banner-phase">
             <span class="update-banner-spinner" id="update-banner-spinner" aria-hidden="true"></span>
-            <div class="update-banner-title" id="update-banner-title">Update available</div>
+            <div class="update-banner-title" id="update-banner-title" data-i18n="update.available">Update available</div>
           </div>
           <div class="update-banner-actions">
-            <button class="btn btn-primary btn-sm" id="btn-start-update">Update now</button>
-            <button class="btn btn-primary btn-sm" id="btn-retry-update" hidden>Retry</button>
-            <button class="btn btn-secondary btn-sm" id="btn-cancel-update" hidden>Cancel</button>
-            <button class="btn btn-secondary btn-sm" id="btn-dismiss-update">Later</button>
+            <button class="btn btn-primary btn-sm" id="btn-start-update" data-i18n="update.now">Update now</button>
+            <button class="btn btn-primary btn-sm" id="btn-retry-update" hidden data-i18n="action.retry">Retry</button>
+            <button class="btn btn-secondary btn-sm" id="btn-cancel-update" hidden data-i18n="action.cancel">Cancel</button>
+            <button class="btn btn-secondary btn-sm" id="btn-dismiss-update" data-i18n="action.later">Later</button>
           </div>
         </div>
-        <div class="update-banner-sub" id="update-banner-sub">A new version is ready to install</div>
+        <div class="update-banner-sub" id="update-banner-sub" data-i18n="update.readyInstall">A new version is ready to install</div>
         <div class="update-banner-meta" id="update-banner-meta"></div>
         <div class="update-banner-progress" id="update-banner-progress">
           <div class="update-banner-progress-fill" id="update-banner-progress-fill"></div>
@@ -3911,13 +3911,13 @@
     <div class="whats-new-scrim" id="whats-new-scrim">
       <div class="whats-new-modal">
         <div class="whats-new-header">
-          <h2>What's New</h2>
+          <h2 data-i18n="whatsNew.title">What's New</h2>
           <div class="whats-new-version" id="whats-new-version"></div>
         </div>
         <div class="whats-new-body" id="whats-new-body"></div>
         <div class="whats-new-footer">
-          <button class="btn btn-secondary btn-sm" id="btn-whats-new-release">View on GitHub</button>
-          <button class="btn btn-primary btn-sm" id="btn-whats-new-dismiss">Got it</button>
+          <button class="btn btn-secondary btn-sm" id="btn-whats-new-release" data-i18n="whatsNew.github">View on GitHub</button>
+          <button class="btn btn-primary btn-sm" id="btn-whats-new-dismiss" data-i18n="action.gotIt">Got it</button>
         </div>
       </div>
     </div>
@@ -3926,34 +3926,34 @@
     <div class="md-viewer" id="md-viewer">
       <div class="md-viewer-header">
         <div class="md-viewer-header-main">
-          <button class="md-viewer-back" id="md-viewer-back" title="Back to meetings">←</button>
+          <button class="md-viewer-back" id="md-viewer-back" title="Back to meetings" data-i18n-title="md.back">←</button>
           <span class="md-viewer-filename" id="md-viewer-filename"></span>
           <span class="md-viewer-kind" id="md-viewer-kind">MD</span>
         </div>
         <div class="md-viewer-toolbar">
-          <button class="btn md-viewer-mode-btn active" id="md-viewer-preview-btn">Preview</button>
-          <button class="btn md-viewer-mode-btn" id="md-viewer-source-btn">Source</button>
+          <button class="btn md-viewer-mode-btn active" id="md-viewer-preview-btn" data-i18n="md.preview">Preview</button>
+          <button class="btn md-viewer-mode-btn" id="md-viewer-source-btn" data-i18n="md.source">Source</button>
           <span class="md-viewer-toolbar-sep"></span>
-          <button class="btn" id="md-viewer-promote-btn" hidden>Make Editable Copy</button>
-          <button class="btn" id="md-viewer-save-btn" disabled>Save</button>
-          <button class="btn" id="md-viewer-review-btn" disabled>Review</button>
-          <button class="btn" id="md-viewer-revert-btn" disabled>Revert</button>
-          <span class="md-viewer-status" id="md-viewer-status">Viewing</span>
+          <button class="btn" id="md-viewer-promote-btn" hidden data-i18n="md.editableCopy">Make Editable Copy</button>
+          <button class="btn" id="md-viewer-save-btn" disabled data-i18n="action.save">Save</button>
+          <button class="btn" id="md-viewer-review-btn" disabled data-i18n="md.review">Review</button>
+          <button class="btn" id="md-viewer-revert-btn" disabled data-i18n="md.revert">Revert</button>
+          <span class="md-viewer-status" id="md-viewer-status" data-i18n="md.viewing">Viewing</span>
         </div>
       </div>
       <div class="md-viewer-history" id="md-viewer-history"></div>
       <div class="md-viewer-review" id="md-viewer-review">
         <div class="md-viewer-review-head">
-          <div class="md-viewer-review-title">Last Change Review</div>
+          <div class="md-viewer-review-title" data-i18n="md.lastChangeReview">Last Change Review</div>
           <div class="md-viewer-review-meta" id="md-viewer-review-meta"></div>
         </div>
         <div class="md-viewer-review-grid">
           <div class="md-viewer-review-col">
-            <div class="md-viewer-review-label">Before</div>
+            <div class="md-viewer-review-label" data-i18n="md.before">Before</div>
             <pre class="md-viewer-review-pre" id="md-viewer-review-before"></pre>
           </div>
           <div class="md-viewer-review-col">
-            <div class="md-viewer-review-label">Current</div>
+            <div class="md-viewer-review-label" data-i18n="md.current">Current</div>
             <pre class="md-viewer-review-pre" id="md-viewer-review-current"></pre>
           </div>
         </div>
@@ -3965,8 +3965,8 @@
     <!-- Meeting list -->
     <div class="meetings-scroll" id="meetings-scroll">
       <div class="empty-state">
-        <div class="title">No meetings yet</div>
-        <div class="sub">Record your first conversation to get started.</div>
+        <div class="title" data-i18n="empty.noMeetings">No meetings yet</div>
+        <div class="sub" data-i18n="empty.recordFirst">Record your first conversation to get started.</div>
       </div>
     </div>
 
@@ -3974,20 +3974,20 @@
     <div class="footer" id="footer">
       <div class="footer-actions">
         <div class="footer-action-primary">
-          <button class="btn btn-primary" id="btn-record">Start Recording</button>
+          <button class="btn btn-primary" id="btn-record" data-i18n="action.startRecording">Start Recording</button>
         </div>
         <div class="footer-device-picker">
-          <div class="footer-device-label">Microphone</div>
-          <select id="device-picker" class="device-picker" title="Select microphone">
-            <option value="">System Default</option>
+          <div class="footer-device-label" data-i18n="footer.microphone">Microphone</div>
+          <select id="device-picker" class="device-picker" title="Select microphone" data-i18n-title="footer.selectMicrophone">
+            <option value="" data-i18n="footer.systemDefault">System Default</option>
           </select>
         </div>
         <div class="footer-action-secondary">
           <button class="btn btn-secondary" id="btn-live"
             title="Start live transcription — ask your agent in Recall for coaching"
-            aria-label="Start live transcription">Live</button>
-          <button class="btn btn-secondary" id="btn-quick-thought">Quick Thought</button>
-          <button class="btn btn-secondary" id="btn-update-debug-launch" hidden>Update Debug</button>
+            aria-label="Start live transcription" data-i18n="action.live" data-i18n-title="action.liveTitle" data-i18n-aria-label="action.liveAria">Live</button>
+          <button class="btn btn-secondary" id="btn-quick-thought" data-i18n="action.quickThought">Quick Thought</button>
+          <button class="btn btn-secondary" id="btn-update-debug-launch" hidden data-i18n="update.debug">Update Debug</button>
           <button class="btn btn-secondary" id="btn-assistant" aria-expanded="false">Recall <span class="recall-nudge"
               id="recall-nudge" aria-label="Recall has new content"></span></button>
         </div>
@@ -4007,58 +4007,58 @@
         <span class="recall-context-label" id="recall-context-label"></span>
       </div>
       <div class="recall-header-actions">
-        <button class="btn btn-secondary btn-sm" id="btn-recall-weekly">Weekly</button>
-        <button class="btn btn-secondary btn-sm recall-end-btn" id="btn-recall-end">End Session</button>
-        <button class="recall-close" id="btn-recall-close" title="Close panel">&times;</button>
+        <button class="btn btn-secondary btn-sm" id="btn-recall-weekly" data-i18n="recall.weekly">Weekly</button>
+        <button class="btn btn-secondary btn-sm recall-end-btn" id="btn-recall-end" data-i18n="recall.endSession">End Session</button>
+        <button class="recall-close" id="btn-recall-close" title="Close panel" data-i18n-title="action.close">&times;</button>
       </div>
     </div>
     <div class="recall-note" id="recall-note">
       <div class="recall-note-row">
-        <input type="text" id="recall-note-input" placeholder="Quick note..." />
-        <button class="btn btn-secondary btn-sm" id="btn-recall-note-save">Save</button>
+        <input type="text" id="recall-note-input" placeholder="Quick note..." data-i18n-placeholder="placeholder.quickNote" />
+        <button class="btn btn-secondary btn-sm" id="btn-recall-note-save" data-i18n="action.save">Save</button>
       </div>
     </div>
     <div class="recall-status" id="recall-loading">
       <div class="processing-spinner" aria-hidden="true"></div>
-      <span>Starting Recall...</span>
+      <span data-i18n="recall.starting">Starting Recall...</span>
     </div>
     <div class="recall-weekly-view" id="recall-weekly-view">
-      <pre id="recall-weekly-content">Loading weekly summary…</pre>
+      <pre id="recall-weekly-content" data-i18n="recall.loadingWeekly">Loading weekly summary…</pre>
     </div>
     <div class="recall-terminal hidden" id="recall-terminal-container"></div>
     <div class="recall-exit-banner" id="recall-exit-banner">
-      Session ended.
-      <button class="btn btn-secondary btn-sm" id="btn-recall-restart">Restart</button>
+      <span data-i18n="recall.sessionEnded">Session ended.</span>
+      <button class="btn btn-secondary btn-sm" id="btn-recall-restart" data-i18n="action.restart">Restart</button>
     </div>
   </div>
 
   <!-- In-app meeting detail view -->
   <div class="detail-overlay" id="detail-overlay">
     <div class="detail-card" role="dialog" aria-modal="true" aria-labelledby="detail-title">
-      <button class="detail-close-x" id="btn-detail-close" aria-label="Close">&times;</button>
+      <button class="detail-close-x" id="btn-detail-close" aria-label="Close" data-i18n-aria-label="action.close">&times;</button>
       <div class="detail-header">
         <div class="detail-header-copy">
-          <div class="detail-title" id="detail-title">Meeting</div>
+          <div class="detail-title" id="detail-title" data-i18n="detail.meeting">Meeting</div>
           <div class="detail-meta" id="detail-meta"></div>
         </div>
         <div class="detail-actions">
-          <button class="btn btn-secondary btn-sm" id="btn-create-artifact">Create Draft</button>
-          <button class="btn btn-primary btn-sm" id="btn-discuss-ai">Discuss with Agent</button>
-          <button class="btn btn-secondary btn-sm" id="btn-open-external">Open in Editor</button>
-          <button class="btn btn-danger btn-sm" id="btn-delete-meeting">Delete</button>
+          <button class="btn btn-secondary btn-sm" id="btn-create-artifact" data-i18n="action.createDraft">Create Draft</button>
+          <button class="btn btn-primary btn-sm" id="btn-discuss-ai" data-i18n="detail.discussWithAgent">Discuss with Agent</button>
+          <button class="btn btn-secondary btn-sm" id="btn-open-external" data-i18n="detail.openInEditor">Open in Editor</button>
+          <button class="btn btn-danger btn-sm" id="btn-delete-meeting" data-i18n="action.delete">Delete</button>
         </div>
       </div>
       <div class="detail-feedback" id="detail-feedback" hidden></div>
       <div class="detail-scroll" id="detail-scroll">
-        <div class="detail-empty">Select a meeting to view transcript and notes.</div>
+        <div class="detail-empty" data-i18n="detail.selectMeeting">Select a meeting to view transcript and notes.</div>
       </div>
     </div>
   </div>
 
   <div class="artifact-template-overlay" id="artifact-template-overlay">
     <div class="artifact-template-card" role="dialog" aria-modal="true" aria-labelledby="artifact-template-title">
-      <div class="artifact-template-title" id="artifact-template-title">Create Draft</div>
-      <div class="artifact-template-sub">Pick the artifact you want Minutes to create from this conversation. It opens
+      <div class="artifact-template-title" id="artifact-template-title" data-i18n="action.createDraft">Create Draft</div>
+      <div class="artifact-template-sub" data-i18n="draft.pickArtifact">Pick the artifact you want Minutes to create from this conversation. It opens
         immediately in source mode beside Recall.</div>
       <div class="artifact-template-list">
         <button class="artifact-template-option" data-artifact-kind="debrief-memo">
@@ -4083,7 +4083,7 @@
         </button>
       </div>
       <div class="artifact-template-actions">
-        <button class="btn btn-secondary btn-sm" id="artifact-template-cancel">Cancel</button>
+        <button class="btn btn-secondary btn-sm" id="artifact-template-cancel" data-i18n="action.cancel">Cancel</button>
       </div>
     </div>
   </div>
@@ -4093,11 +4093,11 @@
     <div class="readiness-card" role="dialog" aria-modal="true" aria-labelledby="readiness-title">
       <div class="readiness-header">
         <div>
-          <div class="readiness-title" id="readiness-title">Readiness Center</div>
-          <div class="readiness-sub">This view only reports what Minutes can verify right now. Optional items stay
+          <div class="readiness-title" id="readiness-title" data-i18n="readiness.title">Readiness Center</div>
+          <div class="readiness-sub" data-i18n="readiness.sub">This view only reports what Minutes can verify right now. Optional items stay
             optional, and unknown states are never hidden behind fake confidence.</div>
         </div>
-        <button class="btn btn-secondary btn-sm" id="btn-readiness-close">Close</button>
+        <button class="btn btn-secondary btn-sm" id="btn-readiness-close" data-i18n="action.close">Close</button>
       </div>
       <div class="readiness-scroll" id="readiness-scroll"></div>
     </div>
@@ -4108,14 +4108,14 @@
     <div class="recovery-card" role="dialog" aria-modal="true" aria-labelledby="recovery-title">
       <div class="recovery-header">
         <div>
-          <div class="recovery-title" id="recovery-title">Recovery Center</div>
-          <div class="recovery-sub" id="recovery-subtitle">Retry preserved captures and watched files that failed to
+          <div class="recovery-title" id="recovery-title" data-i18n="recovery.title">Recovery Center</div>
+          <div class="recovery-sub" id="recovery-subtitle" data-i18n="recovery.sub">Retry preserved captures and watched files that failed to
             process, or open them directly in a folder.</div>
         </div>
-        <button class="btn btn-secondary btn-sm" id="btn-recovery-close">Close</button>
+        <button class="btn btn-secondary btn-sm" id="btn-recovery-close" data-i18n="action.close">Close</button>
       </div>
       <div class="recovery-scroll" id="recovery-scroll">
-        <div class="recovery-empty">No recovery items right now.</div>
+        <div class="recovery-empty" data-i18n="recovery.empty">No recovery items right now.</div>
       </div>
     </div>
   </div>
@@ -4125,14 +4125,14 @@
     <div class="recovery-card" role="dialog" aria-modal="true" aria-labelledby="jobs-title">
       <div class="recovery-header">
         <div>
-          <div class="recovery-title" id="jobs-title">Jobs Center</div>
-          <div class="recovery-sub" id="jobs-subtitle">Background processing jobs for recent recordings. Open
+          <div class="recovery-title" id="jobs-title" data-i18n="jobs.title">Jobs Center</div>
+          <div class="recovery-sub" id="jobs-subtitle" data-i18n="jobs.sub">Background processing jobs for recent recordings. Open
             transcripts early, retry failures, and keep moving.</div>
         </div>
-        <button class="btn btn-secondary btn-sm" id="btn-jobs-close">Close</button>
+        <button class="btn btn-secondary btn-sm" id="btn-jobs-close" data-i18n="action.close">Close</button>
       </div>
       <div class="recovery-scroll" id="jobs-scroll">
-        <div class="recovery-empty">No processing jobs right now.</div>
+        <div class="recovery-empty" data-i18n="jobs.empty">No processing jobs right now.</div>
       </div>
     </div>
   </div>
@@ -4144,37 +4144,37 @@
         <div class="about-brand">
           <div class="about-copy">
             <h2 id="about-title">Minutes</h2>
-            <p>Conversation memory for humans and agents. Capture once, keep the transcript, decisions, and context useful everywhere.</p>
+            <p data-i18n="about.summary">Conversation memory for humans and agents. Capture once, keep the transcript, decisions, and context useful everywhere.</p>
             <div class="about-meta-line">
-              <span id="about-version">Desktop app</span>
+              <span id="about-version" data-i18n="about.desktopApp">Desktop app</span>
               <span class="about-meta-sep">•</span>
-              <span>Created by Mat Silverstein</span>
+              <span data-i18n="about.createdBy">Created by Mat Silverstein</span>
               <span class="about-meta-sep">•</span>
-              <span>Open-source conversation memory for AI assistants</span>
+              <span data-i18n="about.openSource">Open-source conversation memory for AI assistants</span>
             </div>
           </div>
         </div>
-        <button class="btn btn-secondary btn-sm" id="btn-about-close">Close</button>
+        <button class="btn btn-secondary btn-sm" id="btn-about-close" data-i18n="action.close">Close</button>
       </div>
       <div class="about-grid">
         <div class="about-item">
-          <div class="about-item-title">Capture</div>
-          <div class="about-item-body">Meetings, memos, and thoughts become structured markdown instead of disappearing
+          <div class="about-item-title" data-i18n="about.captureTitle">Capture</div>
+          <div class="about-item-body" data-i18n="about.captureBody">Meetings, memos, and thoughts become structured markdown instead of disappearing
             into app state.</div>
         </div>
         <div class="about-item">
-          <div class="about-item-title">Search</div>
-          <div class="about-item-body">Timeline, transcript, action items, and context stay queryable across desktop,
+          <div class="about-item-title" data-i18n="about.searchTitle">Search</div>
+          <div class="about-item-body" data-i18n="about.searchBody">Timeline, transcript, action items, and context stay queryable across desktop,
             CLI, and MCP surfaces.</div>
         </div>
         <div class="about-item">
-          <div class="about-item-title">Local First</div>
-          <div class="about-item-body">Audio capture and storage stay on your machine unless you explicitly opt into
+          <div class="about-item-title" data-i18n="about.localTitle">Local First</div>
+          <div class="about-item-body" data-i18n="about.localBody">Audio capture and storage stay on your machine unless you explicitly opt into
             external model services.</div>
         </div>
         <div class="about-item">
-          <div class="about-item-title">Agent Native</div>
-          <div class="about-item-body">Built to work well with Claude Desktop, Claude Code, Cowork, Codex, and other
+          <div class="about-item-title" data-i18n="about.agentTitle">Agent Native</div>
+          <div class="about-item-body" data-i18n="about.agentBody">Built to work well with Claude Desktop, Claude Code, Cowork, Codex, and other
             tool-calling assistants.</div>
         </div>
       </div>
@@ -4184,14 +4184,14 @@
         macOS automation allows it.
       </div>
       <div class="about-link-row">
-        <button class="btn btn-secondary btn-sm" id="btn-about-website">Website</button>
-        <button class="btn btn-secondary btn-sm" id="btn-about-whats-new">What’s New</button>
-        <button class="btn btn-secondary btn-sm" id="btn-about-settings">Settings</button>
-        <button class="btn btn-secondary btn-sm" id="btn-about-changelog">Release Notes</button>
-        <button class="btn btn-secondary btn-sm" id="btn-about-discussions">Discussions</button>
+        <button class="btn btn-secondary btn-sm" id="btn-about-website" data-i18n="about.website">Website</button>
+        <button class="btn btn-secondary btn-sm" id="btn-about-whats-new" data-i18n="whatsNew.title">What’s New</button>
+        <button class="btn btn-secondary btn-sm" id="btn-about-settings" data-i18n="settings.title">Settings</button>
+        <button class="btn btn-secondary btn-sm" id="btn-about-changelog" data-i18n="about.releaseNotes">Release Notes</button>
+        <button class="btn btn-secondary btn-sm" id="btn-about-discussions" data-i18n="about.discussions">Discussions</button>
       </div>
       <div class="about-signoff">
-        Built as a local-first desktop app with a tray workflow, CLI, and MCP surfaces that all point at the same markdown-backed record of your conversations.
+        <span data-i18n="about.signoff">Built as a local-first desktop app with a tray workflow, CLI, and MCP surfaces that all point at the same markdown-backed record of your conversations.</span>
       </div>
     </div>
   </div>
@@ -4200,31 +4200,46 @@
   <div class="about-overlay" id="settings-overlay">
     <div class="about-card settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
       <div class="about-top">
-        <h2 id="settings-title" class="settings-title">Settings</h2>
-        <button class="btn btn-secondary btn-sm" id="btn-settings-close">Close</button>
+        <h2 id="settings-title" class="settings-title" data-i18n="settings.title">Settings</h2>
+        <button class="btn btn-secondary btn-sm" id="btn-settings-close" data-i18n="action.close">Close</button>
+      </div>
+
+      <!-- Interface -->
+      <div class="settings-section">
+        <div class="about-item-title" data-i18n="settings.interface">INTERFACE</div>
+        <div class="about-controls">
+          <div class="about-controls-group">
+            <div class="about-controls-copy" data-i18n="settings.appLanguage">App language</div>
+            <div class="about-controls-meta" data-i18n="settings.appLanguageMeta">Changes the desktop app labels and controls. Meeting content stays in its original language.</div>
+            <select id="settings-app-language" class="settings-field">
+              <option value="en">English</option>
+              <option value="zh-CN">中文（简体）</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <!-- Identity -->
       <div class="settings-section">
-        <div class="about-item-title">IDENTITY</div>
+        <div class="about-item-title" data-i18n="settings.identity">IDENTITY</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Your name</div>
-            <div class="about-controls-meta">Used to attribute meeting content to you ("Mat said…"). Leave blank if you'd rather stay anonymous.</div>
-            <input type="text" id="settings-identity-name" class="settings-field" placeholder="e.g. Mat Silverstein" spellcheck="false">
+            <div class="about-controls-copy" data-i18n="settings.yourName">Your name</div>
+            <div class="about-controls-meta" data-i18n="settings.yourNameMeta">Used to attribute meeting content to you ("Mat said…"). Leave blank if you'd rather stay anonymous.</div>
+            <input type="text" id="settings-identity-name" class="settings-field" placeholder="e.g. Mat Silverstein" data-i18n-placeholder="settings.namePlaceholder" spellcheck="false">
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Your email addresses</div>
-            <div class="about-controls-meta">Comma-separated. Every address you send from, so calendar attendees arriving under different emails fold onto the same person.</div>
+            <div class="about-controls-copy" data-i18n="settings.emailAddresses">Your email addresses</div>
+            <div class="about-controls-meta" data-i18n="settings.emailAddressesMeta">Comma-separated. Every address you send from, so calendar attendees arriving under different emails fold onto the same person.</div>
             <input type="text" id="settings-identity-emails" class="settings-field" placeholder="you@work.com, you@personal.com" spellcheck="false">
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Name variants</div>
-            <div class="about-controls-meta">Comma-separated. Alternate forms — nicknames, formal spellings — so everything folds onto your canonical name.</div>
+            <div class="about-controls-copy" data-i18n="settings.nameVariants">Name variants</div>
+            <div class="about-controls-meta" data-i18n="settings.nameVariantsMeta">Comma-separated. Alternate forms — nicknames, formal spellings — so everything folds onto your canonical name.</div>
             <input type="text" id="settings-identity-aliases" class="settings-field" placeholder="e.g. Mathieu, Matt, Matthew" spellcheck="false">
           </div>
         </div>
@@ -4232,23 +4247,23 @@
 
       <!-- General -->
       <div class="settings-section">
-        <div class="about-item-title">GENERAL</div>
+        <div class="about-item-title" data-i18n="settings.general">GENERAL</div>
         <div class="about-controls">
-          <div class="about-controls-copy">Show completion alerts</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-notifications">On</button>
+          <div class="about-controls-copy" data-i18n="settings.completionAlerts">Show completion alerts</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-notifications" data-i18n="toggle.on">On</button>
         </div>
         <div class="about-controls">
-          <div class="about-controls-copy">Play sound cues for start, stop, and complete</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-cues">On</button>
+          <div class="about-controls-copy" data-i18n="settings.soundCues">Play sound cues for start, stop, and complete</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-cues" data-i18n="toggle.on">On</button>
         </div>
         <div class="about-controls">
-          <div class="about-controls-copy">Open Minutes at login</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-autostart">Off</button>
+          <div class="about-controls-copy" data-i18n="settings.openAtLogin">Open Minutes at login</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-autostart" data-i18n="toggle.off">Off</button>
         </div>
         <!-- Quick Thought shortcut (unified recorder) -->
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Quick Thought shortcut</div>
+            <div class="about-controls-copy" data-i18n="settings.quickThoughtShortcut">Quick Thought shortcut</div>
             <div class="settings-section-inline">
               <button id="shortcut-recorder-quick_thought"
                 class="btn btn-secondary btn-sm shortcut-recorder-btn settings-shortcut-key"
@@ -4256,20 +4271,20 @@
               <span class="special-key-link settings-hint-link" data-slot="quick_thought">or <u>Caps Lock</u> /
                 <u>fn</u></span>
             </div>
-            <div class="about-controls-meta" id="shortcut-status-quick_thought">Hold to record a quick thought, or tap
+            <div class="about-controls-meta" id="shortcut-status-quick_thought" data-i18n="settings.quickThoughtShortcutMeta">Hold to record a quick thought, or tap
               to lock and tap again to stop.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="shortcut-toggle-quick_thought">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="shortcut-toggle-quick_thought" data-i18n="toggle.off">Off</button>
         </div>
       </div>
 
       <!-- Dictation -->
       <div class="settings-section">
-        <div class="about-item-title">DICTATION</div>
+        <div class="about-item-title" data-i18n="settings.dictation">DICTATION</div>
         <!-- Dictation shortcut (unified recorder) -->
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Dictation shortcut</div>
+            <div class="about-controls-copy" data-i18n="settings.dictationShortcut">Dictation shortcut</div>
             <div class="settings-section-inline">
               <button id="shortcut-recorder-dictation"
                 class="btn btn-secondary btn-sm shortcut-recorder-btn settings-shortcut-key"
@@ -4277,30 +4292,30 @@
               <span class="special-key-link settings-hint-link" data-slot="dictation">or <u>Caps Lock</u> /
                 <u>fn</u></span>
             </div>
-            <div class="about-controls-meta" id="shortcut-status-dictation">Hold to dictate, or tap to lock and tap
+            <div class="about-controls-meta" id="shortcut-status-dictation" data-i18n="settings.dictationShortcutMeta">Hold to dictate, or tap to lock and tap
               again to stop.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="shortcut-toggle-dictation">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="shortcut-toggle-dictation" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Dictation whisper model</div>
+            <div class="about-controls-copy" data-i18n="settings.dictationModel">Dictation whisper model</div>
             <select id="settings-dictation-model" class="settings-field">
               <option value="tiny">tiny — fastest, lower quality</option>
               <option value="base">base — fast, decent quality (default)</option>
               <option value="small">small — good quality, slower</option>
             </select>
-            <div class="about-controls-meta">Smaller models = faster dictation. "base" is recommended.</div>
+            <div class="about-controls-meta" data-i18n="settings.dictationModelMeta">Smaller models = faster dictation. "base" is recommended.</div>
           </div>
         </div>
         <div class="about-controls">
-          <div class="about-controls-copy">Log dictations to daily note</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-dictation-daily-note">On</button>
+          <div class="about-controls-copy" data-i18n="settings.dailyNote">Log dictations to daily note</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-dictation-daily-note" data-i18n="toggle.on">On</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Silence timeout</div>
-            <div class="about-controls-meta">End dictation session after this much silence (after first speech).</div>
+            <div class="about-controls-copy" data-i18n="settings.silenceTimeout">Silence timeout</div>
+            <div class="about-controls-meta" data-i18n="settings.silenceTimeoutMeta">End dictation session after this much silence (after first speech).</div>
             <select id="settings-dictation-silence" class="settings-field">
               <option value="1000">1 second</option>
               <option value="2000">2 seconds (default)</option>
@@ -4313,66 +4328,66 @@
 
       <!-- Live Transcript -->
       <div class="settings-section">
-        <div class="about-item-title">LIVE TRANSCRIPT</div>
+        <div class="about-item-title" data-i18n="settings.liveTranscript">LIVE TRANSCRIPT</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Backend</div>
+            <div class="about-controls-copy" data-i18n="settings.backend">Backend</div>
             <select id="settings-live-backend" class="settings-field">
               <option value="inherit">Inherit main transcription engine</option>
               <option value="whisper">Whisper — built-in, broad language support</option>
               <option value="parakeet">Parakeet — lower WER, fast on Apple Silicon</option>
               <option value="apple-speech">Apple Speech — experimental standalone live transcript</option>
             </select>
-            <div class="about-controls-meta" id="settings-live-backend-detail">Standalone live transcript currently inherits your main transcription engine.</div>
+            <div class="about-controls-meta" id="settings-live-backend-detail" data-i18n="settings.liveBackendMeta">Standalone live transcript currently inherits your main transcription engine.</div>
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Keyboard shortcut</div>
+            <div class="about-controls-copy" data-i18n="settings.keyboardShortcut">Keyboard shortcut</div>
             <select class="shortcut-select settings-field" id="settings-live-shortcut-select">
               <option value="CmdOrCtrl+Shift+L">Cmd+Shift+L</option>
               <option value="CmdOrCtrl+Alt+L">Cmd+Option+L</option>
               <option value="CmdOrCtrl+Shift+T">Cmd+Shift+T</option>
             </select>
-            <div class="about-controls-meta">Toggle live transcript on/off from any app.</div>
+            <div class="about-controls-meta" data-i18n="settings.liveShortcutMeta">Toggle live transcript on/off from any app.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-live-shortcut">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-live-shortcut" data-i18n="toggle.off">Off</button>
         </div>
       </div>
 
       <!-- Command Palette -->
       <div class="settings-section">
-        <div class="about-item-title">COMMAND PALETTE</div>
+        <div class="about-item-title" data-i18n="settings.commandPalette">COMMAND PALETTE</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Keyboard shortcut</div>
+            <div class="about-controls-copy" data-i18n="settings.keyboardShortcut">Keyboard shortcut</div>
             <select class="shortcut-select settings-field" id="settings-palette-shortcut-select">
               <option value="CmdOrCtrl+Shift+K">Cmd+Shift+K</option>
               <option value="CmdOrCtrl+Shift+O">Cmd+Shift+O</option>
               <option value="CmdOrCtrl+Shift+U">Cmd+Shift+U</option>
             </select>
-            <div class="about-controls-meta" id="settings-palette-shortcut-status">Open the Minutes command palette from any app.</div>
+            <div class="about-controls-meta" id="settings-palette-shortcut-status" data-i18n="settings.paletteShortcutMeta">Open the Minutes command palette from any app.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-palette-shortcut">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-palette-shortcut" data-i18n="toggle.off">Off</button>
         </div>
       </div>
 
       <!-- Transcription -->
       <div class="settings-section">
-        <div class="about-item-title">TRANSCRIPTION</div>
+        <div class="about-item-title" data-i18n="settings.transcription">TRANSCRIPTION</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Engine</div>
+            <div class="about-controls-copy" data-i18n="settings.engine">Engine</div>
             <select id="settings-transcription-engine" class="settings-field">
               <option value="whisper">Whisper — broad language support, built-in</option>
               <option value="parakeet">Parakeet — lower WER, fast on Apple Silicon</option>
             </select>
-            <div class="about-controls-meta" id="settings-transcription-engine-detail">Whisper and Parakeet control batch, recording, and recording-sidecar transcription. Standalone live transcript has its own backend setting above.</div>
+            <div class="about-controls-meta" id="settings-transcription-engine-detail" data-i18n="settings.engineMeta">Whisper and Parakeet control batch, recording, and recording-sidecar transcription. Standalone live transcript has its own backend setting above.</div>
           </div>
         </div>
         <div class="about-controls" id="settings-whisper-section">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Whisper model</div>
+            <div class="about-controls-copy" data-i18n="settings.whisperModel">Whisper model</div>
             <select id="settings-whisper-model" class="settings-field">
               <option value="tiny">tiny — 75 MB, fastest, lower quality</option>
               <option value="base">base — 148 MB, fast, decent quality</option>
@@ -4382,28 +4397,28 @@
             </select>
             <div class="settings-section-inline settings-section-inline-tight">
               <div class="about-controls-meta settings-model-status" id="settings-model-status"></div>
-              <button class="btn btn-secondary btn-sm is-hidden" id="btn-download-model">Download</button>
+              <button class="btn btn-secondary btn-sm is-hidden" id="btn-download-model" data-i18n="action.download">Download</button>
             </div>
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-parakeet-section">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Parakeet backend</div>
+            <div class="about-controls-copy" data-i18n="settings.parakeetBackend">Parakeet backend</div>
             <select id="settings-parakeet-model" class="settings-field">
               <option value="tdt-ctc-110m">tdt-ctc-110m — 110M params, English, fastest</option>
               <option value="tdt-600m">tdt-600m — 600M params, multilingual v3, best quality</option>
             </select>
             <div class="settings-section-inline settings-section-inline-tight">
-              <div class="about-controls-meta" id="settings-parakeet-status">Checking Parakeet backend…</div>
-              <button class="btn btn-secondary btn-sm" id="btn-open-parakeet-guide">Open Setup Guide</button>
+              <div class="about-controls-meta" id="settings-parakeet-status" data-i18n="settings.checkingParakeet">Checking Parakeet backend…</div>
+              <button class="btn btn-secondary btn-sm" id="btn-open-parakeet-guide" data-i18n="settings.openSetupGuide">Open Setup Guide</button>
             </div>
-            <div class="about-controls-meta" id="settings-parakeet-detail">Runs locally with a Parakeet backend binary plus model assets. See <code>minutes setup --parakeet</code>.</div>
+            <div class="about-controls-meta" id="settings-parakeet-detail" data-i18n="settings.parakeetDetail">Runs locally with a Parakeet backend binary plus model assets. See <code>minutes setup --parakeet</code>.</div>
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Transcription language</div>
-            <div class="about-controls-meta">Leave this on Auto-detect for mixed or unknown audio. Pick a language only
+            <div class="about-controls-copy" data-i18n="settings.transcriptionLanguage">Transcription language</div>
+            <div class="about-controls-meta" data-i18n="settings.transcriptionLanguageMeta">Leave this on Auto-detect for mixed or unknown audio. Pick a language only
               when Whisper is consistently guessing wrong.</div>
             <select id="settings-whisper-language" class="settings-field">
               <option value="">Auto-detect</option>
@@ -4969,6 +4984,199 @@
 
   <script>
     const { invoke } = window.__TAURI__.core;
+    const APP_LANGUAGE_STORAGE_KEY = 'minutes.appLanguage';
+    const APP_TRANSLATIONS = {
+      'zh-CN': {
+        "brand.subtitle": "给人和 AI 助手使用的会话记忆",
+        "nav.open": "打开",
+        "nav.openTitle": "打开文件 (⌘O)",
+        "nav.dictate": "听写",
+        "nav.readiness": "就绪",
+        "nav.jobs": "任务",
+        "nav.recovery": "恢复",
+        "status.idle": "空闲",
+        "status.recording": "录音中",
+        "status.liveTranscript": "实时转录",
+        "status.processingRecording": "正在处理录音",
+        "status.preparingTranscript": "正在准备转录...",
+        "call.micWaiting": "等待麦克风",
+        "call.audioWaiting": "等待通话音频",
+        "call.detected": "检测到通话",
+        "call.ready": "可以录制此通话",
+        "call.readyDetail": "只要通话仍在进行，Minutes 会保持就绪。",
+        "call.ended": "通话已结束",
+        "call.endedDetail": "如果还在整理笔记或结论，可以继续录音；否则 Minutes 会停止并处理本次会话。",
+        "action.addNote": "添加笔记",
+        "action.stopRecording": "停止录音",
+        "action.stopLive": "停止实时转录",
+        "action.open": "打开",
+        "action.createDraft": "创建草稿",
+        "action.showInFolder": "在文件夹中显示",
+        "action.dismiss": "忽略",
+        "action.save": "保存",
+        "action.record": "录制",
+        "action.stopNow": "立即停止",
+        "action.keepRecording": "继续录音",
+        "action.retry": "重试",
+        "action.cancel": "取消",
+        "action.later": "稍后",
+        "action.gotIt": "知道了",
+        "action.startRecording": "开始录音",
+        "action.live": "实时",
+        "action.liveTitle": "开始实时转录，在 Recall 中请你的助手提供会议建议",
+        "action.liveAria": "开始实时转录",
+        "action.quickThought": "快速想法",
+        "action.close": "关闭",
+        "action.restart": "重新开始",
+        "action.delete": "删除",
+        "action.download": "下载",
+        "notice.savedMeeting": "会议已保存",
+        "placeholder.quickNote": "快速笔记...",
+        "placeholder.search": "搜索会议、备忘和听写...",
+        "footer.microphone": "麦克风",
+        "footer.selectMicrophone": "选择麦克风",
+        "footer.systemDefault": "系统默认",
+        "update.available": "有可用更新",
+        "update.now": "立即更新",
+        "update.readyInstall": "新版本已准备好安装",
+        "update.debug": "更新调试",
+        "whatsNew.title": "新功能",
+        "whatsNew.github": "在 GitHub 查看",
+        "md.back": "返回会议列表",
+        "md.preview": "预览",
+        "md.source": "源码",
+        "md.editableCopy": "创建可编辑副本",
+        "md.review": "检查",
+        "md.revert": "还原",
+        "md.viewing": "查看中",
+        "md.lastChangeReview": "最近更改检查",
+        "md.before": "之前",
+        "md.current": "当前",
+        "empty.noMeetings": "还没有会议",
+        "empty.recordFirst": "录制你的第一次对话即可开始。",
+        "recall.weekly": "周报",
+        "recall.endSession": "结束会话",
+        "recall.starting": "正在启动 Recall...",
+        "recall.loadingWeekly": "正在加载周总结...",
+        "recall.sessionEnded": "会话已结束。",
+        "detail.meeting": "会议",
+        "detail.discussWithAgent": "与助手讨论",
+        "detail.openInEditor": "在编辑器中打开",
+        "detail.selectMeeting": "选择一个会议来查看转录和笔记。",
+        "draft.pickArtifact": "选择你希望 Minutes 从这次对话中创建的文档。它会立即在 Recall 旁边以源码模式打开。",
+        "readiness.title": "就绪中心",
+        "readiness.sub": "此视图只显示 Minutes 当前能够验证的状态。可选项仍然是可选项，未知状态不会被假装成确定状态。",
+        "recovery.title": "恢复中心",
+        "recovery.sub": "重试保留下来的录音和处理失败的监听文件，或直接在文件夹中打开它们。",
+        "recovery.empty": "当前没有需要恢复的项目。",
+        "jobs.title": "任务中心",
+        "jobs.sub": "最近录音的后台处理任务。你可以提前打开转录、重试失败任务，并继续工作。",
+        "jobs.empty": "当前没有处理任务。",
+        "about.summary": "给人和 AI 助手使用的会话记忆。捕获一次，让转录、决策和上下文在任何地方都可用。",
+        "about.desktopApp": "桌面 App",
+        "about.createdBy": "由 Mat Silverstein 创建",
+        "about.openSource": "面向 AI 助手的开源会话记忆",
+        "about.captureTitle": "捕获",
+        "about.captureBody": "会议、备忘和想法会变成结构化 Markdown，而不是消失在应用状态里。",
+        "about.searchTitle": "搜索",
+        "about.searchBody": "时间线、转录、行动项和上下文都能在桌面端、CLI 和 MCP 中查询。",
+        "about.localTitle": "本地优先",
+        "about.localBody": "音频捕获和存储保留在你的机器上，除非你明确选择外部模型服务。",
+        "about.agentTitle": "为助手而生",
+        "about.agentBody": "为 Claude Desktop、Claude Code、Cowork、Codex 以及其他工具调用型助手优化。",
+        "about.website": "网站",
+        "about.releaseNotes": "发布说明",
+        "about.discussions": "讨论区",
+        "about.signoff": "这是一个本地优先的桌面 App，托盘工作流、CLI 和 MCP 都指向同一份 Markdown 会话记录。",
+        "settings.title": "设置",
+        "settings.interface": "界面",
+        "settings.appLanguage": "界面语言",
+        "settings.appLanguageMeta": "切换桌面 App 的标签和控件语言。会议内容会保留原始语言。",
+        "settings.identity": "身份",
+        "settings.yourName": "你的名字",
+        "settings.yourNameMeta": "用于把会议内容归因给你（例如“Mat 说…”）。如果想匿名，可以留空。",
+        "settings.namePlaceholder": "例如：Mat Silverstein",
+        "settings.emailAddresses": "你的邮箱地址",
+        "settings.emailAddressesMeta": "用逗号分隔。填写你会用来发信的所有地址，这样日历参与者能归到同一个人。",
+        "settings.nameVariants": "名字变体",
+        "settings.nameVariantsMeta": "用逗号分隔。昵称、正式拼写等都会归到你的标准姓名。",
+        "settings.general": "通用",
+        "settings.completionAlerts": "显示完成提醒",
+        "settings.soundCues": "播放开始、停止和完成提示音",
+        "settings.openAtLogin": "登录时打开 Minutes",
+        "settings.quickThoughtShortcut": "快速想法快捷键",
+        "settings.quickThoughtShortcutMeta": "按住即可录制快速想法，或点击锁定、再次点击停止。",
+        "settings.dictation": "听写",
+        "settings.dictationShortcut": "听写快捷键",
+        "settings.dictationShortcutMeta": "按住即可听写，或点击锁定、再次点击停止。",
+        "settings.dictationModel": "听写 Whisper 模型",
+        "settings.dictationModelMeta": "模型越小，听写越快。推荐使用 base。",
+        "settings.dailyNote": "将听写记录到每日笔记",
+        "settings.silenceTimeout": "静音超时",
+        "settings.silenceTimeoutMeta": "首次说话后，静音达到此时长就结束听写。",
+        "settings.liveTranscript": "实时转录",
+        "settings.backend": "后端",
+        "settings.liveBackendMeta": "独立实时转录当前继承主转录引擎。",
+        "settings.keyboardShortcut": "键盘快捷键",
+        "settings.liveShortcutMeta": "从任何 App 开启或关闭实时转录。",
+        "settings.commandPalette": "命令面板",
+        "settings.paletteShortcutMeta": "从任何 App 打开 Minutes 命令面板。",
+        "settings.transcription": "转录",
+        "settings.engine": "引擎",
+        "settings.engineMeta": "Whisper 和 Parakeet 控制批处理、录音和录音侧实时转录。独立实时转录有单独的后端设置。",
+        "settings.whisperModel": "Whisper 模型",
+        "settings.parakeetBackend": "Parakeet 后端",
+        "settings.checkingParakeet": "正在检查 Parakeet 后端...",
+        "settings.openSetupGuide": "打开设置指南",
+        "settings.parakeetDetail": "在本地运行，需要 Parakeet 后端二进制文件和模型资源。参见 minutes setup --parakeet。",
+        "settings.transcriptionLanguage": "转录语言",
+        "settings.transcriptionLanguageMeta": "如果音频语言混合或不确定，请保持自动检测。只有当 Whisper 经常判断错误时才指定语言。",
+        "mode.quickThought": "快速想法",
+        "mode.recording": "录音",
+        "status.processingQuickThought": "正在处理快速想法",
+        "toggle.on": "开",
+        "toggle.off": "关"
+      }
+    };
+    let currentAppLanguage = localStorage.getItem(APP_LANGUAGE_STORAGE_KEY) || 'en';
+
+    function translate(key, fallback = '') {
+      if (currentAppLanguage === 'en') return fallback;
+      return APP_TRANSLATIONS[currentAppLanguage]?.[key] || fallback;
+    }
+
+    function rememberI18nDefault(el, attrName, defaultAttrName, readValue) {
+      if (!el.dataset[defaultAttrName]) {
+        el.dataset[defaultAttrName] = readValue();
+      }
+      return el.dataset[defaultAttrName];
+    }
+
+    function applyAppLanguage(language = currentAppLanguage) {
+      currentAppLanguage = language || 'en';
+      localStorage.setItem(APP_LANGUAGE_STORAGE_KEY, currentAppLanguage);
+      document.documentElement.lang = currentAppLanguage === 'zh-CN' ? 'zh-CN' : 'en';
+
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const fallback = rememberI18nDefault(el, 'i18n', 'i18nDefault', () => el.textContent);
+        el.textContent = translate(el.dataset.i18n, fallback);
+      });
+      document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+        const fallback = rememberI18nDefault(el, 'i18nTitle', 'i18nTitleDefault', () => el.getAttribute('title') || '');
+        el.setAttribute('title', translate(el.dataset.i18nTitle, fallback));
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        const fallback = rememberI18nDefault(el, 'i18nPlaceholder', 'i18nPlaceholderDefault', () => el.getAttribute('placeholder') || '');
+        el.setAttribute('placeholder', translate(el.dataset.i18nPlaceholder, fallback));
+      });
+      document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => {
+        const fallback = rememberI18nDefault(el, 'i18nAriaLabel', 'i18nAriaLabelDefault', () => el.getAttribute('aria-label') || '');
+        el.setAttribute('aria-label', translate(el.dataset.i18nAriaLabel, fallback));
+      });
+
+      const appLanguageSelect = document.getElementById('settings-app-language');
+      if (appLanguageSelect) appLanguageSelect.value = currentAppLanguage;
+    }
 
     const statusPill = document.getElementById('status-pill');
     const recordingBar = document.getElementById('recording-bar');
@@ -5104,6 +5312,7 @@
       complete: new Audio('audio/cue-complete.wav'),
       error: new Audio('audio/cue-error.wav'),
     };
+    applyAppLanguage(currentAppLanguage);
 
     function renderDictationShortcutChip() {
       if (!dictationShortcutChip) return;
@@ -5392,11 +5601,15 @@
     }
 
     function currentModeLabel(mode) {
-      return mode === 'quick-thought' ? 'Quick Thought' : 'Recording';
+      return mode === 'quick-thought'
+        ? translate('mode.quickThought', 'Quick Thought')
+        : translate('mode.recording', 'Recording');
     }
 
     function currentProcessingTitle(mode) {
-      return mode === 'quick-thought' ? 'Processing quick thought' : 'Processing recording';
+      return mode === 'quick-thought'
+        ? translate('status.processingQuickThought', 'Processing quick thought')
+        : translate('status.processingRecording', 'Processing recording');
     }
 
     function formatIsoElapsed(isoString) {
@@ -5885,7 +6098,7 @@
     function setNotificationToggle(enabled) {
       notifyOnCompletion = enabled;
       if (notificationToggle) {
-        notificationToggle.textContent = enabled ? 'On' : 'Off';
+        notificationToggle.textContent = enabled ? translate('toggle.on', 'On') : translate('toggle.off', 'Off');
         notificationToggle.classList.toggle('btn-primary', enabled);
         notificationToggle.classList.toggle('btn-secondary', !enabled);
       }
@@ -5895,7 +6108,7 @@
     function setCueToggle(enabled) {
       playCaptureCues = enabled;
       if (cueToggle) {
-        cueToggle.textContent = enabled ? 'On' : 'Off';
+        cueToggle.textContent = enabled ? translate('toggle.on', 'On') : translate('toggle.off', 'Off');
         cueToggle.classList.toggle('btn-primary', enabled);
         cueToggle.classList.toggle('btn-secondary', !enabled);
       }
@@ -5935,7 +6148,7 @@
     function setHotkeyToggle(enabled) {
       hotkeyEnabled = enabled;
       if (hotkeyToggle) {
-        hotkeyToggle.textContent = enabled ? 'On' : 'Off';
+        hotkeyToggle.textContent = enabled ? translate('toggle.on', 'On') : translate('toggle.off', 'Off');
         hotkeyToggle.classList.toggle('btn-primary', enabled);
         hotkeyToggle.classList.toggle('btn-secondary', !enabled);
       }
@@ -7619,7 +7832,11 @@
       }
     });
 
-    function setSettingsToggle(id, on) { const b = document.getElementById(id); b.textContent = on ? 'On' : 'Off'; b.style.opacity = on ? '1' : '0.5'; }
+    function setSettingsToggle(id, on) {
+      const b = document.getElementById(id);
+      b.textContent = on ? translate('toggle.on', 'On') : translate('toggle.off', 'Off');
+      b.style.opacity = on ? '1' : '0.5';
+    }
     function desktopContextStateLabel(state, filtered = false, limited = false) {
       if (state === 'unsupported') {
         if (filtered) return 'Enabled in config, but unavailable on this platform right now. Saved app filters will apply once desktop-context capture is supported.';
@@ -7910,6 +8127,11 @@
     }
 
     // Settings change handlers
+    document.getElementById('settings-app-language').addEventListener('change', (e) => {
+      applyAppLanguage(e.target.value);
+      setSettingsToggle('settings-notifications', notifyOnCompletion);
+      setSettingsToggle('settings-cues', playCaptureCues);
+    });
     document.getElementById('settings-transcription-engine').addEventListener('change', async (e) => {
       await invoke('cmd_set_setting', { section: 'transcription', key: 'engine', value: e.target.value });
       await checkSetup();

@@ -7113,6 +7113,34 @@ mod tests {
         );
     }
 
+    #[test]
+    fn desktop_app_language_picker_exposes_chinese_ui_locale() {
+        let manifest = env!("CARGO_MANIFEST_DIR"); // .../tauri/src-tauri
+        let html_path = format!("{}/../src/index.html", manifest);
+        let html = std::fs::read_to_string(&html_path).expect("failed to read index.html");
+
+        assert!(
+            html.contains(r#"<select id="settings-app-language""#),
+            "settings should expose an app UI language picker"
+        );
+        assert!(
+            html.contains(r#"<option value="zh-CN">中文（简体）</option>"#),
+            "app UI language picker should include Simplified Chinese"
+        );
+        assert!(
+            html.contains(r#"data-i18n="action.startRecording""#),
+            "primary recording action should be localizable"
+        );
+        assert!(
+            html.contains(r#""action.startRecording": "开始录音""#),
+            "Simplified Chinese translations should include Start Recording"
+        );
+        assert!(
+            html.contains(r#""settings.title": "设置""#),
+            "Simplified Chinese translations should include Settings"
+        );
+    }
+
     /// Strip the body of the `match (section.as_str(), key.as_str()) { ... }`
     /// expression from commands.rs, replacing it with a blank region so the
     /// proximity-based caller check doesn't count the arm *definitions* as
