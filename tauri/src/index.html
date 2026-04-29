@@ -4301,13 +4301,13 @@
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Voice Identity</div>
-            <div class="about-controls-meta">Record your voice once, then Minutes can label high-confidence speaker matches by name. Other people are saved only after you explicitly confirm them in a meeting.</div>
+            <div class="about-controls-copy" data-i18n="settings.personalVoiceprint">Personal voiceprint</div>
+            <div class="about-controls-meta" data-i18n="settings.personalVoiceprintMeta">Record your voice once, then Minutes can label high-confidence speaker matches by name. Other people are saved only after you explicitly confirm them in a meeting.</div>
             <div class="voice-identity-panel">
               <div class="voice-profile-list" id="settings-voice-profiles"></div>
               <div class="about-link-row">
-                <button class="btn btn-primary btn-sm" id="btn-enroll-voice">Record my voice</button>
-                <button class="btn btn-secondary btn-sm" id="btn-refresh-voices">Refresh</button>
+                <button class="btn btn-primary btn-sm" id="btn-enroll-voice" data-i18n="settings.recordMyVoice">Record my voice</button>
+                <button class="btn btn-secondary btn-sm" id="btn-refresh-voices" data-i18n="action.refresh">Refresh</button>
               </div>
               <div class="about-controls-meta" id="settings-voice-status"></div>
             </div>
@@ -5085,6 +5085,7 @@
         "action.dismiss": "忽略",
         "action.save": "保存",
         "action.record": "录制",
+        "action.refresh": "刷新",
         "action.stopNow": "立即停止",
         "action.keepRecording": "继续录音",
         "action.retry": "重试",
@@ -5133,6 +5134,11 @@
         "detail.discussWithAgent": "与助手讨论",
         "detail.openInEditor": "在编辑器中打开",
         "detail.selectMeeting": "选择一个会议来查看转录和笔记。",
+        "detail.confirm": "确认",
+        "detail.confirmSpeakerName": "确认 {speaker} 的姓名：",
+        "detail.saveSpeakerVoiceConfirm": "是否把这个发言人的声纹保存起来，用于以后自动识别？",
+        "detail.saving": "保存中...",
+        "detail.confirmedSpeaker": "已将 {speaker} 确认为 {name}",
         "draft.pickArtifact": "选择你希望 Minutes 从这次对话中创建的文档。它会立即在 Recall 旁边以源码模式打开。",
         "readiness.title": "就绪中心",
         "readiness.sub": "此视图只显示 Minutes 当前能够验证的状态。可选项仍然是可选项，未知状态不会被假装成确定状态。",
@@ -5170,6 +5176,25 @@
         "settings.emailAddressesMeta": "用逗号分隔。填写你会用来发信的所有地址，这样日历参与者能归到同一个人。",
         "settings.nameVariants": "名字变体",
         "settings.nameVariantsMeta": "用逗号分隔。昵称、正式拼写等都会归到你的标准姓名。",
+        "settings.personalVoiceprint": "个人声纹",
+        "settings.personalVoiceprintMeta": "录制一次你的声音。之后 Minutes 只会在高置信匹配时用姓名标注发言人；他人声纹必须在会议中显式确认后才保存。",
+        "settings.recordMyVoice": "录制我的声纹",
+        "settings.voiceLoading": "正在加载声纹档案...",
+        "settings.voiceEmpty": "还没有声纹档案。",
+        "settings.voiceMe": "我",
+        "settings.voiceSampleSingular": "个样本",
+        "settings.voiceSamplePlural": "个样本",
+        "settings.voiceUnknownSource": "声纹",
+        "settings.voiceUnknownModel": "未知模型",
+        "settings.voiceDeleteConfirm": "删除 {name} 的声纹档案？历史会议中的发言人确认不会被删除。",
+        "settings.voiceDeleteFailed": "无法删除声纹档案：{error}",
+        "settings.voiceDiarizationOff": "说话人分离已关闭。录制或匹配声纹前，请先开启说话人分离。",
+        "settings.voiceConservativeMatching": "保守匹配：阈值 {threshold}，边际 {margin}。",
+        "settings.voiceLoadFailed": "无法加载声纹档案：{error}",
+        "settings.voiceNamePrompt": "要绑定到这个声纹的姓名：",
+        "settings.voiceRecording": "正在录制 10 秒。请用平常说话的方式朗读...",
+        "settings.voiceSaved": "已为 {name} 保存声纹档案。",
+        "settings.voiceEnrollFailed": "无法录制声纹：{error}",
         "settings.general": "通用",
         "settings.completionAlerts": "显示完成提醒",
         "settings.soundCues": "播放开始、停止和完成提示音",
@@ -5312,6 +5337,12 @@
     function translate(key, fallback = '') {
       if (currentAppLanguage === 'en') return fallback;
       return APP_TRANSLATIONS[currentAppLanguage]?.[key] || fallback;
+    }
+
+    function translateTemplate(key, fallback = '', values = {}) {
+      return translate(key, fallback).replace(/\{(\w+)\}/g, (_, name) => (
+        Object.prototype.hasOwnProperty.call(values, name) ? values[name] : `{${name}}`
+      ));
     }
 
     function rememberI18nDefault(el, attrName, defaultAttrName, readValue) {
@@ -7072,14 +7103,18 @@
           if (!isKnownSpeakerAttribution(attr)) {
             const btn = document.createElement('button');
             btn.className = 'speaker-confirm-btn';
-            btn.textContent = 'Confirm';
+            btn.textContent = translate('detail.confirm', 'Confirm');
             btn.onclick = async () => {
-              const newName = prompt(`Confirm speaker name for ${genericSpeakerName(attr.speaker_label, speakerOrdinals)}:`, isKnownSpeakerAttribution(attr) ? attr.name : '');
+              const speakerName = genericSpeakerName(attr.speaker_label, speakerOrdinals);
+              const newName = prompt(
+                translateTemplate('detail.confirmSpeakerName', `Confirm speaker name for ${speakerName}:`, { speaker: speakerName }),
+                isKnownSpeakerAttribution(attr) ? attr.name : ''
+              );
               if (newName) {
-                const saveVoice = confirm('Save this speaker voice profile for future automatic identification?');
+                const saveVoice = confirm(translate('detail.saveSpeakerVoiceConfirm', 'Save this speaker voice profile for future automatic identification?'));
                 btn.disabled = true;
                 const previousLabel = btn.textContent;
-                btn.textContent = 'Saving...';
+                btn.textContent = translate('detail.saving', 'Saving...');
                 try {
                   const result = await invoke('cmd_confirm_speaker', {
                     meetingPath: detail.path,
@@ -7088,7 +7123,7 @@
                     saveVoice,
                   });
                   showDetailFeedback(
-                    result || `Confirmed ${attr.speaker_label} as ${newName}`,
+                    result || translateTemplate('detail.confirmedSpeaker', `Confirmed ${attr.speaker_label} as ${newName}`, { speaker: attr.speaker_label, name: newName }),
                     'success'
                   );
                   await openMeetingDetail(detail.path);
@@ -7747,13 +7782,13 @@
       const status = document.getElementById('settings-voice-status');
       if (!list || !status) return;
       list.replaceChildren();
-      status.textContent = 'Loading voice profiles...';
+      status.textContent = translate('settings.voiceLoading', 'Loading voice profiles...');
       try {
         const profiles = await invoke('cmd_list_voices');
         if (!profiles || profiles.length === 0) {
           const empty = document.createElement('div');
           empty.className = 'about-controls-meta';
-          empty.textContent = 'No voice profiles yet.';
+          empty.textContent = translate('settings.voiceEmpty', 'No voice profiles yet.');
           list.appendChild(empty);
         } else {
           for (const profile of profiles) {
@@ -7767,12 +7802,15 @@
             if (profile.isSelf) {
               const self = document.createElement('span');
               self.className = 'voice-profile-self';
-              self.textContent = 'Me';
+              self.textContent = translate('settings.voiceMe', 'Me');
               name.appendChild(self);
             }
             const meta = document.createElement('div');
             meta.className = 'voice-profile-meta';
-            meta.textContent = `${profile.sampleCount || 0} sample${profile.sampleCount === 1 ? '' : 's'} • ${profile.source || 'voice'} • ${profile.modelVersion || 'unknown model'}`;
+            const sampleLabel = profile.sampleCount === 1
+              ? translate('settings.voiceSampleSingular', 'sample')
+              : translate('settings.voiceSamplePlural', 'samples');
+            meta.textContent = `${profile.sampleCount || 0} ${sampleLabel} • ${profile.source || translate('settings.voiceUnknownSource', 'voice')} • ${profile.modelVersion || translate('settings.voiceUnknownModel', 'unknown model')}`;
             body.appendChild(name);
             body.appendChild(meta);
 
@@ -7780,15 +7818,16 @@
             actions.className = 'voice-profile-actions';
             const del = document.createElement('button');
             del.className = 'btn btn-secondary btn-sm';
-            del.textContent = 'Delete';
+            del.textContent = translate('action.delete', 'Delete');
             del.addEventListener('click', async () => {
-              if (!confirm(`Delete voice profile for ${profile.name || profile.personSlug}? Historical speaker confirmations stay intact.`)) return;
+              const profileName = profile.name || profile.personSlug;
+              if (!confirm(translateTemplate('settings.voiceDeleteConfirm', `Delete voice profile for ${profileName}? Historical speaker confirmations stay intact.`, { name: profileName }))) return;
               del.disabled = true;
               try {
                 await invoke('cmd_delete_voice_profile', { personSlug: profile.personSlug });
                 await refreshVoiceProfiles(settings);
               } catch (e) {
-                status.textContent = `Could not delete voice profile: ${e}`;
+                status.textContent = translateTemplate('settings.voiceDeleteFailed', `Could not delete voice profile: ${e}`, { error: e });
               } finally {
                 del.disabled = false;
               }
@@ -7802,13 +7841,17 @@
         }
 
         if (settings?.diarization?.engine === 'none') {
-          status.textContent = 'Speaker diarization is off. Turn it on before enrolling or matching voices.';
+          status.textContent = translate('settings.voiceDiarizationOff', 'Speaker diarization is off. Turn it on before enrolling or matching voices.');
         } else {
           const voice = settings?.voice || {};
-          status.textContent = `Conservative matching: threshold ${voice.match_threshold ?? 0.65}, margin ${voice.match_margin ?? 0.08}.`;
+          status.textContent = translateTemplate(
+            'settings.voiceConservativeMatching',
+            `Conservative matching: threshold ${voice.match_threshold ?? 0.65}, margin ${voice.match_margin ?? 0.08}.`,
+            { threshold: voice.match_threshold ?? 0.65, margin: voice.match_margin ?? 0.08 }
+          );
         }
       } catch (e) {
-        status.textContent = `Could not load voice profiles: ${e}`;
+        status.textContent = translateTemplate('settings.voiceLoadFailed', `Could not load voice profiles: ${e}`, { error: e });
       }
     }
 
@@ -8374,18 +8417,18 @@
     document.getElementById('btn-enroll-voice').addEventListener('click', async () => {
       const status = document.getElementById('settings-voice-status');
       const nameInput = document.getElementById('settings-identity-name');
-      const name = prompt('Name to attach to your voice profile:', nameInput.value || '');
+      const name = prompt(translate('settings.voiceNamePrompt', 'Name to attach to your voice profile:'), nameInput.value || '');
       if (!name || !name.trim()) return;
       const btn = document.getElementById('btn-enroll-voice');
       btn.disabled = true;
-      status.textContent = 'Recording 10 seconds. Speak normally...';
+      status.textContent = translate('settings.voiceRecording', 'Recording 10 seconds. Speak normally...');
       try {
         const result = await invoke('cmd_enroll_voice', { name: name.trim(), durationSecs: 10 });
         nameInput.value = result.name || name.trim();
-        status.textContent = `Voice profile saved for ${result.name || name.trim()}.`;
         await refreshVoiceProfiles();
+        status.textContent = translateTemplate('settings.voiceSaved', `Voice profile saved for ${result.name || name.trim()}.`, { name: result.name || name.trim() });
       } catch (e) {
-        status.textContent = `Could not enroll voice: ${e}`;
+        status.textContent = translateTemplate('settings.voiceEnrollFailed', `Could not enroll voice: ${e}`, { error: e });
       } finally {
         btn.disabled = false;
       }
