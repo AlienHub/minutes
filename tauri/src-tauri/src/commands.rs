@@ -946,6 +946,28 @@ pub struct ArtifactDraft {
 
 #[derive(Debug, Clone, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct VoiceProfileView {
+    pub person_slug: String,
+    pub name: String,
+    pub enrolled_at: String,
+    pub updated_at: String,
+    pub sample_count: u32,
+    pub source: String,
+    pub model_version: String,
+    pub is_self: bool,
+}
+
+#[derive(Debug, Clone, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct VoiceEnrollmentResult {
+    pub person_slug: String,
+    pub name: String,
+    pub sample_count: u32,
+    pub model_version: String,
+}
+
+#[derive(Debug, Clone, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TextFileAccess {
     pub path: String,
     pub editable: bool,
@@ -5744,10 +5766,137 @@ pub fn cmd_create_artifact_from_meeting(
 }
 
 #[tauri::command]
-pub async fn cmd_list_voices() -> Result<serde_json::Value, String> {
+pub fn cmd_list_voices() -> Result<serde_json::Value, String> {
+    let config = Config::load();
+    let self_slug = config
+        .identity
+        .name
+        .as_ref()
+        .map(|name| minutes_core::voice::profile_slug(name));
     let conn = minutes_core::voice::open_db().map_err(|e| e.to_string())?;
     let profiles = minutes_core::voice::list_profiles(&conn).map_err(|e| e.to_string())?;
-    serde_json::to_value(&profiles).map_err(|e| e.to_string())
+    let views: Vec<VoiceProfileView> = profiles
+        .into_iter()
+        .map(|profile| VoiceProfileView {
+            is_self: self_slug
+                .as_ref()
+                .is_some_and(|slug| slug == &profile.person_slug),
+            person_slug: profile.person_slug,
+            name: profile.name,
+            enrolled_at: profile.enrolled_at,
+            updated_at: profile.updated_at,
+            sample_count: profile.sample_count,
+            source: profile.source,
+            model_version: profile.model_version,
+        })
+        .collect();
+    serde_json::to_value(&views).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub fn cmd_delete_voice_profile(person_slug: String) -> Result<String, String> {
+    let slug = person_slug.trim();
+    if slug.is_empty() {
+        return Err("Voice profile slug is required".into());
+    }
+    let conn = minutes_core::voice::open_db().map_err(|e| e.to_string())?;
+    if minutes_core::voice::delete_profile(&conn, slug).map_err(|e| e.to_string())? {
+        Ok(format!("Deleted voice profile: {}", slug))
+    } else {
+        Err(format!("Voice profile not found: {}", slug))
+    }
+}
+
+#[tauri::command]
+pub async fn cmd_enroll_voice(
+    name: String,
+    duration_secs: Option<u64>,
+) -> Result<VoiceEnrollmentResult, String> {
+    let name = name.trim().to_string();
+    if name.is_empty() {
+        return Err("Name is required for voice enrollment".into());
+    }
+    let duration_secs = duration_secs.unwrap_or(10).clamp(5, 60);
+
+    tauri::async_runtime::spawn_blocking(move || {
+        let mut config = Config::load();
+        if !minutes_core::diarize::models_installed(&config) {
+            return Err("Speaker diarization models are not installed. Run `minutes setup --diarization` first.".into());
+        }
+
+        let tmp_dir = std::env::temp_dir().join("minutes-desktop-enroll");
+        std::fs::create_dir_all(&tmp_dir).map_err(|e| e.to_string())?;
+        let tmp_path = tmp_dir.join(format!(
+            "enroll-{}-{}.wav",
+            std::process::id(),
+            chrono::Local::now().timestamp_millis()
+        ));
+        let stop_flag = Arc::new(AtomicBool::new(false));
+        let timer_flag = stop_flag.clone();
+        std::thread::spawn(move || {
+            std::thread::sleep(Duration::from_secs(duration_secs));
+            timer_flag.store(true, Ordering::Relaxed);
+        });
+
+        minutes_core::capture::record_to_wav(&tmp_path, stop_flag, &config)
+            .map_err(|e| format!("Could not record voice sample: {}", e))?;
+
+        let cleanup_path = tmp_path.clone();
+        let result = (|| {
+            let diarization = minutes_core::diarize::diarize(&tmp_path, &config)
+                .ok_or_else(|| "Could not analyze the voice sample. Make sure your mic is working and try again.".to_string())?;
+            if diarization.segments.is_empty() {
+                return Err("No speech detected in the voice sample. Try again at normal speaking volume.".into());
+            }
+            if diarization.num_speakers > 1 {
+                return Err(format!(
+                    "Detected {} speakers. For accuracy, enroll in a quiet room with only your voice.",
+                    diarization.num_speakers
+                ));
+            }
+            let embedding = diarization
+                .speaker_embeddings
+                .values()
+                .next()
+                .cloned()
+                .ok_or_else(|| "Diarization produced no voice embedding. Try recording a longer sample.".to_string())?;
+
+            if config.identity.name.as_ref().is_none_or(|current| current.trim().is_empty()) {
+                config.identity.name = Some(name.clone());
+                config
+                    .save()
+                    .map_err(|e| format!("Could not save identity name: {}", e))?;
+            }
+
+            let slug = minutes_core::voice::profile_slug(&name);
+            let conn = minutes_core::voice::open_db().map_err(|e| e.to_string())?;
+            minutes_core::voice::save_profile_blended(
+                &conn,
+                &slug,
+                &name,
+                &embedding,
+                "self-enrollment",
+                minutes_core::voice::model_version(&config),
+            )
+            .map_err(|e| e.to_string())?;
+            let profiles = minutes_core::voice::list_profiles(&conn).map_err(|e| e.to_string())?;
+            let profile = profiles
+                .into_iter()
+                .find(|profile| profile.person_slug == slug)
+                .ok_or_else(|| "Voice profile saved but could not be reloaded".to_string())?;
+
+            Ok(VoiceEnrollmentResult {
+                person_slug: profile.person_slug,
+                name: profile.name,
+                sample_count: profile.sample_count,
+                model_version: profile.model_version,
+            })
+        })();
+        std::fs::remove_file(cleanup_path).ok();
+        result
+    })
+    .await
+    .map_err(|e| format!("Voice enrollment task failed: {}", e))?
 }
 
 #[tauri::command]
@@ -5755,6 +5904,7 @@ pub async fn cmd_confirm_speaker(
     meeting_path: String,
     speaker_label: String,
     name: String,
+    save_voice: Option<bool>,
 ) -> Result<String, String> {
     let path = std::path::PathBuf::from(&meeting_path);
     if !path.exists() {
@@ -5794,6 +5944,41 @@ pub async fn cmd_confirm_speaker(
     )
     .map_err(|e| format!("Could not write speaker overlay: {}", e))?;
 
+    if save_voice.unwrap_or(false) {
+        let records = minutes_core::voice::load_meeting_embedding_records(&path).ok_or_else(|| {
+            "Speaker confirmed, but no meeting voice embeddings sidecar was found. Reprocess this meeting with diarization enabled before saving a voice profile.".to_string()
+        })?;
+        let record = records.get(&speaker_label).ok_or_else(|| {
+            format!(
+                "Speaker confirmed, but no voice embedding was found for {} in this meeting.",
+                speaker_label
+            )
+        })?;
+        if record.embedding.is_empty() {
+            return Err(format!(
+                "Speaker confirmed, but {} has an empty voice embedding.",
+                speaker_label
+            ));
+        }
+        let config = Config::load();
+        let conn = minutes_core::voice::open_db().map_err(|e| e.to_string())?;
+        let slug = minutes_core::voice::profile_slug(&name);
+        minutes_core::voice::save_profile_blended(
+            &conn,
+            &slug,
+            &name,
+            &record.embedding,
+            "confirmed",
+            minutes_core::voice::model_version(&config),
+        )
+        .map_err(|e| {
+            format!(
+                "Speaker confirmed, but voice profile could not be saved: {}",
+                e
+            )
+        })?;
+    }
+
     // Refresh graph projection so other surfaces reflect the correction
     // immediately. Run on a blocking thread so we don't stall the async
     // Tauri runtime — graph rebuild walks every meeting file and can take
@@ -5809,7 +5994,14 @@ pub async fn cmd_confirm_speaker(
         }
     });
 
-    Ok(format!("Confirmed: {} = {}", speaker_label, name))
+    if save_voice.unwrap_or(false) {
+        Ok(format!(
+            "Confirmed: {} = {} and saved voice profile",
+            speaker_label, name
+        ))
+    } else {
+        Ok(format!("Confirmed: {} = {}", speaker_label, name))
+    }
 }
 
 #[tauri::command]
@@ -6449,6 +6641,11 @@ pub fn cmd_get_settings() -> serde_json::Value {
             "email": config.identity.email,
             "emails": config.identity.emails,
             "aliases": config.identity.aliases,
+        },
+        "voice": {
+            "enabled": config.voice.enabled,
+            "match_threshold": config.voice.match_threshold,
+            "match_margin": config.voice.match_margin,
         },
     })
 }
@@ -8592,6 +8789,158 @@ mod tests {
                 hash_before, hash_after,
                 "overlay write must not mutate the raw meeting markdown"
             );
+        });
+    }
+
+    #[test]
+    fn list_voices_marks_identity_profile_as_self() {
+        with_temp_home(|_home| {
+            cmd_set_setting("identity".into(), "name".into(), "Mat Silverstein".into()).unwrap();
+            let conn = minutes_core::voice::open_db().unwrap();
+            minutes_core::voice::save_profile(
+                &conn,
+                "mat-silverstein",
+                "Mat Silverstein",
+                &[1.0f32, 0.0],
+                "self-enrollment",
+                "test-model",
+            )
+            .unwrap();
+            minutes_core::voice::save_profile(
+                &conn,
+                "alex",
+                "Alex",
+                &[0.0f32, 1.0],
+                "confirmed",
+                "test-model",
+            )
+            .unwrap();
+
+            let profiles = cmd_list_voices().unwrap();
+            let profiles = profiles.as_array().expect("profiles array");
+            let mat = profiles
+                .iter()
+                .find(|profile| profile["personSlug"] == "mat-silverstein")
+                .expect("mat profile");
+            let alex = profiles
+                .iter()
+                .find(|profile| profile["personSlug"] == "alex")
+                .expect("alex profile");
+            assert_eq!(mat["isSelf"], true);
+            assert_eq!(alex["isSelf"], false);
+        });
+    }
+
+    #[test]
+    fn confirm_speaker_can_save_voice_profile_without_rewriting_meeting() {
+        with_temp_home(|home| {
+            let meetings_dir = home.join("meetings");
+            std::fs::create_dir_all(&meetings_dir).unwrap();
+            let meeting_path = meetings_dir.join("2026-04-24-save-voice.md");
+            let raw_markdown = concat!(
+                "---\n",
+                "title: Save Voice\n",
+                "type: meeting\n",
+                "date: 2026-04-24T10:00:00-07:00\n",
+                "duration: 15m\n",
+                "tags: []\n",
+                "attendees: []\n",
+                "people: []\n",
+                "action_items: []\n",
+                "decisions: []\n",
+                "intents: []\n",
+                "speaker_map:\n",
+                "  - speaker_label: SPEAKER_1\n",
+                "    name: Speaker 1\n",
+                "    confidence: medium\n",
+                "    source: llm\n",
+                "---\n\n",
+                "## Transcript\n\n",
+                "[SPEAKER_1 0:00] hello there\n",
+            );
+            std::fs::write(&meeting_path, raw_markdown).unwrap();
+            let hash_before = hash_file_bytes(&meeting_path);
+
+            let mut records = std::collections::HashMap::new();
+            records.insert(
+                "SPEAKER_1".to_string(),
+                minutes_core::voice::MeetingEmbeddingRecord {
+                    embedding: vec![0.1f32, 0.2, 0.3],
+                    speech_secs: 12.0,
+                    segment_count: 3,
+                    model_version: "test-model".into(),
+                },
+            );
+            minutes_core::voice::save_meeting_embedding_records(&meeting_path, &records);
+
+            let result = tauri::async_runtime::block_on(cmd_confirm_speaker(
+                meeting_path.to_string_lossy().to_string(),
+                "SPEAKER_1".into(),
+                "Alex Kim".into(),
+                Some(true),
+            ))
+            .unwrap();
+            assert!(result.contains("saved voice profile"));
+
+            let conn = minutes_core::voice::open_db().unwrap();
+            let profiles = minutes_core::voice::list_profiles(&conn).unwrap();
+            assert!(profiles
+                .iter()
+                .any(|profile| profile.person_slug == "alex-kim" && profile.name == "Alex Kim"));
+            assert_eq!(hash_before, hash_file_bytes(&meeting_path));
+        });
+    }
+
+    #[test]
+    fn confirm_speaker_reports_missing_sidecar_when_saving_voice() {
+        with_temp_home(|home| {
+            let meetings_dir = home.join("meetings");
+            std::fs::create_dir_all(&meetings_dir).unwrap();
+            let meeting_path = meetings_dir.join("2026-04-24-missing-sidecar.md");
+            std::fs::write(
+                &meeting_path,
+                concat!(
+                    "---\n",
+                    "title: Missing Sidecar\n",
+                    "type: meeting\n",
+                    "date: 2026-04-24T10:00:00-07:00\n",
+                    "duration: 15m\n",
+                    "tags: []\n",
+                    "attendees: []\n",
+                    "people: []\n",
+                    "action_items: []\n",
+                    "decisions: []\n",
+                    "intents: []\n",
+                    "speaker_map:\n",
+                    "  - speaker_label: SPEAKER_1\n",
+                    "    name: Speaker 1\n",
+                    "    confidence: medium\n",
+                    "    source: llm\n",
+                    "---\n\n",
+                    "## Transcript\n\n",
+                    "[SPEAKER_1 0:00] hello there\n",
+                ),
+            )
+            .unwrap();
+
+            let error = tauri::async_runtime::block_on(cmd_confirm_speaker(
+                meeting_path.to_string_lossy().to_string(),
+                "SPEAKER_1".into(),
+                "Alex Kim".into(),
+                Some(true),
+            ))
+            .unwrap_err();
+            assert!(error.contains("Speaker confirmed, but no meeting voice embeddings sidecar"));
+
+            let detail =
+                cmd_get_meeting_detail(meeting_path.to_string_lossy().to_string()).unwrap();
+            let alex = detail
+                .speaker_map
+                .iter()
+                .find(|attr| attr.speaker_label == "SPEAKER_1")
+                .expect("speaker overlay should still exist");
+            assert_eq!(alex.name, "Alex Kim");
+            assert_eq!(alex.confidence, "high");
         });
     }
 

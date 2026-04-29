@@ -223,6 +223,7 @@ hotkey_keycode = 57   # Caps Lock (macOS) — requires Input Monitoring
 |---|---|---|
 | `enabled` | `true` | Learn voices across recordings |
 | `match_threshold` | `0.65` | Cosine similarity cutoff for voice enrollment matching |
+| `match_margin` | `0.08` | Required gap between the best and runner-up voice profile match before a name is applied |
 
 ### `[screen_context]` — recording-time screenshots
 

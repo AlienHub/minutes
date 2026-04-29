@@ -18,6 +18,14 @@ struct VoiceMatchResult {
     self_profile_exists: bool,
 }
 
+#[derive(Debug, Clone, Default)]
+struct SpeakerEmbeddingQuality {
+    speech_secs: f64,
+    segment_count: usize,
+}
+
+const MIN_VOICE_MATCH_SPEECH_SECS: f64 = 3.0;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize)]
 #[serde(rename_all = "kebab-case")]
 enum SelfAttributionAppliedVia {
@@ -138,6 +146,7 @@ impl SelfAttributionOutcome {
 fn match_speakers_by_voice(
     config: &Config,
     diarization_embeddings: &std::collections::HashMap<String, Vec<f32>>,
+    speaker_quality: &std::collections::HashMap<String, SpeakerEmbeddingQuality>,
 ) -> VoiceMatchResult {
     if !config.voice.enabled || diarization_embeddings.is_empty() {
         return VoiceMatchResult {
@@ -169,19 +178,45 @@ fn match_speakers_by_voice(
         .unwrap_or(false);
 
     let threshold = config.voice.match_threshold;
+    let min_margin = config.voice.match_margin;
     let mut attributions = Vec::new();
+    let mut claimed_profiles = std::collections::HashSet::new();
 
     for (label, emb) in diarization_embeddings {
-        if let Some(name) = crate::voice::match_embedding(emb, &profiles, threshold) {
+        let quality = speaker_quality.get(label).cloned().unwrap_or_default();
+        if quality.speech_secs < MIN_VOICE_MATCH_SPEECH_SECS {
             tracing::info!(
                 speaker = %label,
-                name = %name,
+                speech_secs = format!("{:.2}", quality.speech_secs),
+                min_speech_secs = format!("{:.2}", MIN_VOICE_MATCH_SPEECH_SECS),
+                "skipping voice enrollment match: insufficient speaker audio"
+            );
+            continue;
+        }
+
+        if let Some(matched) =
+            crate::voice::match_embedding_with_margin(emb, &profiles, threshold, min_margin)
+        {
+            if !claimed_profiles.insert(matched.person_slug.clone()) {
+                tracing::info!(
+                    speaker = %label,
+                    name = %matched.name,
+                    "skipping duplicate voice enrollment match for already-claimed profile"
+                );
+                continue;
+            }
+            tracing::info!(
+                speaker = %label,
+                name = %matched.name,
                 threshold = threshold,
+                min_margin = min_margin,
+                similarity = format!("{:.4}", matched.similarity),
+                margin = format!("{:.4}", matched.margin),
                 "Level 2: voice enrollment match"
             );
             attributions.push(diarize::SpeakerAttribution {
                 speaker_label: label.clone(),
-                name,
+                name: matched.name,
                 confidence: diarize::Confidence::High,
                 source: diarize::AttributionSource::Enrollment,
             });
@@ -192,6 +227,44 @@ fn match_speakers_by_voice(
         attributions,
         self_profile_exists,
     }
+}
+
+fn speaker_embedding_quality(
+    segments: &[diarize::SpeakerSegment],
+) -> std::collections::HashMap<String, SpeakerEmbeddingQuality> {
+    let mut quality = std::collections::HashMap::<String, SpeakerEmbeddingQuality>::new();
+    for segment in segments {
+        if segment.end <= segment.start {
+            continue;
+        }
+        let entry = quality.entry(segment.speaker.clone()).or_default();
+        entry.speech_secs += segment.end - segment.start;
+        entry.segment_count += 1;
+    }
+    quality
+}
+
+fn meeting_embedding_records(
+    embeddings: &std::collections::HashMap<String, Vec<f32>>,
+    quality: &std::collections::HashMap<String, SpeakerEmbeddingQuality>,
+    config: &Config,
+) -> std::collections::HashMap<String, crate::voice::MeetingEmbeddingRecord> {
+    let model_version = crate::voice::model_version(config).to_string();
+    embeddings
+        .iter()
+        .map(|(label, embedding)| {
+            let q = quality.get(label).cloned().unwrap_or_default();
+            (
+                label.clone(),
+                crate::voice::MeetingEmbeddingRecord {
+                    embedding: embedding.clone(),
+                    speech_secs: q.speech_secs,
+                    segment_count: q.segment_count,
+                    model_version: model_version.clone(),
+                },
+            )
+        })
+        .collect()
 }
 
 fn confidence_label(confidence: diarize::Confidence) -> String {
@@ -427,11 +500,14 @@ fn single_stem_speaker_self_attribution(
     if let Some(stems) = diarize::discover_stems(audio_path) {
         if let Some(source_backed_label) = source_backed_speaker_label.clone() {
             if let Some(voice_stem_result) = diarize::diarize(&stems.voice, config) {
-                let matched_self =
-                    match_speakers_by_voice(config, &voice_stem_result.speaker_embeddings)
-                        .attributions
-                        .iter()
-                        .any(|attr| attr.name == *my_name);
+                let matched_self = match_speakers_by_voice(
+                    config,
+                    &voice_stem_result.speaker_embeddings,
+                    &speaker_embedding_quality(&voice_stem_result.segments),
+                )
+                .attributions
+                .iter()
+                .any(|attr| attr.name == *my_name);
                 return SelfAttributionOutcome::applied(
                     diarize::SpeakerAttribution {
                         speaker_label: source_backed_label,
@@ -517,6 +593,7 @@ fn attribute_meeting_speakers(
     diarization_num_speakers: usize,
     diarization_from_stems: bool,
     diarization_embeddings: &std::collections::HashMap<String, Vec<f32>>,
+    speaker_quality: &std::collections::HashMap<String, SpeakerEmbeddingQuality>,
     transcript: String,
 ) -> AttributionProcessingResult {
     let mut transcript = transcript;
@@ -529,7 +606,7 @@ fn attribute_meeting_speakers(
     } else if content_type != ContentType::Meeting {
         SelfAttributionOutcome::skipped(SelfAttributionSkippedReason::NoStableLabel)
     } else {
-        let voice_result = match_speakers_by_voice(config, diarization_embeddings);
+        let voice_result = match_speakers_by_voice(config, diarization_embeddings, speaker_quality);
         speaker_map.extend(voice_result.attributions.clone());
 
         let transcript_labels = crate::summarize::extract_speaker_labels_pub(&transcript);
@@ -1019,6 +1096,8 @@ where
     let mut diarization_from_stems = false;
     let mut diarization_embeddings: std::collections::HashMap<String, Vec<f32>> =
         std::collections::HashMap::new();
+    let mut diarization_quality: std::collections::HashMap<String, SpeakerEmbeddingQuality> =
+        std::collections::HashMap::new();
     if config.diarization.engine != "none" && artifact.frontmatter.r#type == ContentType::Meeting {
         on_progress(PipelineStage::Diarizing);
         let diarize_start = std::time::Instant::now();
@@ -1027,6 +1106,7 @@ where
             diarization_num_speakers = result.num_speakers;
             diarization_from_stems = result.source_aware;
             diarization_embeddings = result.speaker_embeddings.clone();
+            diarization_quality = speaker_embedding_quality(&result.segments);
             logging::log_step(
                 "diarize",
                 &audio_path.display().to_string(),
@@ -1179,6 +1259,7 @@ where
         diarization_num_speakers,
         diarization_from_stems,
         &diarization_embeddings,
+        &diarization_quality,
         transcript,
     );
     let attribution_ms = attribution_start.elapsed().as_millis() as u64;
@@ -1281,7 +1362,10 @@ where
     }
 
     if !diarization_embeddings.is_empty() {
-        crate::voice::save_meeting_embeddings(&result.path, &diarization_embeddings);
+        crate::voice::save_meeting_embedding_records(
+            &result.path,
+            &meeting_embedding_records(&diarization_embeddings, &diarization_quality, config),
+        );
     }
 
     // Emit structured insight events for agent subscription
@@ -1478,6 +1562,8 @@ where
     let mut diarization_from_stems = false;
     let mut diarization_embeddings: std::collections::HashMap<String, Vec<f32>> =
         std::collections::HashMap::new();
+    let mut diarization_quality: std::collections::HashMap<String, SpeakerEmbeddingQuality> =
+        std::collections::HashMap::new();
     let transcript = if config.diarization.engine != "none" && content_type == ContentType::Meeting
     {
         on_progress(PipelineStage::Diarizing);
@@ -1486,6 +1572,7 @@ where
             diarization_num_speakers = result.num_speakers;
             diarization_from_stems = result.source_aware;
             diarization_embeddings = result.speaker_embeddings.clone();
+            diarization_quality = speaker_embedding_quality(&result.segments);
             diarize::apply_speakers(&transcript, &result)
         } else {
             transcript
@@ -1657,6 +1744,7 @@ where
         diarization_num_speakers,
         diarization_from_stems,
         &diarization_embeddings,
+        &diarization_quality,
         transcript,
     );
     let attribution_ms = attribution_start.elapsed().as_millis() as u64;
@@ -1808,7 +1896,10 @@ where
     }
     // Save per-speaker embeddings as sidecar (for Level 3 confirmed learning)
     if !diarization_embeddings.is_empty() {
-        crate::voice::save_meeting_embeddings(&result.path, &diarization_embeddings);
+        crate::voice::save_meeting_embedding_records(
+            &result.path,
+            &meeting_embedding_records(&diarization_embeddings, &diarization_quality, config),
+        );
     }
 
     if let Err(error) = crate::daily_notes::append_backlink(
@@ -4184,6 +4275,7 @@ mod tests {
             2,
             true,
             &std::collections::HashMap::new(),
+            &std::collections::HashMap::new(),
             "[SPEAKER_0 0:00] hello\n[SPEAKER_1 0:01] hi\n".into(),
         );
 
@@ -4289,6 +4381,7 @@ mod tests {
             &[],
             2,
             true,
+            &std::collections::HashMap::new(),
             &std::collections::HashMap::new(),
             "[SPEAKER_1 0:00] hi\n[SPEAKER_0 0:01] hello\n".into(),
         );

@@ -1,6 +1,7 @@
 use crate::config::Config;
 use rusqlite::{params, Connection};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use thiserror::Error;
 
@@ -43,6 +44,32 @@ pub struct VoiceProfileWithEmbedding {
     pub name: String,
     pub embedding: Vec<f32>,
     pub sample_count: u32,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct VoiceMatch {
+    pub person_slug: String,
+    pub name: String,
+    pub similarity: f32,
+    pub runner_up_similarity: Option<f32>,
+    pub margin: f32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct MeetingEmbeddingRecord {
+    pub embedding: Vec<f32>,
+    #[serde(default)]
+    pub speech_secs: f64,
+    #[serde(default)]
+    pub segment_count: usize,
+    #[serde(default)]
+    pub model_version: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct MeetingEmbeddingsSidecar {
+    version: u32,
+    speakers: HashMap<String, MeetingEmbeddingRecord>,
 }
 
 pub fn db_path() -> PathBuf {
@@ -219,9 +246,19 @@ pub fn match_embedding(
     embedding: &[f32],
     profiles: &[VoiceProfileWithEmbedding],
     threshold: f32,
-) -> Option<String> {
-    let mut best_name = None;
+) -> Option<VoiceMatch> {
+    match_embedding_with_margin(embedding, profiles, threshold, 0.0)
+}
+
+pub fn match_embedding_with_margin(
+    embedding: &[f32],
+    profiles: &[VoiceProfileWithEmbedding],
+    threshold: f32,
+    min_margin: f32,
+) -> Option<VoiceMatch> {
+    let mut best_profile: Option<&VoiceProfileWithEmbedding> = None;
     let mut best_sim = f32::MIN;
+    let mut runner_up_sim = f32::MIN;
 
     for p in profiles {
         let sim = cosine_similarity(embedding, &p.embedding);
@@ -231,31 +268,151 @@ pub fn match_embedding(
             "voice embedding comparison"
         );
         if sim > best_sim {
+            runner_up_sim = best_sim;
             best_sim = sim;
-            if sim > threshold {
-                best_name = Some(p.name.clone());
-            }
+            best_profile = Some(p);
+        } else if sim > runner_up_sim {
+            runner_up_sim = sim;
         }
     }
 
-    if let Some(ref name) = best_name {
-        tracing::info!(matched = %name, similarity = format!("{:.4}", best_sim), "voice profile matched");
+    let runner_up_similarity = if runner_up_sim == f32::MIN {
+        None
+    } else {
+        Some(runner_up_sim)
+    };
+    let margin = runner_up_similarity.map_or(f32::INFINITY, |runner| best_sim - runner);
+    let matched = best_profile
+        .filter(|_| best_sim >= threshold && margin >= min_margin)
+        .map(|p| VoiceMatch {
+            person_slug: p.person_slug.clone(),
+            name: p.name.clone(),
+            similarity: best_sim,
+            runner_up_similarity,
+            margin,
+        });
+
+    if let Some(ref result) = matched {
+        tracing::info!(
+            matched = %result.name,
+            similarity = format!("{:.4}", result.similarity),
+            margin = format!("{:.4}", result.margin),
+            "voice profile matched"
+        );
     } else if !profiles.is_empty() {
         tracing::info!(
             best_similarity = format!("{:.4}", best_sim),
+            runner_up_similarity = runner_up_similarity.map(|value| format!("{:.4}", value)),
+            margin = if margin.is_finite() {
+                format!("{:.4}", margin)
+            } else {
+                "inf".into()
+            },
             threshold = format!("{:.4}", threshold),
+            min_margin = format!("{:.4}", min_margin),
             "no voice profile matched"
         );
     }
 
-    best_name
+    matched
 }
 
 /// Save per-speaker embeddings as a sidecar file next to the meeting markdown.
 /// Path: ~/meetings/.2026-03-25-standup.embeddings (hidden file, same dir)
 pub fn save_meeting_embeddings(
     meeting_path: &std::path::Path,
-    embeddings: &std::collections::HashMap<String, Vec<f32>>,
+    embeddings: &HashMap<String, Vec<f32>>,
+) {
+    let records: HashMap<String, MeetingEmbeddingRecord> = embeddings
+        .iter()
+        .map(|(label, embedding)| {
+            (
+                label.clone(),
+                MeetingEmbeddingRecord {
+                    embedding: embedding.clone(),
+                    speech_secs: 0.0,
+                    segment_count: 0,
+                    model_version: String::new(),
+                },
+            )
+        })
+        .collect();
+    save_meeting_embedding_records(meeting_path, &records);
+}
+
+pub fn save_meeting_embedding_records(
+    meeting_path: &std::path::Path,
+    records: &HashMap<String, MeetingEmbeddingRecord>,
+) {
+    if records.is_empty() {
+        return;
+    }
+    let sidecar = meeting_embeddings_sidecar_path(meeting_path);
+    let data = serde_json::to_vec(&MeetingEmbeddingsSidecar {
+        version: 1,
+        speakers: records.clone(),
+    })
+    .unwrap_or_default();
+    write_meeting_embeddings_sidecar(&sidecar, &data, records.len());
+}
+
+fn write_meeting_embeddings_sidecar(sidecar: &Path, data: &[u8], speaker_count: usize) {
+    if let Err(e) = std::fs::write(sidecar, data) {
+        tracing::warn!(path = %sidecar.display(), error = %e, "failed to write meeting embeddings");
+    } else {
+        // Set 0600 permissions (embeddings are biometric-adjacent data)
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            std::fs::set_permissions(sidecar, std::fs::Permissions::from_mode(0o600)).ok();
+        }
+        tracing::debug!(path = %sidecar.display(), speakers = speaker_count, "meeting embeddings saved");
+    }
+}
+
+pub fn load_meeting_embedding_records(
+    meeting_path: &std::path::Path,
+) -> Option<HashMap<String, MeetingEmbeddingRecord>> {
+    let sidecar = meeting_embeddings_sidecar_path(meeting_path);
+    let data = std::fs::read(&sidecar).ok()?;
+    if let Ok(sidecar) = serde_json::from_slice::<MeetingEmbeddingsSidecar>(&data) {
+        return Some(sidecar.speakers);
+    }
+
+    let legacy: HashMap<String, Vec<f32>> = serde_json::from_slice(&data).ok()?;
+    Some(
+        legacy
+            .into_iter()
+            .map(|(label, embedding)| {
+                (
+                    label,
+                    MeetingEmbeddingRecord {
+                        embedding,
+                        speech_secs: 0.0,
+                        segment_count: 0,
+                        model_version: String::new(),
+                    },
+                )
+            })
+            .collect(),
+    )
+}
+
+pub fn load_meeting_embeddings(
+    meeting_path: &std::path::Path,
+) -> Option<HashMap<String, Vec<f32>>> {
+    load_meeting_embedding_records(meeting_path).map(|records| {
+        records
+            .into_iter()
+            .map(|(label, record)| (label, record.embedding))
+            .collect()
+    })
+}
+
+#[allow(dead_code)]
+fn save_legacy_meeting_embeddings(
+    meeting_path: &std::path::Path,
+    embeddings: &HashMap<String, Vec<f32>>,
 ) {
     if embeddings.is_empty() {
         return;
@@ -275,15 +432,6 @@ pub fn save_meeting_embeddings(
     }
 }
 
-/// Load per-speaker embeddings from a meeting's sidecar file.
-pub fn load_meeting_embeddings(
-    meeting_path: &std::path::Path,
-) -> Option<std::collections::HashMap<String, Vec<f32>>> {
-    let sidecar = meeting_embeddings_sidecar_path(meeting_path);
-    let data = std::fs::read(&sidecar).ok()?;
-    serde_json::from_slice(&data).ok()
-}
-
 pub fn meeting_embeddings_sidecar_path(meeting_path: &std::path::Path) -> std::path::PathBuf {
     let dir = meeting_path.parent().unwrap_or(std::path::Path::new("."));
     let stem = meeting_path
@@ -298,12 +446,12 @@ pub fn load_self_profile(config: &Config) -> Option<VoiceProfileWithEmbedding> {
         return None;
     }
     let name = config.identity.name.as_ref()?;
-    let slug = slugify(name);
+    let slug = profile_slug(name);
     let conn = open_db().ok()?;
     load_profile_with_embedding(&conn, &slug).ok().flatten()
 }
 
-fn slugify(text: &str) -> String {
+pub fn profile_slug(text: &str) -> String {
     let slug: String = text
         .to_lowercase()
         .chars()
@@ -456,14 +604,11 @@ mod tests {
                 sample_count: 1,
             },
         ];
-        assert_eq!(
-            match_embedding(&[0.9, 0.1, 0.0], &profiles, 0.5),
-            Some("Mat".into())
-        );
-        assert_eq!(
-            match_embedding(&[0.0, 1.0, 0.0], &profiles, 0.5),
-            Some("Alex".into())
-        );
+        let mat = match_embedding(&[0.9, 0.1, 0.0], &profiles, 0.5).unwrap();
+        assert_eq!(mat.name, "Mat");
+        assert_eq!(mat.person_slug, "mat");
+        let alex = match_embedding(&[0.0, 1.0, 0.0], &profiles, 0.5).unwrap();
+        assert_eq!(alex.name, "Alex");
     }
 
     #[test]
@@ -478,8 +623,48 @@ mod tests {
     }
 
     #[test]
+    fn match_none_when_margin_is_too_small() {
+        let profiles = vec![
+            VoiceProfileWithEmbedding {
+                person_slug: "mat".into(),
+                name: "Mat".into(),
+                embedding: vec![1.0, 0.0],
+                sample_count: 1,
+            },
+            VoiceProfileWithEmbedding {
+                person_slug: "alex".into(),
+                name: "Alex".into(),
+                embedding: vec![0.98, 0.02],
+                sample_count: 1,
+            },
+        ];
+        assert!(match_embedding_with_margin(&[1.0, 0.0], &profiles, 0.5, 0.08).is_none());
+    }
+
+    #[test]
+    fn match_returns_when_threshold_and_margin_pass() {
+        let profiles = vec![
+            VoiceProfileWithEmbedding {
+                person_slug: "mat".into(),
+                name: "Mat".into(),
+                embedding: vec![1.0, 0.0],
+                sample_count: 1,
+            },
+            VoiceProfileWithEmbedding {
+                person_slug: "alex".into(),
+                name: "Alex".into(),
+                embedding: vec![0.0, 1.0],
+                sample_count: 1,
+            },
+        ];
+        let result = match_embedding_with_margin(&[0.95, 0.05], &profiles, 0.5, 0.08).unwrap();
+        assert_eq!(result.name, "Mat");
+        assert!(result.margin > 0.08);
+    }
+
+    #[test]
     fn slugify_basic() {
-        assert_eq!(slugify("Mat Silverstein"), "mat-silverstein");
+        assert_eq!(profile_slug("Mat Silverstein"), "mat-silverstein");
     }
 
     #[test]
@@ -498,6 +683,48 @@ mod tests {
         assert_eq!(loaded.len(), 2);
         assert_eq!(loaded["SPEAKER_1"], vec![0.1f32, 0.2, 0.3]);
         assert_eq!(loaded["SPEAKER_2"], vec![0.4f32, 0.5, 0.6]);
+
+        let records = load_meeting_embedding_records(&meeting).unwrap();
+        assert_eq!(records["SPEAKER_1"].speech_secs, 0.0);
+        assert_eq!(records["SPEAKER_1"].segment_count, 0);
+    }
+
+    #[test]
+    fn meeting_embedding_records_roundtrip() {
+        let dir = tempfile::TempDir::new().unwrap();
+        let meeting = dir.path().join("2026-03-25-standup.md");
+        std::fs::write(&meeting, "---\ntitle: test\n---\ntranscript").unwrap();
+
+        let mut records = std::collections::HashMap::new();
+        records.insert(
+            "SPEAKER_1".to_string(),
+            MeetingEmbeddingRecord {
+                embedding: vec![0.1f32, 0.2, 0.3],
+                speech_secs: 12.5,
+                segment_count: 4,
+                model_version: TEST_MODEL_VERSION.into(),
+            },
+        );
+
+        save_meeting_embedding_records(&meeting, &records);
+
+        let loaded = load_meeting_embedding_records(&meeting).unwrap();
+        assert_eq!(loaded["SPEAKER_1"], records["SPEAKER_1"]);
+    }
+
+    #[test]
+    fn legacy_meeting_embeddings_still_load() {
+        let dir = tempfile::TempDir::new().unwrap();
+        let meeting = dir.path().join("2026-03-25-legacy.md");
+        std::fs::write(&meeting, "---\ntitle: test\n---\ntranscript").unwrap();
+
+        let mut embeddings = std::collections::HashMap::new();
+        embeddings.insert("SPEAKER_1".to_string(), vec![0.1f32, 0.2, 0.3]);
+        save_legacy_meeting_embeddings(&meeting, &embeddings);
+
+        let loaded = load_meeting_embedding_records(&meeting).unwrap();
+        assert_eq!(loaded["SPEAKER_1"].embedding, vec![0.1f32, 0.2, 0.3]);
+        assert_eq!(loaded["SPEAKER_1"].speech_secs, 0.0);
     }
 
     #[test]

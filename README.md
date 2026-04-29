@@ -898,10 +898,12 @@ name = "Your Name"
 # Enroll your voice (Level 2)
 minutes enroll                    # Record 10s sample
 minutes enroll --file sample.wav  # Or from existing audio
+# Desktop app: Settings → Identity → Voice Identity → Record my voice
 
 # Confirm attributions after a meeting (Level 3)
 minutes confirm --meeting ~/meetings/2026-03-25-standup.md
 minutes confirm --meeting path.md --speaker SPEAKER_1 --name "Sarah" --save-voice
+# Desktop app: open meeting details → Speakers → Confirm → optionally save voice profile
 
 # Manage voice profiles
 minutes voices              # List profiles
@@ -1066,6 +1068,7 @@ engine = "auto"           # "auto" (default — uses pyannote-rs if models downl
 [voice]
 # enabled = true          # Voice profile matching during diarization (default: true if enrolled)
 # match_threshold = 0.65  # Cosine similarity threshold for voice matching (higher = stricter).
+# match_margin = 0.08     # Required gap between best and runner-up voice match.
                           # If using embedding_model = "cam++-lm", lower this to ~0.1–0.2.
 
 [search]

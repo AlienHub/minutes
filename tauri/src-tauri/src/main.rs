@@ -1820,6 +1820,8 @@ fn main() {
             commands::cmd_delete_meeting,
             commands::cmd_get_meeting_detail,
             commands::cmd_list_voices,
+            commands::cmd_enroll_voice,
+            commands::cmd_delete_voice_profile,
             commands::cmd_confirm_speaker,
             commands::cmd_needs_setup,
             commands::cmd_download_model,

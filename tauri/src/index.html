@@ -2356,6 +2356,62 @@
       transform: none;
     }
 
+    .voice-identity-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .voice-profile-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .voice-profile-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-elevated);
+    }
+
+    .voice-profile-name {
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .voice-profile-meta {
+      margin-top: 4px;
+      color: var(--text-tertiary);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .voice-profile-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .voice-profile-self {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--green-tint);
+      color: var(--live);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
     .detail-feedback {
       margin: 0 20px 14px;
       padding: 10px 12px;
@@ -4241,6 +4297,20 @@
             <div class="about-controls-copy" data-i18n="settings.nameVariants">Name variants</div>
             <div class="about-controls-meta" data-i18n="settings.nameVariantsMeta">Comma-separated. Alternate forms — nicknames, formal spellings — so everything folds onto your canonical name.</div>
             <input type="text" id="settings-identity-aliases" class="settings-field" placeholder="e.g. Mathieu, Matt, Matthew" spellcheck="false">
+          </div>
+        </div>
+        <div class="about-controls">
+          <div class="about-controls-group">
+            <div class="about-controls-copy">Voice Identity</div>
+            <div class="about-controls-meta">Record your voice once, then Minutes can label high-confidence speaker matches by name. Other people are saved only after you explicitly confirm them in a meeting.</div>
+            <div class="voice-identity-panel">
+              <div class="voice-profile-list" id="settings-voice-profiles"></div>
+              <div class="about-link-row">
+                <button class="btn btn-primary btn-sm" id="btn-enroll-voice">Record my voice</button>
+                <button class="btn btn-secondary btn-sm" id="btn-refresh-voices">Refresh</button>
+              </div>
+              <div class="about-controls-meta" id="settings-voice-status"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -6883,6 +6953,48 @@
       }, 3200);
     }
 
+    function speakerOrdinalMap(speakerMap) {
+      const map = new Map();
+      (speakerMap || []).forEach((attr, index) => {
+        map.set(attr.speaker_label, index + 1);
+      });
+      return map;
+    }
+
+    function genericSpeakerName(label, ordinals) {
+      if (!label) return 'Speaker';
+      if (ordinals && ordinals.has(label)) return `Speaker ${ordinals.get(label)}`;
+      const m = String(label).match(/^SPEAKER_(\d+)$/i);
+      if (m) return `Speaker ${Number(m[1]) + 1}`;
+      if (String(label).toUpperCase() === 'UNKNOWN') return 'Unknown speaker';
+      return label;
+    }
+
+    function isKnownSpeakerAttribution(attr) {
+      if (!attr || attr.confidence !== 'high') return false;
+      const name = (attr.name || '').trim();
+      if (!name) return false;
+      return !/^(unknown|unknown speaker|speaker\s*\d+|speaker_\d+|unassigned)$/i.test(name);
+    }
+
+    function speakerDisplayName(attr, ordinals) {
+      return isKnownSpeakerAttribution(attr)
+        ? attr.name
+        : genericSpeakerName(attr?.speaker_label, ordinals);
+    }
+
+    function speakerTranscriptName(label, detail, ordinals) {
+      const attr = (detail.speaker_map || []).find(item => item.speaker_label === label);
+      return speakerDisplayName(attr || { speaker_label: label }, ordinals);
+    }
+
+    function humanizeTranscriptSpeakers(text, detail, ordinals) {
+      if (!text) return text;
+      return text.replace(/\[(SPEAKER_\d+|UNKNOWN)([^\]]*)\]/gi, (_match, label, rest) => {
+        return `[${speakerTranscriptName(label, detail, ordinals)}${rest}]`;
+      });
+    }
+
     function renderDetailSections(detail) {
       currentMeetingDetail = detail;
       detailTitle.textContent = detail.title || 'Untitled';
@@ -6905,6 +7017,8 @@
         chip.textContent = chipText;
         detailMeta.appendChild(chip);
       }
+
+      const speakerOrdinals = speakerOrdinalMap(detail.speaker_map || []);
 
       if (detail.context) {
         const contextCard = document.createElement('div');
@@ -6939,27 +7053,30 @@
 
           const labelSpan = document.createElement('span');
           labelSpan.className = 'speaker-label';
-          labelSpan.textContent = attr.speaker_label;
+          labelSpan.textContent = genericSpeakerName(attr.speaker_label, speakerOrdinals);
+          labelSpan.title = attr.speaker_label;
           row.appendChild(labelSpan);
 
           const nameSpan = document.createElement('span');
           nameSpan.className = 'speaker-name';
-          nameSpan.textContent = attr.name;
+          nameSpan.textContent = speakerDisplayName(attr, speakerOrdinals);
           row.appendChild(nameSpan);
 
           const badge = document.createElement('span');
           badge.className = `speaker-badge ${attr.confidence}`;
-          badge.textContent = attr.confidence;
+          badge.textContent = `${attr.confidence}${attr.source ? ` / ${attr.source}` : ''}`;
           row.appendChild(badge);
 
-          // Show confirm button for non-high confidence
-          if (attr.confidence !== 'high') {
+          // Show confirm button for uncertain speakers, or high-confidence
+          // generic names that the user may want to teach as a real person.
+          if (!isKnownSpeakerAttribution(attr)) {
             const btn = document.createElement('button');
             btn.className = 'speaker-confirm-btn';
             btn.textContent = 'Confirm';
             btn.onclick = async () => {
-              const newName = prompt(`Confirm speaker name for ${attr.speaker_label}:`, attr.name);
+              const newName = prompt(`Confirm speaker name for ${genericSpeakerName(attr.speaker_label, speakerOrdinals)}:`, isKnownSpeakerAttribution(attr) ? attr.name : '');
               if (newName) {
+                const saveVoice = confirm('Save this speaker voice profile for future automatic identification?');
                 btn.disabled = true;
                 const previousLabel = btn.textContent;
                 btn.textContent = 'Saving...';
@@ -6968,6 +7085,7 @@
                     meetingPath: detail.path,
                     speakerLabel: attr.speaker_label,
                     name: newName,
+                    saveVoice,
                   });
                   showDetailFeedback(
                     result || `Confirmed ${attr.speaker_label} as ${newName}`,
@@ -7214,7 +7332,11 @@
 
           const body = document.createElement('div');
           body.className = 'detail-section-body';
-          setHighlightedText(body, section.content || 'No content', activeSearchQuery);
+          setHighlightedText(
+            body,
+            humanizeTranscriptSpeakers(section.content || 'No content', detail, speakerOrdinals),
+            activeSearchQuery
+          );
 
           sectionEl.appendChild(heading);
           sectionEl.appendChild(body);
@@ -7620,6 +7742,76 @@
     // ⌘, keyboard shortcut
     document.addEventListener('keydown', (e) => { if (e.metaKey && e.key === ',') { e.preventDefault(); openSettings(); } });
 
+    async function refreshVoiceProfiles(settings = null) {
+      const list = document.getElementById('settings-voice-profiles');
+      const status = document.getElementById('settings-voice-status');
+      if (!list || !status) return;
+      list.replaceChildren();
+      status.textContent = 'Loading voice profiles...';
+      try {
+        const profiles = await invoke('cmd_list_voices');
+        if (!profiles || profiles.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'about-controls-meta';
+          empty.textContent = 'No voice profiles yet.';
+          list.appendChild(empty);
+        } else {
+          for (const profile of profiles) {
+            const row = document.createElement('div');
+            row.className = 'voice-profile-row';
+
+            const body = document.createElement('div');
+            const name = document.createElement('div');
+            name.className = 'voice-profile-name';
+            name.textContent = profile.name || profile.personSlug;
+            if (profile.isSelf) {
+              const self = document.createElement('span');
+              self.className = 'voice-profile-self';
+              self.textContent = 'Me';
+              name.appendChild(self);
+            }
+            const meta = document.createElement('div');
+            meta.className = 'voice-profile-meta';
+            meta.textContent = `${profile.sampleCount || 0} sample${profile.sampleCount === 1 ? '' : 's'} • ${profile.source || 'voice'} • ${profile.modelVersion || 'unknown model'}`;
+            body.appendChild(name);
+            body.appendChild(meta);
+
+            const actions = document.createElement('div');
+            actions.className = 'voice-profile-actions';
+            const del = document.createElement('button');
+            del.className = 'btn btn-secondary btn-sm';
+            del.textContent = 'Delete';
+            del.addEventListener('click', async () => {
+              if (!confirm(`Delete voice profile for ${profile.name || profile.personSlug}? Historical speaker confirmations stay intact.`)) return;
+              del.disabled = true;
+              try {
+                await invoke('cmd_delete_voice_profile', { personSlug: profile.personSlug });
+                await refreshVoiceProfiles(settings);
+              } catch (e) {
+                status.textContent = `Could not delete voice profile: ${e}`;
+              } finally {
+                del.disabled = false;
+              }
+            });
+            actions.appendChild(del);
+
+            row.appendChild(body);
+            row.appendChild(actions);
+            list.appendChild(row);
+          }
+        }
+
+        if (settings?.diarization?.engine === 'none') {
+          status.textContent = 'Speaker diarization is off. Turn it on before enrolling or matching voices.';
+        } else {
+          const voice = settings?.voice || {};
+          status.textContent = `Conservative matching: threshold ${voice.match_threshold ?? 0.65}, margin ${voice.match_margin ?? 0.08}.`;
+        }
+      } catch (e) {
+        status.textContent = `Could not load voice profiles: ${e}`;
+      }
+    }
+
     async function loadSettings() {
       try {
         const s = await invoke('cmd_get_settings');
@@ -7633,6 +7825,7 @@
           document.getElementById('settings-identity-emails').value = (s.identity.emails || []).join(', ');
           document.getElementById('settings-identity-aliases').value = (s.identity.aliases || []).join(', ');
         }
+        refreshVoiceProfiles(s);
         // General: sync with existing app state
         setSettingsToggle('settings-notifications', notifyOnCompletion);
         setSettingsToggle('settings-cues', playCaptureCues);
@@ -8176,6 +8369,26 @@
       try {
         await invoke('cmd_set_setting', { section: 'identity', key: 'aliases', value: e.target.value });
       } catch (err) { console.error('identity aliases save:', err); }
+    });
+    document.getElementById('btn-refresh-voices').addEventListener('click', () => refreshVoiceProfiles());
+    document.getElementById('btn-enroll-voice').addEventListener('click', async () => {
+      const status = document.getElementById('settings-voice-status');
+      const nameInput = document.getElementById('settings-identity-name');
+      const name = prompt('Name to attach to your voice profile:', nameInput.value || '');
+      if (!name || !name.trim()) return;
+      const btn = document.getElementById('btn-enroll-voice');
+      btn.disabled = true;
+      status.textContent = 'Recording 10 seconds. Speak normally...';
+      try {
+        const result = await invoke('cmd_enroll_voice', { name: name.trim(), durationSecs: 10 });
+        nameInput.value = result.name || name.trim();
+        status.textContent = `Voice profile saved for ${result.name || name.trim()}.`;
+        await refreshVoiceProfiles();
+      } catch (e) {
+        status.textContent = `Could not enroll voice: ${e}`;
+      } finally {
+        btn.disabled = false;
+      }
     });
 
     // Settings General handlers — delegate to existing app logic

@@ -88,6 +88,10 @@ impl Default for PaletteConfig {
 pub struct VoiceConfig {
     pub enabled: bool,
     pub match_threshold: f32,
+    /// Minimum gap between the best and second-best profile match.
+    /// Keeps automatic speaker identity conservative when two enrolled voices
+    /// are acoustically close.
+    pub match_margin: f32,
 }
 
 impl Default for VoiceConfig {
@@ -95,6 +99,7 @@ impl Default for VoiceConfig {
         Self {
             enabled: true,
             match_threshold: 0.65,
+            match_margin: 0.08,
         }
     }
 }
