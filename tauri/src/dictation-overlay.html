@@ -338,6 +338,25 @@
 
   <script>
     const { listen } = window.__TAURI__.event;
+    const APP_LANGUAGE_STORAGE_KEY = 'minutes.appLanguage';
+    const TRANSLATIONS = {
+      'zh-CN': {
+        'page.title': '听写',
+        'dictation.loading': '正在加载模型...',
+        'dictation.listening': '正在聆听...',
+        'dictation.dictating': '听写中',
+        'dictation.copied': '已复制',
+        'dictation.failedSaved': '失败 — 音频已保存',
+      }
+    };
+    const currentLanguage = localStorage.getItem(APP_LANGUAGE_STORAGE_KEY) || 'en';
+
+    function t(key, fallback) {
+      return currentLanguage === 'en' ? fallback : TRANSLATIONS[currentLanguage]?.[key] || fallback;
+    }
+
+    document.documentElement.lang = currentLanguage === 'zh-CN' ? 'zh-CN' : 'en';
+    document.title = t('page.title', 'Dictation');
 
     const pill = document.getElementById('pill');
     const indicator = document.getElementById('indicator');
@@ -497,7 +516,7 @@
       switch (state) {
         case 'loading':
           setIndicator('spinner');
-          label.textContent = 'Loading model\u2026';
+          label.textContent = t('dictation.loading', 'Loading model\u2026');
           waveform.style.display = 'none';
           timer.style.display = 'none';
           showExpanded(false);
@@ -505,7 +524,7 @@
 
         case 'listening':
           setIndicator('dot-blink');
-          label.textContent = 'Listening\u2026';
+          label.textContent = t('dictation.listening', 'Listening\u2026');
           waveform.style.display = 'none';
           timer.style.display = 'none';
           showExpanded(false);
@@ -515,7 +534,7 @@
 
         case 'accumulating':
           setIndicator('dot-solid');
-          label.textContent = 'Dictating';
+          label.textContent = t('dictation.dictating', 'Dictating');
           waveform.style.display = 'flex';
           timer.style.display = '';
           // Stay compact during dictation — text appears only on success
@@ -538,7 +557,7 @@
 
         case 'success':
           setIndicator('success');
-          label.textContent = 'Copied';
+          label.textContent = t('dictation.copied', 'Copied');
           waveform.style.display = 'none';
           timer.style.display = 'none';
           showExpanded(true);
@@ -549,7 +568,7 @@
         case 'error':
           pill.classList.add('error');
           setIndicator('error');
-          label.textContent = 'Failed \u2014 audio saved';
+          label.textContent = t('dictation.failedSaved', 'Failed \u2014 audio saved');
           waveform.style.display = 'none';
           timer.style.display = 'none';
           showExpanded(false);

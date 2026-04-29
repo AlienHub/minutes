@@ -163,19 +163,19 @@
   <div class="header">
     <div class="header-info">
       <div class="header-dot" id="status-dot"></div>
-      <div class="header-title" id="header-title">Terminal</div>
+      <div class="header-title" id="header-title" data-i18n="terminal.title">Terminal</div>
     </div>
     <div class="header-actions">
-      <button class="btn" id="btn-kill">End Session</button>
+      <button class="btn" id="btn-kill" data-i18n="terminal.endSession">End Session</button>
     </div>
   </div>
 
   <div id="terminal-container"></div>
 
   <div class="exit-banner" id="exit-banner">
-    Session ended.
-    <button class="btn" id="btn-restart">Restart</button>
-    <button class="btn" id="btn-close">Close</button>
+    <span data-i18n="terminal.sessionEnded">Session ended.</span>
+    <button class="btn" id="btn-restart" data-i18n="terminal.restart">Restart</button>
+    <button class="btn" id="btn-close" data-i18n="terminal.close">Close</button>
   </div>
 
   <script src="vendor/xterm/xterm.js"></script>
@@ -185,6 +185,30 @@
     (async function() {
     const { invoke } = window.__TAURI__.core;
     const { getCurrentWindow } = window.__TAURI__.window;
+    const APP_LANGUAGE_STORAGE_KEY = 'minutes.appLanguage';
+    const TRANSLATIONS = {
+      'zh-CN': {
+        'page.title': 'Minutes 终端',
+        'terminal.title': '终端',
+        'terminal.endSession': '结束会话',
+        'terminal.sessionEnded': '会话已结束。',
+        'terminal.restart': '重新开始',
+        'terminal.close': '关闭',
+        'terminal.assistant': 'Minutes 助手',
+      }
+    };
+    const currentLanguage = localStorage.getItem(APP_LANGUAGE_STORAGE_KEY) || 'en';
+
+    function t(key, fallback) {
+      return currentLanguage === 'en' ? fallback : TRANSLATIONS[currentLanguage]?.[key] || fallback;
+    }
+
+    document.documentElement.lang = currentLanguage === 'zh-CN' ? 'zh-CN' : 'en';
+    document.title = t('page.title', 'Minutes Terminal');
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      if (!el.dataset.i18nDefault) el.dataset.i18nDefault = el.textContent;
+      el.textContent = t(el.dataset.i18n, el.dataset.i18nDefault);
+    });
 
     // Session ID = window label (set by show_terminal_window)
     // Try URL fragment first, fall back to window label
@@ -197,7 +221,7 @@
     const container = document.getElementById('terminal-container');
 
     const terminalInfo = await invoke('cmd_terminal_info', { sessionId });
-    headerTitle.textContent = terminalInfo.title || 'Minutes Assistant';
+    headerTitle.textContent = terminalInfo.title || t('terminal.assistant', 'Minutes Assistant');
     document.title = headerTitle.textContent;
 
     // Initialize xterm.js
@@ -261,7 +285,7 @@
     });
 
     await currentWindow.listen(`terminal:title:${sessionId}`, (event) => {
-      headerTitle.textContent = event.payload || 'Minutes Assistant';
+      headerTitle.textContent = event.payload || t('terminal.assistant', 'Minutes Assistant');
       document.title = headerTitle.textContent;
     });
 

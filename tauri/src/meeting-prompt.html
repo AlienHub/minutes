@@ -296,27 +296,68 @@
       <div class="meeting-info">
         <span class="calendar-icon">📅</span>
         <div class="meeting-text">
-          <div class="eyebrow">Upcoming meeting</div>
+          <div class="eyebrow" data-i18n="meeting.eyebrow">Upcoming meeting</div>
           <div class="meeting-title" id="title"></div>
           <div class="meeting-countdown" id="countdown"></div>
         </div>
       </div>
-      <button class="close-btn" id="close-btn" aria-label="Dismiss">✕</button>
+      <button class="close-btn" id="close-btn" aria-label="Dismiss" data-i18n-aria-label="action.dismiss">✕</button>
     </div>
     <div class="summary" id="summary"></div>
     <div class="actions">
       <button class="btn btn-primary" id="primary-btn" autofocus></button>
-      <button class="btn btn-secondary" id="dismiss-btn">Dismiss</button>
+      <button class="btn btn-secondary" id="dismiss-btn" data-i18n="action.dismiss">Dismiss</button>
     </div>
     <div class="error-text" id="error-text"></div>
   </div>
-  <div class="toast" id="toast">Recording started ✓</div>
+  <div class="toast" id="toast" data-i18n="meeting.recordingStarted">Recording started ✓</div>
 
   <script>
     const invoke = window.__TAURI__?.core?.invoke || (async () => null);
     const getCurrentWebviewWindow =
       window.__TAURI__?.webviewWindow?.getCurrentWebviewWindow ||
       (() => ({ close: () => window.close() }));
+    const APP_LANGUAGE_STORAGE_KEY = 'minutes.appLanguage';
+    const TRANSLATIONS = {
+      'zh-CN': {
+        'page.title': '即将开始的会议',
+        'meeting.eyebrow': '即将开始的会议',
+        'meeting.defaultTitle': '会议',
+        'meeting.startingNow': '即将开始',
+        'meeting.inOneMinute': '1 分钟后',
+        'meeting.inMinutes': '{count} 分钟后',
+        'meeting.joinAndRecord': '加入并录制',
+        'meeting.record': '录制',
+        'meeting.starting': '正在开始...',
+        'meeting.summaryWithUrl': 'Minutes 可以打开会议链接并开始本地录音，避免对话内容溜走。',
+        'meeting.summaryWithoutUrl': 'Minutes 可以现在开始本地录音，从一开始捕获转录、决策和行动项。',
+        'meeting.recordingStarted': '录音已开始 ✓',
+        'action.dismiss': '忽略',
+      }
+    };
+    let currentLanguage = localStorage.getItem(APP_LANGUAGE_STORAGE_KEY) || 'en';
+
+    function t(key, fallback, vars = {}) {
+      let text = currentLanguage === 'en' ? fallback : TRANSLATIONS[currentLanguage]?.[key] || fallback;
+      Object.entries(vars).forEach(([name, value]) => {
+        text = text.replaceAll(`{${name}}`, String(value));
+      });
+      return text;
+    }
+
+    function applyLanguage() {
+      document.documentElement.lang = currentLanguage === 'zh-CN' ? 'zh-CN' : 'en';
+      document.title = t('page.title', 'Upcoming Meeting');
+      document.body.setAttribute('aria-label', t('page.title', 'Upcoming meeting'));
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        if (!el.dataset.i18nDefault) el.dataset.i18nDefault = el.textContent;
+        el.textContent = t(el.dataset.i18n, el.dataset.i18nDefault);
+      });
+      document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => {
+        if (!el.dataset.i18nAriaLabelDefault) el.dataset.i18nAriaLabelDefault = el.getAttribute('aria-label') || '';
+        el.setAttribute('aria-label', t(el.dataset.i18nAriaLabel, el.dataset.i18nAriaLabelDefault));
+      });
+    }
 
     // Element refs
     const titleEl = document.getElementById('title');
@@ -327,28 +368,29 @@
     const summaryEl = document.getElementById('summary');
 
     // Populated from cmd_get_meeting_prompt below
-    let title = 'Meeting';
+    let title = t('meeting.defaultTitle', 'Meeting');
     let minutesUntil = 0;
     let meetingUrl = '';
     let hasUrl = false;
+    applyLanguage();
 
     function renderFromState() {
-      titleEl.textContent = title || 'Meeting';
-      titleEl.title = title || 'Meeting'; // full text on hover
+      titleEl.textContent = title || t('meeting.defaultTitle', 'Meeting');
+      titleEl.title = title || t('meeting.defaultTitle', 'Meeting'); // full text on hover
 
       if (minutesUntil <= 0) {
-        countdownEl.textContent = 'starting now';
+        countdownEl.textContent = t('meeting.startingNow', 'starting now');
         countdownEl.classList.add('urgent');
       } else if (minutesUntil === 1) {
-        countdownEl.textContent = 'in 1 minute';
+        countdownEl.textContent = t('meeting.inOneMinute', 'in 1 minute');
       } else {
-        countdownEl.textContent = `in ${minutesUntil} minutes`;
+        countdownEl.textContent = t('meeting.inMinutes', 'in {count} minutes', { count: minutesUntil });
       }
 
-      primaryBtn.textContent = hasUrl ? 'Join & Record' : 'Record';
+      primaryBtn.textContent = hasUrl ? t('meeting.joinAndRecord', 'Join & Record') : t('meeting.record', 'Record');
       summaryEl.textContent = hasUrl
-        ? 'Minutes can open the meeting link and start a local recording before the conversation gets away from you.'
-        : 'Minutes can start a local recording now so the transcript, decisions, and action items are captured from the beginning.';
+        ? t('meeting.summaryWithUrl', 'Minutes can open the meeting link and start a local recording before the conversation gets away from you.')
+        : t('meeting.summaryWithoutUrl', 'Minutes can start a local recording now so the transcript, decisions, and action items are captured from the beginning.');
     }
 
     function closeWindow() {
@@ -388,7 +430,7 @@
         return;
       }
 
-      title = data.title ?? 'Meeting';
+      title = data.title ?? t('meeting.defaultTitle', 'Meeting');
       minutesUntil = Number.isFinite(data.minutesUntil) ? data.minutesUntil : 0;
       meetingUrl = typeof data.url === 'string' ? data.url : '';
       hasUrl = meetingUrl.length > 0;
@@ -400,7 +442,7 @@
     // Actions
     async function startRecording() {
       primaryBtn.disabled = true;
-      primaryBtn.textContent = 'Starting...';
+      primaryBtn.textContent = t('meeting.starting', 'Starting...');
 
       try {
         // Open meeting URL first if available
@@ -419,7 +461,7 @@
         }, 600);
       } catch (e) {
         primaryBtn.disabled = false;
-        primaryBtn.textContent = hasUrl ? 'Join & Record' : 'Record';
+        primaryBtn.textContent = hasUrl ? t('meeting.joinAndRecord', 'Join & Record') : t('meeting.record', 'Record');
         errorEl.textContent = String(e);
         errorEl.style.display = 'block';
       }

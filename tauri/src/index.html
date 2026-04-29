@@ -4526,35 +4526,35 @@
           </div>
         </div>
         <div class="about-controls">
-          <div class="about-controls-copy">Speaker diarization (identify who said what)</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-diarization">Off</button>
+          <div class="about-controls-copy" data-i18n="settings.speakerDiarization">Speaker diarization (identify who said what)</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-diarization" data-i18n="toggle.off">Off</button>
         </div>
       </div>
 
       <!-- Summarization -->
       <div class="settings-section">
-        <div class="about-item-title">AUTO-SUMMARIZATION</div>
+        <div class="about-item-title" data-i18n="settings.autoSummarization">AUTO-SUMMARIZATION</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Automatic pipeline summarization</div>
-            <div class="about-controls-meta settings-meta-inline">By default, Claude summarizes your meetings
+            <div class="about-controls-copy" data-i18n="settings.pipelineSummarization">Automatic pipeline summarization</div>
+            <div class="about-controls-meta settings-meta-inline" data-i18n="settings.pipelineSummarizationMeta">By default, Claude summarizes your meetings
               conversationally via MCP — no configuration needed. Turn this on only if you want summaries generated
               automatically in the recording pipeline.</div>
             <select id="settings-summarization-engine" class="settings-field">
-              <option value="none">Off — Claude summarizes when you ask (recommended)</option>
-              <option value="auto">Auto-detect an agent CLI — advanced</option>
-              <option value="agent">Agent CLI — uses your Claude Code, Codex, OpenCode, or Pi subscription</option>
-              <option value="ollama">Ollama — local, free, runs on your machine</option>
-              <option value="openai-compatible">OpenAI-compatible API — gateways and local servers</option>
-              <option value="claude">Claude API — direct API key (legacy)</option>
-              <option value="openai">OpenAI API — direct API key (legacy)</option>
+              <option value="none" data-i18n="summarization.none">Off — Claude summarizes when you ask (recommended)</option>
+              <option value="auto" data-i18n="summarization.auto">Auto-detect an agent CLI — advanced</option>
+              <option value="agent" data-i18n="summarization.agent">Agent CLI — uses your Claude Code, Codex, OpenCode, or Pi subscription</option>
+              <option value="ollama" data-i18n="summarization.ollama">Ollama — local, free, runs on your machine</option>
+              <option value="openai-compatible" data-i18n="summarization.compatible">OpenAI-compatible API — gateways and local servers</option>
+              <option value="claude" data-i18n="summarization.claude">Claude API — direct API key (legacy)</option>
+              <option value="openai" data-i18n="summarization.openai">OpenAI API — direct API key (legacy)</option>
             </select>
             <div class="about-controls-meta" id="settings-summarization-status"></div>
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-agent-command-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Agent command</div>
+            <div class="about-controls-copy" data-i18n="settings.agentCommand">Agent command</div>
             <select id="settings-agent-command" class="settings-field">
             </select>
             <div class="about-controls-meta" id="settings-agent-command-status"></div>
@@ -4562,62 +4562,62 @@
         </div>
         <div class="about-controls is-hidden" id="settings-ollama-url-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Ollama URL</div>
-            <div class="about-controls-meta">Base URL for your local Ollama server.</div>
+            <div class="about-controls-copy" data-i18n="settings.ollamaUrl">Ollama URL</div>
+            <div class="about-controls-meta" data-i18n="settings.ollamaUrlMeta">Base URL for your local Ollama server.</div>
             <input type="text" id="settings-ollama-url" class="settings-field" placeholder="http://localhost:11434" spellcheck="false">
             <div class="about-controls-meta" id="settings-ollama-url-status"></div>
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-ollama-model-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Ollama model</div>
-            <div class="about-controls-meta">Name of a model you've pulled in Ollama (e.g. llama3.2, qwen2.5, gemma3).</div>
+            <div class="about-controls-copy" data-i18n="settings.ollamaModel">Ollama model</div>
+            <div class="about-controls-meta" data-i18n="settings.ollamaModelMeta">Name of a model you've pulled in Ollama (e.g. llama3.2, qwen2.5, gemma3).</div>
             <input type="text" id="settings-ollama-model" class="settings-field" placeholder="llama3.2" spellcheck="false">
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-openai-compatible-preset-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Connection type</div>
-            <div class="about-controls-meta">Pick the closest match. Minutes will fill the technical fields below.</div>
+            <div class="about-controls-copy" data-i18n="settings.connectionType">Connection type</div>
+            <div class="about-controls-meta" data-i18n="settings.connectionTypeMeta">Pick the closest match. Minutes will fill the technical fields below.</div>
             <select id="settings-openai-compatible-preset" class="settings-field">
-              <option value="local">Local server — Ollama, LM Studio, llama.cpp</option>
+              <option value="local" data-i18n="compatible.local">Local server — Ollama, LM Studio, llama.cpp</option>
               <option value="openrouter">OpenRouter</option>
               <option value="vercel">Vercel AI Gateway</option>
               <option value="cloudflare">Cloudflare AI Gateway</option>
-              <option value="custom">Custom OpenAI-compatible URL</option>
+              <option value="custom" data-i18n="compatible.custom">Custom OpenAI-compatible URL</option>
             </select>
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-openai-compatible-base-url-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Connection URL</div>
-            <div class="about-controls-meta">Paste the base URL ending in /v1, /openai, or /compat. Minutes adds /chat/completions automatically.</div>
+            <div class="about-controls-copy" data-i18n="settings.connectionUrl">Connection URL</div>
+            <div class="about-controls-meta" data-i18n="settings.connectionUrlMeta">Paste the base URL ending in /v1, /openai, or /compat. Minutes adds /chat/completions automatically.</div>
             <input type="text" id="settings-openai-compatible-base-url" class="settings-field" placeholder="http://localhost:11434/v1" spellcheck="false">
             <div class="about-controls-meta" id="settings-openai-compatible-status"></div>
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-openai-compatible-model-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Model</div>
-            <div class="about-controls-meta">Use the model name your server or gateway expects.</div>
+            <div class="about-controls-copy" data-i18n="settings.model">Model</div>
+            <div class="about-controls-meta" data-i18n="settings.modelMeta">Use the model name your server or gateway expects.</div>
             <input type="text" id="settings-openai-compatible-model" class="settings-field" placeholder="llama3.2" spellcheck="false">
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-openai-compatible-secret-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">API key</div>
-            <div class="about-controls-meta" id="settings-openai-compatible-key-status">Paste a key once. Minutes stores it securely.</div>
+            <div class="about-controls-copy" data-i18n="settings.apiKey">API key</div>
+            <div class="about-controls-meta" id="settings-openai-compatible-key-status" data-i18n="settings.apiKeyMeta">Paste a key once. Minutes stores it securely.</div>
             <div class="settings-secret-row">
-              <input type="password" id="settings-openai-compatible-api-key" class="settings-field" placeholder="Paste API key" autocomplete="off" spellcheck="false">
-              <button class="btn btn-secondary btn-sm" id="settings-openai-compatible-save-key" type="button">Save</button>
-              <button class="btn btn-secondary btn-sm" id="settings-openai-compatible-clear-key" type="button">Forget</button>
+              <input type="password" id="settings-openai-compatible-api-key" class="settings-field" placeholder="Paste API key" data-i18n-placeholder="settings.apiKeyPlaceholder" autocomplete="off" spellcheck="false">
+              <button class="btn btn-secondary btn-sm" id="settings-openai-compatible-save-key" type="button" data-i18n="action.save">Save</button>
+              <button class="btn btn-secondary btn-sm" id="settings-openai-compatible-clear-key" type="button" data-i18n="action.forget">Forget</button>
             </div>
           </div>
         </div>
         <div class="about-controls is-hidden" id="settings-openai-compatible-api-key-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Advanced: env var fallback</div>
-            <div class="about-controls-meta">Optional. Use this only if you prefer launching Minutes with a shell-managed secret.</div>
+            <div class="about-controls-copy" data-i18n="settings.envFallback">Advanced: env var fallback</div>
+            <div class="about-controls-meta" data-i18n="settings.envFallbackMeta">Optional. Use this only if you prefer launching Minutes with a shell-managed secret.</div>
             <input type="text" id="settings-openai-compatible-api-key-env" class="settings-field" placeholder="MINUTES_OPENAI_COMPATIBLE_API_KEY" spellcheck="false">
           </div>
         </div>
@@ -4625,11 +4625,11 @@
 
       <!-- Pipeline Hooks -->
       <div class="settings-section">
-        <div class="about-item-title">PIPELINE HOOKS</div>
+        <div class="about-item-title" data-i18n="settings.pipelineHooks">PIPELINE HOOKS</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Post-record command</div>
-            <div class="about-controls-meta">Shell command run after each recording is processed. The transcript file path is appended as the final argument. Leave blank to disable.</div>
+            <div class="about-controls-copy" data-i18n="settings.postRecordCommand">Post-record command</div>
+            <div class="about-controls-meta" data-i18n="settings.postRecordCommandMeta">Shell command run after each recording is processed. The transcript file path is appended as the final argument. Leave blank to disable.</div>
             <input type="text" id="settings-hooks-post-record" class="settings-field" placeholder="/path/to/script.sh" spellcheck="false">
             <div class="about-controls-meta" id="settings-hooks-post-record-status"></div>
           </div>
@@ -4638,55 +4638,55 @@
 
       <!-- Call Detection -->
       <div class="settings-section">
-        <div class="about-item-title">CALL DETECTION</div>
+        <div class="about-item-title" data-i18n="settings.callDetection">CALL DETECTION</div>
         <div class="about-controls">
-          <div class="about-controls-copy">Detect calls automatically</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection">On</button>
+          <div class="about-controls-copy" data-i18n="settings.detectCalls">Detect calls automatically</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection" data-i18n="toggle.on">On</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Polling interval</div>
-            <div class="about-controls-meta">How often to check for active calls (seconds).</div>
+            <div class="about-controls-copy" data-i18n="settings.pollingInterval">Polling interval</div>
+            <div class="about-controls-meta" data-i18n="settings.pollingIntervalMeta">How often to check for active calls (seconds).</div>
             <input type="number" id="settings-call-detection-polling-interval" min="1" class="settings-field">
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Cooldown</div>
-            <div class="about-controls-meta">Minutes to wait before re-triggering call detection.</div>
+            <div class="about-controls-copy" data-i18n="settings.cooldown">Cooldown</div>
+            <div class="about-controls-meta" data-i18n="settings.cooldownMeta">Minutes to wait before re-triggering call detection.</div>
             <input type="number" id="settings-call-detection-cooldown" min="0" class="settings-field">
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Google Meet detection (experimental)</div>
-            <div class="about-controls-meta">Opt-in browser integration for Meet in Chrome/Safari. Uses stronger
+            <div class="about-controls-copy" data-i18n="settings.googleMeetDetection">Google Meet detection (experimental)</div>
+            <div class="about-controls-meta" data-i18n="settings.googleMeetDetectionMeta">Opt-in browser integration for Meet in Chrome/Safari. Uses stronger
               meeting-URL matching, may require macOS browser automation permission, and backs off after failures
               instead of probing every second.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection-google-meet">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection-google-meet" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Microsoft Teams (web) detection (experimental)</div>
-            <div class="about-controls-meta">Opt-in browser integration for Teams meetings in Arc, Chrome, and Safari.
+            <div class="about-controls-copy" data-i18n="settings.teamsDetection">Microsoft Teams (web) detection (experimental)</div>
+            <div class="about-controls-meta" data-i18n="settings.teamsDetectionMeta">Opt-in browser integration for Teams meetings in Arc, Chrome, and Safari.
               Matches Teams meeting URLs only (chat/calendar pages are ignored). Requires macOS browser automation
               permission on first use, and backs off after failures instead of probing every second.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection-teams-web">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection-teams-web" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Stop when call ends</div>
-            <div class="about-controls-meta">When the detected call app exits mid-recording, show a countdown prompt
+            <div class="about-controls-copy" data-i18n="settings.stopWhenCallEnds">Stop when call ends</div>
+            <div class="about-controls-meta" data-i18n="settings.stopWhenCallEndsMeta">When the detected call app exits mid-recording, show a countdown prompt
               with Stop now and Keep recording. Only applies to recordings started from the call-detection banner.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection-stop-when-call-ends">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-call-detection-stop-when-call-ends" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Auto-stop countdown</div>
-            <div class="about-controls-meta">Seconds to wait before stopping when the call ends.</div>
+            <div class="about-controls-copy" data-i18n="settings.autoStopCountdown">Auto-stop countdown</div>
+            <div class="about-controls-meta" data-i18n="settings.autoStopCountdownMeta">Seconds to wait before stopping when the call ends.</div>
             <input type="number" id="settings-call-detection-countdown-secs" min="1" class="settings-field">
           </div>
         </div>
@@ -4694,63 +4694,63 @@
 
       <!-- Privacy -->
       <div class="settings-section">
-        <div class="about-item-title">PRIVACY</div>
+        <div class="about-item-title" data-i18n="settings.privacy">PRIVACY</div>
         <div class="about-controls">
-          <div class="about-controls-copy">Hide windows from screen sharing</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-screen-share">On</button>
+          <div class="about-controls-copy" data-i18n="settings.hideFromScreenShare">Hide windows from screen sharing</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-screen-share" data-i18n="toggle.on">On</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Meeting-adjacent desktop context</div>
+            <div class="about-controls-copy" data-i18n="settings.desktopContext">Meeting-adjacent desktop context</div>
             <div class="about-controls-meta" id="settings-desktop-context-status">
               Off. App/window context stays disabled until you turn it on.
             </div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-desktop-context">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-desktop-context" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Focused window titles</div>
-            <div class="about-controls-meta">Uses the best available platform APIs for focused-window titles. On macOS, missing Accessibility permission limits title capture.</div>
+            <div class="about-controls-copy" data-i18n="settings.focusedWindowTitles">Focused window titles</div>
+            <div class="about-controls-meta" data-i18n="settings.focusedWindowTitlesMeta">Uses the best available platform APIs for focused-window titles. On macOS, missing Accessibility permission limits title capture.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-desktop-window-titles">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-desktop-window-titles" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Browser title context</div>
-            <div class="about-controls-meta">Opt-in browser tab and window titles only. URLs and domains are not collected in v1.</div>
+            <div class="about-controls-copy" data-i18n="settings.browserContext">Browser title context</div>
+            <div class="about-controls-meta" data-i18n="settings.browserContextMeta">Opt-in browser tab and window titles only. URLs and domains are not collected in v1.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-desktop-browser-context">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-desktop-browser-context" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Allowed apps</div>
-            <div class="about-controls-meta">Optional comma-separated allowlist. Leave empty to allow all apps except denied ones.</div>
+            <div class="about-controls-copy" data-i18n="settings.allowedApps">Allowed apps</div>
+            <div class="about-controls-meta" data-i18n="settings.allowedAppsMeta">Optional comma-separated allowlist. Leave empty to allow all apps except denied ones.</div>
             <input type="text" id="settings-desktop-allowed-apps" placeholder="e.g. zoom.us, Arc, Safari" class="settings-field">
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Denied apps</div>
-            <div class="about-controls-meta">Comma-separated app or bundle-id fragments to suppress from desktop context capture.</div>
+            <div class="about-controls-copy" data-i18n="settings.deniedApps">Denied apps</div>
+            <div class="about-controls-meta" data-i18n="settings.deniedAppsMeta">Comma-separated app or bundle-id fragments to suppress from desktop context capture.</div>
             <input type="text" id="settings-desktop-denied-apps" placeholder="e.g. 1password, Messages" class="settings-field">
           </div>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Capture screen context during recordings</div>
-            <div class="about-controls-meta">Screenshots sent to vision LLM for context. Requires Screen Recording
+            <div class="about-controls-copy" data-i18n="settings.screenContext">Capture screen context during recordings</div>
+            <div class="about-controls-meta" data-i18n="settings.screenContextMeta">Screenshots sent to vision LLM for context. Requires Screen Recording
               permission.</div>
           </div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-screen-context">Off</button>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-screen-context" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls is-hidden" id="settings-screen-interval-row">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Screenshot interval</div>
+            <div class="about-controls-copy" data-i18n="settings.screenshotInterval">Screenshot interval</div>
             <select id="settings-screen-interval" class="settings-field">
-              <option value="15">Every 15 seconds</option>
-              <option value="30">Every 30 seconds</option>
-              <option value="60">Every 60 seconds</option>
+              <option value="15" data-i18n="interval.15s">Every 15 seconds</option>
+              <option value="30" data-i18n="interval.30s">Every 30 seconds</option>
+              <option value="60" data-i18n="interval.60s">Every 60 seconds</option>
             </select>
           </div>
         </div>
@@ -4758,40 +4758,40 @@
 
       <!-- Vault Sync -->
       <div class="settings-section">
-        <div class="about-item-title">VAULT SYNC</div>
+        <div class="about-item-title" data-i18n="settings.vaultSync">VAULT SYNC</div>
         <div class="about-controls">
           <div class="about-controls-group settings-control-group">
-            <div class="about-controls-copy">Connect an Obsidian or Logseq vault</div>
-            <div class="about-controls-meta" id="vault-status-detail">Checking...</div>
+            <div class="about-controls-copy" data-i18n="settings.connectVault">Connect an Obsidian or Logseq vault</div>
+            <div class="about-controls-meta" id="vault-status-detail" data-i18n="status.checking">Checking...</div>
           </div>
-          <button class="btn btn-primary btn-sm" id="btn-vault-setup">Set Up Vault</button>
+          <button class="btn btn-primary btn-sm" id="btn-vault-setup" data-i18n="settings.setUpVault">Set Up Vault</button>
         </div>
         <div class="about-controls is-hidden" id="vault-unlink-row">
           <div class="about-controls-copy settings-config-path" id="vault-active-path"></div>
-          <button class="btn btn-secondary btn-sm" id="btn-vault-unlink">Unlink</button>
+          <button class="btn btn-secondary btn-sm" id="btn-vault-unlink" data-i18n="action.unlink">Unlink</button>
         </div>
       </div>
 
       <!-- Recall Agent -->
       <div class="settings-section">
-        <div class="about-item-title">RECALL AGENT</div>
+        <div class="about-item-title" data-i18n="settings.recallAgent">RECALL AGENT</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">AI agent for the Recall panel</div>
+            <div class="about-controls-copy" data-i18n="settings.recallAgentPicker">AI agent for the Recall panel</div>
             <select id="settings-agent" class="settings-field">
             </select>
             <div class="about-controls-meta" id="settings-agent-status"></div>
           </div>
         </div>
         <div class="about-controls" id="settings-skip-permissions-row">
-          <div class="about-controls-copy">Auto-approve all tool calls</div>
-          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-skip-permissions">Off</button>
+          <div class="about-controls-copy" data-i18n="settings.autoApprove">Auto-approve all tool calls</div>
+          <button class="btn btn-secondary btn-sm toggle-btn" id="settings-skip-permissions" data-i18n="toggle.off">Off</button>
         </div>
         <div class="about-controls-meta settings-compact-meta" id="settings-skip-permissions-hint"></div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Extra launch flags</div>
-            <div class="about-controls-meta">Additional CLI arguments passed when starting the agent</div>
+            <div class="about-controls-copy" data-i18n="settings.extraLaunchFlags">Extra launch flags</div>
+            <div class="about-controls-meta" data-i18n="settings.extraLaunchFlagsMeta">Additional CLI arguments passed when starting the agent</div>
             <input type="text" id="settings-agent-args" placeholder="e.g. --model sonnet" class="settings-field">
             <div class="about-controls-meta settings-meta-inline" id="settings-agent-args-status"></div>
             <div class="about-controls-meta" id="settings-agent-args-help"></div>
@@ -4801,7 +4801,7 @@
 
       <!-- Storage -->
       <div class="settings-section settings-section-tight">
-        <div class="about-item-title">STORAGE</div>
+        <div class="about-item-title" data-i18n="settings.storage">STORAGE</div>
         <div id="settings-storage-info" class="settings-storage-meta">
           Loading...
         </div>
@@ -4809,40 +4809,40 @@
 
       <!-- Diagnostics (Readiness + Recovery moved from header) -->
       <div class="settings-section">
-        <div class="about-item-title">DIAGNOSTICS</div>
+        <div class="about-item-title" data-i18n="settings.diagnostics">DIAGNOSTICS</div>
         <div class="about-controls">
-          <div class="about-controls-copy">System readiness and audio permission checks</div>
+          <div class="about-controls-copy" data-i18n="settings.readinessChecks">System readiness and audio permission checks</div>
           <button class="btn btn-secondary btn-sm"
-            onclick="document.getElementById('settings-overlay').classList.remove('active');document.getElementById('btn-readiness').click();">Readiness</button>
+            onclick="document.getElementById('settings-overlay').classList.remove('active');document.getElementById('btn-readiness').click();" data-i18n="nav.readiness">Readiness</button>
         </div>
         <div class="about-controls">
-          <div class="about-controls-copy">Retry failed captures and unprocessed audio files</div>
+          <div class="about-controls-copy" data-i18n="settings.recoveryChecks">Retry failed captures and unprocessed audio files</div>
           <button class="btn btn-secondary btn-sm"
-            onclick="document.getElementById('settings-overlay').classList.remove('active');document.getElementById('btn-recovery').click();">Recovery</button>
+            onclick="document.getElementById('settings-overlay').classList.remove('active');document.getElementById('btn-recovery').click();" data-i18n="nav.recovery">Recovery</button>
         </div>
       </div>
 
       <!-- Advanced -->
       <div class="settings-section">
-        <div class="about-item-title">ADVANCED</div>
+        <div class="about-item-title" data-i18n="settings.advanced">ADVANCED</div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Edit config.toml</div>
-            <div class="about-controls-meta">Tuning knobs not shown in this panel — silence thresholds, diarization parameters, watcher paths, knowledge-base integration, and more — live in your config file.</div>
+            <div class="about-controls-copy" data-i18n="settings.editConfig">Edit config.toml</div>
+            <div class="about-controls-meta" data-i18n="settings.editConfigMeta">Tuning knobs not shown in this panel — silence thresholds, diarization parameters, watcher paths, knowledge-base integration, and more — live in your config file.</div>
           </div>
-          <button class="btn btn-secondary btn-sm" id="settings-open-config-file">Open</button>
+          <button class="btn btn-secondary btn-sm" id="settings-open-config-file" data-i18n="nav.open">Open</button>
         </div>
         <div class="about-controls">
           <div class="about-controls-group">
-            <div class="about-controls-copy">Configuration reference</div>
-            <div class="about-controls-meta">Full list of every config key, its default, and what it does.</div>
+            <div class="about-controls-copy" data-i18n="settings.configReference">Configuration reference</div>
+            <div class="about-controls-meta" data-i18n="settings.configReferenceMeta">Full list of every config key, its default, and what it does.</div>
           </div>
-          <button class="btn btn-secondary btn-sm" id="settings-open-config-docs">View docs</button>
+          <button class="btn btn-secondary btn-sm" id="settings-open-config-docs" data-i18n="settings.viewDocs">View docs</button>
         </div>
       </div>
 
       <div class="about-footer settings-footer about-footer-small">
-        Config file: <span id="settings-config-path" class="settings-config-path"></span>
+        <span data-i18n="settings.configFilePrefix">Config file:</span> <span id="settings-config-path" class="settings-config-path"></span>
       </div>
     </div>
   </div>
@@ -5131,6 +5131,105 @@
         "settings.parakeetDetail": "在本地运行，需要 Parakeet 后端二进制文件和模型资源。参见 minutes setup --parakeet。",
         "settings.transcriptionLanguage": "转录语言",
         "settings.transcriptionLanguageMeta": "如果音频语言混合或不确定，请保持自动检测。只有当 Whisper 经常判断错误时才指定语言。",
+        "settings.speakerDiarization": "说话人分离（识别谁说了什么）",
+        "settings.autoSummarization": "自动摘要",
+        "settings.pipelineSummarization": "流水线自动摘要",
+        "settings.pipelineSummarizationMeta": "默认情况下，Claude 会通过 MCP 以对话方式总结你的会议，无需配置。只有当你希望录音流水线自动生成摘要时才开启这里。",
+        "summarization.none": "关闭 — 你询问时由 Claude 总结（推荐）",
+        "summarization.auto": "自动检测 Agent CLI — 高级",
+        "summarization.agent": "Agent CLI — 使用你的 Claude Code、Codex、OpenCode 或 Pi 订阅",
+        "summarization.ollama": "Ollama — 本地、免费、在你的机器上运行",
+        "summarization.compatible": "OpenAI 兼容 API — 网关和本地服务器",
+        "summarization.claude": "Claude API — 直接 API key（旧方式）",
+        "summarization.openai": "OpenAI API — 直接 API key（旧方式）",
+        "settings.agentCommand": "Agent 命令",
+        "settings.ollamaUrl": "Ollama URL",
+        "settings.ollamaUrlMeta": "本地 Ollama 服务器的基础 URL。",
+        "settings.ollamaModel": "Ollama 模型",
+        "settings.ollamaModelMeta": "你已经在 Ollama 中拉取的模型名称（例如 llama3.2、qwen2.5、gemma3）。",
+        "settings.connectionType": "连接类型",
+        "settings.connectionTypeMeta": "选择最接近的一项。Minutes 会自动填充下面的技术字段。",
+        "compatible.local": "本地服务器 — Ollama、LM Studio、llama.cpp",
+        "compatible.custom": "自定义 OpenAI 兼容 URL",
+        "settings.connectionUrl": "连接 URL",
+        "settings.connectionUrlMeta": "粘贴以 /v1、/openai 或 /compat 结尾的基础 URL。Minutes 会自动添加 /chat/completions。",
+        "settings.model": "模型",
+        "settings.modelMeta": "使用服务器或网关期望的模型名称。",
+        "settings.apiKey": "API key",
+        "settings.apiKeyMeta": "只需粘贴一次 key。Minutes 会安全保存。",
+        "settings.apiKeyPlaceholder": "粘贴 API key",
+        "action.forget": "忘记",
+        "settings.envFallback": "高级：环境变量兜底",
+        "settings.envFallbackMeta": "可选。仅当你更想通过 shell 管理密钥并启动 Minutes 时使用。",
+        "settings.pipelineHooks": "流水线钩子",
+        "settings.postRecordCommand": "录音后命令",
+        "settings.postRecordCommandMeta": "每次录音处理完成后运行的 shell 命令。转录文件路径会作为最后一个参数追加。留空则禁用。",
+        "settings.callDetection": "通话检测",
+        "settings.detectCalls": "自动检测通话",
+        "settings.pollingInterval": "轮询间隔",
+        "settings.pollingIntervalMeta": "检查活动通话的频率（秒）。",
+        "settings.cooldown": "冷却时间",
+        "settings.cooldownMeta": "再次触发通话检测前等待的分钟数。",
+        "settings.googleMeetDetection": "Google Meet 检测（实验性）",
+        "settings.googleMeetDetectionMeta": "选择性开启 Chrome/Safari 中的 Meet 浏览器集成。它使用更强的会议 URL 匹配，可能需要 macOS 浏览器自动化权限，并会在失败后退避而不是每秒探测。",
+        "settings.teamsDetection": "Microsoft Teams（网页版）检测（实验性）",
+        "settings.teamsDetectionMeta": "选择性开启 Arc、Chrome 和 Safari 中的 Teams 会议浏览器集成。只匹配 Teams 会议 URL（忽略聊天/日历页面）。首次使用需要 macOS 浏览器自动化权限，并会在失败后退避。",
+        "settings.stopWhenCallEnds": "通话结束时停止",
+        "settings.stopWhenCallEndsMeta": "当检测到的通话 App 在录音中途退出时，显示倒计时提示，包含“立即停止”和“继续录音”。只适用于从通话检测横幅启动的录音。",
+        "settings.autoStopCountdown": "自动停止倒计时",
+        "settings.autoStopCountdownMeta": "通话结束后等待多少秒再停止。",
+        "settings.privacy": "隐私",
+        "settings.hideFromScreenShare": "屏幕共享时隐藏窗口",
+        "settings.desktopContext": "会议相关桌面上下文",
+        "settings.focusedWindowTitles": "当前窗口标题",
+        "settings.focusedWindowTitlesMeta": "使用平台上可用的最佳 API 获取当前窗口标题。在 macOS 上，缺少辅助功能权限会限制标题捕获。",
+        "settings.browserContext": "浏览器标题上下文",
+        "settings.browserContextMeta": "仅在选择开启后捕获浏览器标签页和窗口标题。v1 不收集 URL 和域名。",
+        "settings.allowedApps": "允许的 App",
+        "settings.allowedAppsMeta": "可选的逗号分隔允许列表。留空则允许除拒绝列表外的所有 App。",
+        "settings.deniedApps": "拒绝的 App",
+        "settings.deniedAppsMeta": "用逗号分隔的 App 名称或 bundle id 片段，用于禁止桌面上下文捕获。",
+        "settings.screenContext": "录音时捕获屏幕上下文",
+        "settings.screenContextMeta": "截图会发送给视觉 LLM 用作上下文。需要屏幕录制权限。",
+        "settings.screenshotInterval": "截图间隔",
+        "interval.15s": "每 15 秒",
+        "interval.30s": "每 30 秒",
+        "interval.60s": "每 60 秒",
+        "settings.vaultSync": "Vault 同步",
+        "settings.connectVault": "连接 Obsidian 或 Logseq vault",
+        "status.checking": "正在检查...",
+        "settings.setUpVault": "设置 Vault",
+        "action.unlink": "取消链接",
+        "settings.recallAgent": "Recall 助手",
+        "settings.recallAgentPicker": "Recall 面板使用的 AI 助手",
+        "settings.autoApprove": "自动批准所有工具调用",
+        "settings.extraLaunchFlags": "额外启动参数",
+        "settings.extraLaunchFlagsMeta": "启动助手时传入的额外 CLI 参数",
+        "settings.storage": "存储",
+        "settings.diagnostics": "诊断",
+        "settings.readinessChecks": "系统就绪状态和音频权限检查",
+        "settings.recoveryChecks": "重试失败捕获和未处理音频文件",
+        "settings.advanced": "高级",
+        "settings.editConfig": "编辑 config.toml",
+        "settings.editConfigMeta": "此面板未显示的调优项，如静音阈值、说话人分离参数、监听路径、知识库集成等，都在配置文件中。",
+        "settings.configReference": "配置参考",
+        "settings.configReferenceMeta": "每个配置键、默认值和用途的完整列表。",
+        "settings.viewDocs": "查看文档",
+        "settings.configFilePrefix": "配置文件：",
+        "desktopContext.unsupportedFiltered": "配置中已开启，但当前平台暂不可用。保存的 App 过滤规则会在支持桌面上下文捕获后生效。",
+        "desktopContext.unsupported": "配置中已开启，但当前平台暂不可用。",
+        "desktopContext.recordingLimitedFiltered": "录音或实时会话期间处于活动状态。当前受辅助功能权限限制，并由 App 过滤规则收窄。",
+        "desktopContext.recordingLimited": "录音或实时会话期间处于活动状态。由于当前无法使用辅助功能支持的窗口标题，捕获受限。",
+        "desktopContext.recordingFiltered": "录音或实时会话期间处于活动状态。App 过滤规则正在收窄收集范围。",
+        "desktopContext.recording": "录音或实时会话期间处于活动状态。",
+        "desktopContext.idleLimitedFiltered": "已开启。当前受辅助功能权限限制，并由 App 过滤规则收窄。",
+        "desktopContext.idleLimited": "已开启，但受限。当前无法使用辅助功能支持的窗口标题。",
+        "desktopContext.idleFiltered": "已开启并已过滤。App 规则会收窄收集范围。",
+        "desktopContext.idle": "已开启。桌面上下文会附加到下一次录音或实时会话。",
+        "desktopContext.limitedFiltered": "受辅助功能可用性限制，并由 App 过滤规则收窄。",
+        "desktopContext.limited": "受限。当前无法使用辅助功能支持的窗口标题。",
+        "desktopContext.filtered": "已过滤。捕获已开启，但 App 规则正在收窄收集范围。",
+        "desktopContext.off": "关闭。App/窗口上下文会保持禁用，直到你手动开启。",
         "mode.quickThought": "快速想法",
         "mode.recording": "录音",
         "status.processingQuickThought": "正在处理快速想法",
@@ -5172,6 +5271,10 @@
       document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => {
         const fallback = rememberI18nDefault(el, 'i18nAriaLabel', 'i18nAriaLabelDefault', () => el.getAttribute('aria-label') || '');
         el.setAttribute('aria-label', translate(el.dataset.i18nAriaLabel, fallback));
+      });
+      document.querySelectorAll('[data-enabled]').forEach((el) => {
+        const on = el.dataset.enabled === 'true';
+        el.textContent = on ? translate('toggle.on', 'On') : translate('toggle.off', 'Off');
       });
 
       const appLanguageSelect = document.getElementById('settings-app-language');
@@ -7834,30 +7937,37 @@
 
     function setSettingsToggle(id, on) {
       const b = document.getElementById(id);
+      if (!b) return;
+      b.dataset.enabled = on ? 'true' : 'false';
       b.textContent = on ? translate('toggle.on', 'On') : translate('toggle.off', 'Off');
       b.style.opacity = on ? '1' : '0.5';
     }
+
+    function isSettingsToggleOn(id) {
+      const b = document.getElementById(id);
+      return b?.dataset.enabled === 'true';
+    }
     function desktopContextStateLabel(state, filtered = false, limited = false) {
       if (state === 'unsupported') {
-        if (filtered) return 'Enabled in config, but unavailable on this platform right now. Saved app filters will apply once desktop-context capture is supported.';
-        return 'Enabled in config, but unavailable on this platform right now.';
+        if (filtered) return translate('desktopContext.unsupportedFiltered', 'Enabled in config, but unavailable on this platform right now. Saved app filters will apply once desktop-context capture is supported.');
+        return translate('desktopContext.unsupported', 'Enabled in config, but unavailable on this platform right now.');
       }
       if (state === 'recording') {
-        if (limited && filtered) return 'Active during a recording or live session. Limited by Accessibility availability and narrowed by app filters.';
-        if (limited) return 'Active during a recording or live session. Limited because Accessibility-backed window titles are unavailable right now.';
-        if (filtered) return 'Active during a recording or live session. App filters are narrowing what is collected.';
-        return 'Active during a recording or live session.';
+        if (limited && filtered) return translate('desktopContext.recordingLimitedFiltered', 'Active during a recording or live session. Limited by Accessibility availability and narrowed by app filters.');
+        if (limited) return translate('desktopContext.recordingLimited', 'Active during a recording or live session. Limited because Accessibility-backed window titles are unavailable right now.');
+        if (filtered) return translate('desktopContext.recordingFiltered', 'Active during a recording or live session. App filters are narrowing what is collected.');
+        return translate('desktopContext.recording', 'Active during a recording or live session.');
       }
       if (state === 'idle') {
-        if (limited && filtered) return 'Enabled. Currently limited by Accessibility availability and narrowed by app filters.';
-        if (limited) return 'Enabled, but limited. Accessibility-backed window titles are unavailable right now.';
-        if (filtered) return 'Enabled and filtered. App rules will narrow what gets collected.';
-        return 'Enabled. Desktop context will attach to the next recording or live session.';
+        if (limited && filtered) return translate('desktopContext.idleLimitedFiltered', 'Enabled. Currently limited by Accessibility availability and narrowed by app filters.');
+        if (limited) return translate('desktopContext.idleLimited', 'Enabled, but limited. Accessibility-backed window titles are unavailable right now.');
+        if (filtered) return translate('desktopContext.idleFiltered', 'Enabled and filtered. App rules will narrow what gets collected.');
+        return translate('desktopContext.idle', 'Enabled. Desktop context will attach to the next recording or live session.');
       }
-      if (limited && filtered) return 'Limited by Accessibility availability and narrowed by app filters.';
-      if (limited) return 'Limited. Accessibility-backed window titles are unavailable right now.';
-      if (filtered) return 'Filtered. Capture is on, but app rules are narrowing what is collected.';
-      return 'Off. App/window context stays disabled until you turn it on.';
+      if (limited && filtered) return translate('desktopContext.limitedFiltered', 'Limited by Accessibility availability and narrowed by app filters.');
+      if (limited) return translate('desktopContext.limited', 'Limited. Accessibility-backed window titles are unavailable right now.');
+      if (filtered) return translate('desktopContext.filtered', 'Filtered. Capture is on, but app rules are narrowing what is collected.');
+      return translate('desktopContext.off', 'Off. App/window context stays disabled until you turn it on.');
     }
     function assistantAgentPlaceholder(agent) {
       if (agent === 'claude') return 'e.g. --model sonnet';
@@ -8476,7 +8586,7 @@
     // Dictation settings handlers — guarded for removed HTML elements
     if (document.getElementById('settings-dictation-shortcut')) document.getElementById('settings-dictation-shortcut').addEventListener('click', async () => {
       const select = document.getElementById('settings-dictation-shortcut-select');
-      const currentEnabled = document.getElementById('settings-dictation-shortcut').textContent === 'On';
+      const currentEnabled = isSettingsToggleOn('settings-dictation-shortcut');
       try {
         const settings = await invoke('cmd_set_dictation_shortcut', {
           enabled: !currentEnabled,
@@ -8496,7 +8606,7 @@
     });
     if (document.getElementById('settings-dictation-shortcut-select')) document.getElementById('settings-dictation-shortcut-select').addEventListener('change', async (e) => {
       const button = document.getElementById('settings-dictation-shortcut');
-      const enabled = button.textContent === 'On';
+      const enabled = isSettingsToggleOn('settings-dictation-shortcut');
       if (!enabled) {
         await invoke('cmd_set_setting', { section: 'dictation', key: 'shortcut', value: e.target.value });
         document.getElementById('settings-dictation-shortcut-status').textContent = `${e.target.value} saved. Toggle the standard shortcut on when you're ready to use it.`;
@@ -8528,7 +8638,7 @@
     // ── Live transcript shortcut settings ──
     document.getElementById('settings-live-shortcut').addEventListener('click', async () => {
       const select = document.getElementById('settings-live-shortcut-select');
-      const currentEnabled = document.getElementById('settings-live-shortcut').textContent === 'On';
+      const currentEnabled = isSettingsToggleOn('settings-live-shortcut');
       try {
         const settings = await invoke('cmd_set_live_shortcut', {
           enabled: !currentEnabled,
@@ -8540,7 +8650,7 @@
       }
     });
     document.getElementById('settings-live-shortcut-select').addEventListener('change', async (e) => {
-      const enabled = document.getElementById('settings-live-shortcut').textContent === 'On';
+      const enabled = isSettingsToggleOn('settings-live-shortcut');
       if (!enabled) return;
       try {
         const settings = await invoke('cmd_set_live_shortcut', {
@@ -8577,7 +8687,7 @@
     }
     document.getElementById('settings-palette-shortcut').addEventListener('click', async () => {
       const select = document.getElementById('settings-palette-shortcut-select');
-      const currentEnabled = document.getElementById('settings-palette-shortcut').textContent === 'On';
+      const currentEnabled = isSettingsToggleOn('settings-palette-shortcut');
       try {
         const settings = await invoke('cmd_set_palette_shortcut', {
           enabled: !currentEnabled,
@@ -8595,7 +8705,7 @@
       }
     });
     document.getElementById('settings-palette-shortcut-select').addEventListener('change', async (e) => {
-      const enabled = document.getElementById('settings-palette-shortcut').textContent === 'On';
+      const enabled = isSettingsToggleOn('settings-palette-shortcut');
       if (!enabled) {
         // Not enabled yet — don't try to register, just remember the choice.
         setPaletteShortcutStatus(`${e.target.value} selected. Toggle the palette shortcut on when you're ready to use it.`, false);
@@ -8663,7 +8773,8 @@
       recorder.style.color = '';
 
       const isOn = status.enabled;
-      toggle.textContent = isOn ? 'On' : 'Off';
+      toggle.dataset.enabled = isOn ? 'true' : 'false';
+      toggle.textContent = isOn ? translate('toggle.on', 'On') : translate('toggle.off', 'Off');
       toggle.classList.toggle('btn-primary', isOn);
       toggle.classList.toggle('btn-secondary', !isOn);
 

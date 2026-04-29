@@ -283,31 +283,70 @@
 <body>
   <div class="shell">
     <div class="header">
-      <div class="label">Quick capture</div>
-      <div class="title">Add a note</div>
-      <div class="subtitle">Append context to the current session without breaking flow.</div>
+      <div class="label" data-i18n="note.label">Quick capture</div>
+      <div class="title" data-i18n="note.title">Add a note</div>
+      <div class="subtitle" data-i18n="note.subtitle">Append context to the current session without breaking flow.</div>
     </div>
     <div class="input-wrap">
       <div class="input-meta">
-        <span class="pill">Local only</span>
+        <span class="pill" data-i18n="note.localOnly">Local only</span>
         <span id="note-length">0 chars</span>
       </div>
       <textarea
         id="note-input"
         placeholder="What's happening right now..."
+        data-i18n-placeholder="note.placeholder"
         autofocus
       ></textarea>
     </div>
     <div class="footer">
-      <span class="hint"><kbd>&#8984;Return</kbd> save <span style="opacity:.5">·</span> <kbd>Esc</kbd> close</span>
-      <button class="btn btn-primary" id="save-btn" disabled>Save Note</button>
+      <span class="hint"><kbd>&#8984;Return</kbd> <span data-i18n="action.saveLower">save</span> <span style="opacity:.5">·</span> <kbd>Esc</kbd> <span data-i18n="action.closeLower">close</span></span>
+      <button class="btn btn-primary" id="save-btn" disabled data-i18n="note.save">Save Note</button>
     </div>
   </div>
-  <div class="toast" id="toast">Note saved</div>
+  <div class="toast" id="toast" data-i18n="note.saved">Note saved</div>
 
   <script>
     const { invoke } = window.__TAURI__.core;
     const { getCurrentWebviewWindow } = window.__TAURI__.webviewWindow;
+    const APP_LANGUAGE_STORAGE_KEY = 'minutes.appLanguage';
+    const TRANSLATIONS = {
+      'zh-CN': {
+        'page.title': '添加笔记',
+        'note.label': '快速捕获',
+        'note.title': '添加笔记',
+        'note.subtitle': '不中断当前流程，把上下文追加到本次会话。',
+        'note.localOnly': '仅本地',
+        'note.placeholder': '现在发生了什么...',
+        'note.save': '保存笔记',
+        'note.saved': '笔记已保存',
+        'note.chars': '{count} 个字符',
+        'action.saveLower': '保存',
+        'action.closeLower': '关闭',
+      }
+    };
+    let currentLanguage = localStorage.getItem(APP_LANGUAGE_STORAGE_KEY) || 'en';
+
+    function t(key, fallback, vars = {}) {
+      let text = currentLanguage === 'en' ? fallback : TRANSLATIONS[currentLanguage]?.[key] || fallback;
+      Object.entries(vars).forEach(([name, value]) => {
+        text = text.replaceAll(`{${name}}`, String(value));
+      });
+      return text;
+    }
+
+    function applyLanguage() {
+      document.documentElement.lang = currentLanguage === 'zh-CN' ? 'zh-CN' : 'en';
+      document.title = t('page.title', 'Add Note');
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        if (!el.dataset.i18nDefault) el.dataset.i18nDefault = el.textContent;
+        el.textContent = t(el.dataset.i18n, el.dataset.i18nDefault);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        if (!el.dataset.i18nPlaceholderDefault) el.dataset.i18nPlaceholderDefault = el.getAttribute('placeholder') || '';
+        el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder, el.dataset.i18nPlaceholderDefault));
+      });
+    }
 
     const input = document.getElementById('note-input');
     const btn = document.getElementById('save-btn');
@@ -316,7 +355,7 @@
 
     function updateState() {
       btn.disabled = !input.value.trim();
-      noteLength.textContent = `${input.value.trim().length} chars`;
+      noteLength.textContent = t('note.chars', '{count} chars', { count: input.value.trim().length });
     }
 
     input.addEventListener('input', updateState);
@@ -333,7 +372,7 @@
 
         // Flash success
         toast.classList.remove('error');
-        toast.textContent = 'Note saved';
+        toast.textContent = t('note.saved', 'Note saved');
         toast.classList.add('show');
         setTimeout(() => {
           toast.classList.remove('show');
@@ -368,6 +407,7 @@
     });
 
     // Focus the textarea on window show
+    applyLanguage();
     input.focus();
     updateState();
   </script>
