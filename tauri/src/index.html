@@ -7,20 +7,6 @@
   <title>Minutes</title>
   <style>
     @font-face {
-      font-family: 'Instrument Serif';
-      font-style: normal;
-      font-weight: 400;
-      src: url('fonts/InstrumentSerif-Regular.woff2') format('woff2');
-    }
-
-    @font-face {
-      font-family: 'Instrument Serif';
-      font-style: italic;
-      font-weight: 400;
-      src: url('fonts/InstrumentSerif-Italic.woff2') format('woff2');
-    }
-
-    @font-face {
       font-family: 'Geist';
       font-style: normal;
       font-weight: 400;
@@ -62,49 +48,49 @@
     }
 
     :root {
-      color-scheme: light dark;
-      --bg: #0D0D0B;
-      --bg-elevated: #141412;
-      --bg-hover: #1C1C1A;
+      color-scheme: dark;
+      --bg: #000000;
+      --bg-elevated: #0A0A0A;
+      --bg-hover: #111111;
       --border: rgba(255, 255, 255, 0.06);
-      --border-mid: #2A2924;
-      --text: #E8E4DA;
-      --text-secondary: #6B6760;
-      --text-tertiary: #3D3B38;
-      --accent: #30D158;
-      --accent-hover: #4ADE70;
-      --accent-soft: rgba(48, 209, 88, 0.10);
-      --red: #FF453A;
-      --red-bg: rgba(255, 69, 58, 0.12);
-      --green: #30D158;
-      --live: #30D158;
-      --purple: #BF5AF2;
-      --orange: #D4832A;
+      --border-mid: #333333;
+      --text: #FFFFFF;
+      --text-secondary: #666666;
+      --text-tertiary: #333333;
+      --accent: #0070F3;
+      --accent-hover: #3291FF;
+      --accent-soft: rgba(0, 112, 243, 0.10);
+      --red: #EE0000;
+      --red-bg: rgba(238, 0, 0, 0.12);
+      --green: #0070F3;
+      --live: #0070F3;
+      --purple: #0070F3;
+      --orange: #F5A623;
       --purple-solid-soft: rgba(155, 133, 196, 0.70);
       --purple-solid-strong: rgba(155, 133, 196, 0.85);
-      --accent-tint: rgba(48, 209, 88, 0.12);
-      --accent-tint-soft: rgba(48, 209, 88, 0.06);
-      --accent-border: rgba(48, 209, 88, 0.15);
-      --accent-border-strong: rgba(48, 209, 88, 0.40);
-      --green-tint: rgba(48, 209, 88, 0.12);
-      --green-tint-soft: rgba(48, 209, 88, 0.06);
-      --green-border: rgba(48, 209, 88, 0.12);
-      --green-border-soft: rgba(48, 209, 88, 0.08);
-      --green-glow: rgba(48, 209, 88, 0.28);
-      --green-glow-soft: rgba(48, 209, 88, 0.18);
-      --green-solid-soft: rgba(48, 209, 88, 0.70);
-      --green-solid-strong: rgba(48, 209, 88, 0.85);
-      --red-tint: rgba(255, 69, 58, 0.12);
-      --red-tint-soft: rgba(255, 69, 58, 0.06);
-      --red-border: rgba(255, 69, 58, 0.10);
-      --red-border-strong: rgba(255, 69, 58, 0.30);
-      --red-border-stronger: rgba(255, 69, 58, 0.50);
-      --red-tint-strong: rgba(255, 69, 58, 0.20);
-      --red-tint-stronger: rgba(255, 69, 58, 0.25);
-      --red-glow-soft: rgba(255, 69, 58, 0.04);
-      --orange-tint: rgba(212, 160, 60, 0.12);
-      --orange-tint-soft: rgba(212, 160, 60, 0.08);
-      --orange-border: rgba(212, 160, 60, 0.16);
+      --accent-tint: rgba(0, 112, 243, 0.12);
+      --accent-tint-soft: rgba(0, 112, 243, 0.06);
+      --accent-border: rgba(0, 112, 243, 0.15);
+      --accent-border-strong: rgba(0, 112, 243, 0.40);
+      --green-tint: rgba(0, 112, 243, 0.12);
+      --green-tint-soft: rgba(0, 112, 243, 0.06);
+      --green-border: rgba(0, 112, 243, 0.12);
+      --green-border-soft: rgba(0, 112, 243, 0.08);
+      --green-glow: rgba(0, 112, 243, 0.28);
+      --green-glow-soft: rgba(0, 112, 243, 0.18);
+      --green-solid-soft: rgba(0, 112, 243, 0.70);
+      --green-solid-strong: rgba(0, 112, 243, 0.85);
+      --red-tint: rgba(238, 0, 0, 0.12);
+      --red-tint-soft: rgba(238, 0, 0, 0.06);
+      --red-border: rgba(238, 0, 0, 0.10);
+      --red-border-strong: rgba(238, 0, 0, 0.30);
+      --red-border-stronger: rgba(238, 0, 0, 0.50);
+      --red-tint-strong: rgba(238, 0, 0, 0.20);
+      --red-tint-stronger: rgba(238, 0, 0, 0.25);
+      --red-glow-soft: rgba(238, 0, 0, 0.04);
+      --orange-tint: rgba(245, 166, 35, 0.12);
+      --orange-tint-soft: rgba(245, 166, 35, 0.08);
+      --orange-border: rgba(245, 166, 35, 0.16);
       --shadow-color: rgba(0, 0, 0, 0.34);
       --shadow-soft: rgba(0, 0, 0, 0.12);
       --shadow-strong: rgba(0, 0, 0, 0.40);
@@ -122,88 +108,20 @@
       --neutral-border: rgba(255, 255, 255, 0.08);
       --overlay-scrim: rgba(10, 10, 12, 0.68);
       --modal-scrim: rgba(8, 10, 16, 0.66);
-      --focus-ring: rgba(48, 209, 88, 0.20);
-      --focus-ring-soft: rgba(48, 209, 88, 0.12);
-      --focus-ring-subtle: rgba(48, 209, 88, 0.08);
+      --focus-ring: rgba(0, 112, 243, 0.20);
+      --focus-ring-soft: rgba(0, 112, 243, 0.12);
+      --focus-ring-subtle: rgba(0, 112, 243, 0.08);
       --info-ring: rgba(98, 188, 233, 0.35);
       --muted-badge: rgba(142, 142, 147, 0.15);
-      --success-contrast: #0D0D0B;
+      --success-contrast: #000000;
       --radius: 8px;
       --radius-lg: 10px;
       --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-display: 'Instrument Serif', ui-serif, 'Iowan Old Style', Georgia, serif;
+      --font-display: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'Geist Mono', 'SF Mono', 'Menlo', monospace;
     }
 
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #F8F4ED;
-        --bg-elevated: #EFEBE2;
-        --bg-hover: #E8E2D8;
-        --border: rgba(0, 0, 0, 0.07);
-        --border-mid: rgba(0, 0, 0, 0.13);
-        --text: #1A1916;
-        --text-secondary: #8C8880;
-        --text-tertiary: #BDB9B0;
-        --accent: #C96B4E;
-        --accent-hover: #B85A3E;
-        --accent-soft: rgba(201, 107, 78, 0.10);
-        --red: #C0392B;
-        --red-bg: rgba(192, 57, 43, 0.12);
-        --green: #2E7D46;
-        --live: #2E7D46;
-        --purple: #8B5CF6;
-        --orange: #B8731E;
-        --purple-solid-soft: rgba(139, 92, 246, 0.58);
-        --purple-solid-strong: rgba(139, 92, 246, 0.72);
-        --accent-tint: rgba(201, 107, 78, 0.10);
-        --accent-tint-soft: rgba(201, 107, 78, 0.05);
-        --accent-border: rgba(201, 107, 78, 0.15);
-        --accent-border-strong: rgba(201, 107, 78, 0.28);
-        --green-tint: rgba(46, 125, 70, 0.10);
-        --green-tint-soft: rgba(46, 125, 70, 0.06);
-        --green-border: rgba(46, 125, 70, 0.14);
-        --green-border-soft: rgba(46, 125, 70, 0.10);
-        --green-glow: rgba(46, 125, 70, 0.22);
-        --green-glow-soft: rgba(46, 125, 70, 0.14);
-        --green-solid-soft: rgba(46, 125, 70, 0.72);
-        --green-solid-strong: rgba(46, 125, 70, 0.84);
-        --red-tint: rgba(192, 57, 43, 0.10);
-        --red-tint-soft: rgba(192, 57, 43, 0.05);
-        --red-border: rgba(192, 57, 43, 0.10);
-        --red-border-strong: rgba(192, 57, 43, 0.24);
-        --red-border-stronger: rgba(192, 57, 43, 0.38);
-        --red-tint-strong: rgba(192, 57, 43, 0.15);
-        --red-tint-stronger: rgba(192, 57, 43, 0.20);
-        --red-glow-soft: rgba(192, 57, 43, 0.06);
-        --orange-tint: rgba(184, 115, 30, 0.10);
-        --orange-tint-soft: rgba(184, 115, 30, 0.06);
-        --orange-border: rgba(184, 115, 30, 0.16);
-        --shadow-color: rgba(0, 0, 0, 0.12);
-        --shadow-soft: rgba(0, 0, 0, 0.08);
-        --shadow-strong: rgba(0, 0, 0, 0.16);
-        --shadow-stronger: rgba(0, 0, 0, 0.18);
-        --inset-highlight: rgba(0, 0, 0, 0.03);
-        --surface-stroke-subtle: rgba(0, 0, 0, 0.06);
-        --surface-fill: rgba(0, 0, 0, 0.03);
-        --surface-fill-hover: rgba(0, 0, 0, 0.05);
-        --surface-fill-strong: rgba(0, 0, 0, 0.08);
-        --surface-fill-stronger: rgba(0, 0, 0, 0.12);
-        --surface-fill-strongest: rgba(0, 0, 0, 0.18);
-        --surface-fill-strongest-hover: rgba(0, 0, 0, 0.24);
-        --neutral-tint: rgba(0, 0, 0, 0.06);
-        --neutral-tint-soft: rgba(0, 0, 0, 0.04);
-        --neutral-border: rgba(0, 0, 0, 0.10);
-        --overlay-scrim: rgba(248, 244, 237, 0.78);
-        --modal-scrim: rgba(248, 244, 237, 0.82);
-        --focus-ring: rgba(201, 107, 78, 0.16);
-        --focus-ring-soft: rgba(201, 107, 78, 0.10);
-        --focus-ring-subtle: rgba(201, 107, 78, 0.07);
-        --info-ring: rgba(98, 188, 233, 0.24);
-        --muted-badge: rgba(140, 136, 128, 0.16);
-        --success-contrast: #F8F4ED;
-      }
-    }
+
 
     :focus-visible {
       outline: 2px solid var(--accent);
@@ -226,7 +144,7 @@
       user-select: none;
     }
 
-    /* Subtle grain overlay for depth — barely perceptible, adds warmth to flat surfaces */
+    /* Subtle grain overlay for depth on flat monochrome surfaces. */
     body::after {
       content: '';
       position: fixed;
@@ -634,7 +552,7 @@
       font-size: 18px;
       font-family: var(--font-display);
       font-weight: 400;
-      letter-spacing: -0.3px;
+      letter-spacing: 0;
       color: var(--text);
       line-height: 1;
     }
@@ -660,7 +578,7 @@
       color: var(--orange);
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.2px;
+      letter-spacing: 0;
       cursor: pointer;
     }
 
@@ -710,7 +628,7 @@
       background: var(--red-tint);
       color: var(--red);
       font-weight: 600;
-      letter-spacing: 0.3px;
+      letter-spacing: 0;
     }
 
     .status-pill.processing {
@@ -767,7 +685,7 @@
       font-size: 12px;
       font-weight: 600;
       color: var(--live);
-      letter-spacing: 0.3px;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
 
@@ -800,7 +718,7 @@
       color: var(--text);
       font-family: var(--font-mono);
       font-weight: 500;
-      letter-spacing: 0.5px;
+      letter-spacing: 0;
     }
 
     .live-utterances {
@@ -885,7 +803,7 @@
       font-size: 11px;
       font-weight: 600;
       color: var(--red);
-      letter-spacing: 0.3px;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
 
@@ -921,7 +839,7 @@
       color: var(--text);
       font-family: var(--font-mono);
       font-weight: 500;
-      letter-spacing: 0.5px;
+      letter-spacing: 0;
     }
 
     /* ── Audio visualizer ── */
@@ -1053,7 +971,7 @@
 
     .processing-job-state {
       font-size: 10px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
       text-transform: uppercase;
       color: var(--accent);
       flex-shrink: 0;
@@ -1358,7 +1276,7 @@
     .md-viewer-toolbar .md-viewer-mode-btn {
       font-family: var(--font-mono);
       font-size: 10px;
-      letter-spacing: 0.3px;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
 
@@ -1413,7 +1331,7 @@
       color: var(--text-secondary);
       font-size: 10px;
       font-family: var(--font-mono);
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
       text-transform: uppercase;
       flex-shrink: 0;
     }
@@ -1570,7 +1488,7 @@
       font-weight: 600;
       color: var(--text);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
     }
 
     .md-viewer-review-meta {
@@ -1596,7 +1514,7 @@
       font-size: 11px;
       color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
     }
 
     .md-viewer-review-pre {
@@ -1872,7 +1790,7 @@
       font-family: var(--font-mono);
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.42px;
+      letter-spacing: 0;
       color: var(--text-secondary);
       padding: 24px 4px 8px;
       border-bottom: 1px solid var(--border);
@@ -1986,7 +1904,7 @@
       font-family: var(--font-mono);
       color: var(--text-secondary);
       margin-top: 3px;
-      letter-spacing: 0.2px;
+      letter-spacing: 0;
     }
 
     .meeting-snippet {
@@ -2117,7 +2035,7 @@
       font-size: 18px;
       font-family: var(--font-display);
       font-weight: 400;
-      letter-spacing: -0.2px;
+      letter-spacing: 0;
       color: var(--text);
       margin-bottom: 6px;
       white-space: nowrap;
@@ -2213,7 +2131,7 @@
     .detail-context-label {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0;
       text-transform: uppercase;
       color: var(--text-tertiary);
       margin-bottom: 6px;
@@ -2283,7 +2201,7 @@
     .detail-speakers-label {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0;
       text-transform: uppercase;
       color: var(--text-tertiary);
       margin-bottom: 8px;
@@ -2315,7 +2233,7 @@
       border-radius: 4px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.3px;
+      letter-spacing: 0;
     }
 
     .speaker-badge.high {
@@ -2451,7 +2369,7 @@
       font-size: 10px;
       font-family: var(--font-mono);
       font-weight: 600;
-      letter-spacing: 0.4px;
+      letter-spacing: 0;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 10px;
@@ -2552,7 +2470,7 @@
       font-family: var(--font-display);
       font-weight: 400;
       line-height: 1;
-      letter-spacing: -0.4px;
+      letter-spacing: 0;
       margin-bottom: 6px;
     }
 
@@ -2593,7 +2511,7 @@
     .about-item-title {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0;
       text-transform: uppercase;
       color: var(--text-tertiary);
       margin-bottom: 6px;
@@ -2733,7 +2651,7 @@
       font-size: 18px;
       font-family: var(--font-display);
       font-weight: 400;
-      letter-spacing: -0.2px;
+      letter-spacing: 0;
       color: var(--text);
       margin-bottom: 6px;
     }
@@ -2786,7 +2704,7 @@
       border-radius: 999px;
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.4px;
+      letter-spacing: 0;
       text-transform: uppercase;
       flex-shrink: 0;
       background: var(--surface-fill-strong);
@@ -2812,7 +2730,7 @@
       font-size: 11px;
       color: var(--text-tertiary);
       margin-top: 8px;
-      letter-spacing: 0.15px;
+      letter-spacing: 0;
     }
 
     /* ── Recovery view ── */
@@ -2858,7 +2776,7 @@
       font-size: 18px;
       font-family: var(--font-display);
       font-weight: 400;
-      letter-spacing: -0.2px;
+      letter-spacing: 0;
       color: var(--text);
       margin-bottom: 6px;
     }
@@ -2914,7 +2832,7 @@
       color: var(--orange);
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.4px;
+      letter-spacing: 0;
       text-transform: uppercase;
       flex-shrink: 0;
     }
@@ -2995,7 +2913,7 @@
       font-size: 10px;
       font-family: var(--font-mono);
       text-transform: uppercase;
-      letter-spacing: 0.32px;
+      letter-spacing: 0;
       color: var(--text-secondary);
     }
 
@@ -3041,7 +2959,7 @@
     }
 
     .btn-primary {
-      background: var(--accent);
+      background: var(--text);
       color: var(--bg);
       box-shadow: inset 0 -1px 0 var(--border);
     }
@@ -3051,7 +2969,7 @@
     }
 
     .btn-primary:hover {
-      background: var(--accent-hover);
+      background: #eaeaea;
       box-shadow: inset 0 -1px 0 var(--border);
     }
 
@@ -3082,7 +3000,7 @@
       color: var(--text);
       border: 1px solid var(--border-mid);
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0;
       font-weight: 600;
       font-size: 11px;
     }
@@ -3203,7 +3121,7 @@
     .ambient-context-title {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0;
       text-transform: uppercase;
       color: var(--text-tertiary);
     }
