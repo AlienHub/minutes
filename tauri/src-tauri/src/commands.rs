@@ -5820,6 +5820,11 @@ pub async fn cmd_enroll_voice(
 
     tauri::async_runtime::spawn_blocking(move || {
         let mut config = Config::load();
+        if config.diarization.engine == "none" {
+            return Err(
+                "Speaker diarization is turned off. Turn it on before enrolling voices.".into(),
+            );
+        }
         if !minutes_core::diarize::models_installed(&config) {
             return Err("Speaker diarization models are not installed. Run `minutes setup --diarization` first.".into());
         }
@@ -6552,6 +6557,7 @@ pub fn cmd_get_settings() -> serde_json::Value {
         },
         "diarization": {
             "engine": config.diarization.engine,
+            "models_installed": minutes_core::diarize::models_installed(&config),
         },
         "summarization": {
             "engine": config.summarization.engine,

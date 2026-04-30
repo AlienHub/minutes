@@ -5189,6 +5189,7 @@
         "settings.voiceDeleteConfirm": "删除 {name} 的声纹档案？历史会议中的发言人确认不会被删除。",
         "settings.voiceDeleteFailed": "无法删除声纹档案：{error}",
         "settings.voiceDiarizationOff": "说话人分离已关闭。录制或匹配声纹前，请先开启说话人分离。",
+        "settings.voiceModelsMissing": "声纹录制需要先安装说话人分离模型。请在终端运行：minutes setup --diarization（约 34 MB）。",
         "settings.voiceConservativeMatching": "保守匹配：阈值 {threshold}，边际 {margin}。",
         "settings.voiceLoadFailed": "无法加载声纹档案：{error}",
         "settings.voiceNameRequired": "请先在上方填写你的名字，然后再录制声纹。",
@@ -7780,7 +7781,11 @@
     async function refreshVoiceProfiles(settings = null) {
       const list = document.getElementById('settings-voice-profiles');
       const status = document.getElementById('settings-voice-status');
+      const enrollButton = document.getElementById('btn-enroll-voice');
       if (!list || !status) return;
+      if (!settings) {
+        settings = await invoke('cmd_get_settings').catch(() => null);
+      }
       list.replaceChildren();
       status.textContent = translate('settings.voiceLoading', 'Loading voice profiles...');
       try {
@@ -7842,6 +7847,10 @@
 
         if (settings?.diarization?.engine === 'none') {
           status.textContent = translate('settings.voiceDiarizationOff', 'Speaker diarization is off. Turn it on before enrolling or matching voices.');
+          if (enrollButton) enrollButton.disabled = true;
+        } else if (settings?.diarization?.models_installed === false) {
+          status.textContent = translate('settings.voiceModelsMissing', 'Voice enrollment needs speaker diarization models first. Run this in Terminal: minutes setup --diarization (~34 MB).');
+          if (enrollButton) enrollButton.disabled = true;
         } else {
           const voice = settings?.voice || {};
           status.textContent = translateTemplate(
@@ -7849,9 +7858,11 @@
             `Conservative matching: threshold ${voice.match_threshold ?? 0.65}, margin ${voice.match_margin ?? 0.08}.`,
             { threshold: voice.match_threshold ?? 0.65, margin: voice.match_margin ?? 0.08 }
           );
+          if (enrollButton) enrollButton.disabled = false;
         }
       } catch (e) {
         status.textContent = translateTemplate('settings.voiceLoadFailed', `Could not load voice profiles: ${e}`, { error: e });
+        if (enrollButton) enrollButton.disabled = false;
       }
     }
 
@@ -8427,15 +8438,25 @@
       const btn = document.getElementById('btn-enroll-voice');
       btn.disabled = true;
       status.textContent = translate('settings.voiceRecording', 'Recording 10 seconds. Speak normally...');
+      let keepDisabled = false;
       try {
         const result = await invoke('cmd_enroll_voice', { name, durationSecs: 10 });
         nameInput.value = result.name || name;
         await refreshVoiceProfiles();
         status.textContent = translateTemplate('settings.voiceSaved', `Voice profile saved for ${result.name || name}.`, { name: result.name || name });
       } catch (e) {
-        status.textContent = translateTemplate('settings.voiceEnrollFailed', `Could not enroll voice: ${e}`, { error: e });
+        const errorText = String(e || '');
+        if (errorText.includes('models are not installed')) {
+          status.textContent = translate('settings.voiceModelsMissing', 'Voice enrollment needs speaker diarization models first. Run this in Terminal: minutes setup --diarization (~34 MB).');
+          keepDisabled = true;
+        } else if (errorText.includes('diarization is turned off')) {
+          status.textContent = translate('settings.voiceDiarizationOff', 'Speaker diarization is off. Turn it on before enrolling or matching voices.');
+          keepDisabled = true;
+        } else {
+          status.textContent = translateTemplate('settings.voiceEnrollFailed', `Could not enroll voice: ${e}`, { error: e });
+        }
       } finally {
-        btn.disabled = false;
+        btn.disabled = keepDisabled;
       }
     });
 
