@@ -76,7 +76,7 @@ const nextMilestones = [
 function SectionLabel({ label }: { label: string }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--accent)]">
         {label}
       </span>
       <div className="h-px flex-1 bg-[var(--border)]" />
@@ -105,10 +105,10 @@ export default function ProofPage() {
       </div>
 
       <section className="max-w-[780px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Proof
         </p>
-        <h1 className="mt-4 font-serif text-[42px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[56px]">
+        <h1 className="mt-4 font-sans text-[42px] leading-[0.98] text-[var(--text)] sm:text-[56px]">
           Run the demo. Inspect the receipts.
         </h1>
         <p className="mt-5 text-[17px] leading-8 text-[var(--text-secondary)]">
@@ -142,7 +142,7 @@ export default function ProofPage() {
             </div>
           </div>
           <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+            <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
               The answer should catch the reversal
             </p>
             <p className="mt-4 text-[15px] leading-8 text-[var(--text-secondary)]">
@@ -169,14 +169,14 @@ export default function ProofPage() {
               className="flex flex-col gap-2 rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5 shadow-[var(--shadow-panel)] transition hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)] sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+                <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                   {file.date}
                 </p>
                 <p className="mt-2 text-[15px] text-[var(--text)]">
                   {file.label}
                 </p>
               </div>
-              <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase text-[var(--text-secondary)]">
                 open markdown
               </p>
             </a>
@@ -194,17 +194,17 @@ export default function ProofPage() {
               className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)] transition hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
             >
               <div className="flex flex-wrap items-center gap-3">
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+                <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                   {row.label}
                 </p>
-                <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">
+                <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 font-mono text-[10px] uppercase text-[var(--accent)]">
                   {row.status}
                 </span>
               </div>
               <p className="mt-3 text-[15px] leading-8 text-[var(--text-secondary)]">
                 {row.body}
               </p>
-              <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--text)]">
+              <p className="mt-4 font-mono text-[12px] uppercase text-[var(--text)]">
                 {row.link}
               </p>
             </a>
@@ -237,7 +237,7 @@ export default function ProofPage() {
               key={milestone.title}
               className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5 shadow-[var(--shadow-panel)]"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+              <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                 {milestone.title}
               </p>
               <p className="mt-3 text-[14px] leading-7 text-[var(--text-secondary)]">
@@ -249,7 +249,7 @@ export default function ProofPage() {
       </section>
 
       <section className="mt-14 rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Why this matters
         </p>
         <p className="mt-3 text-[15px] leading-8 text-[var(--text-secondary)]">
@@ -261,13 +261,13 @@ export default function ProofPage() {
         <div className="mt-5 flex flex-wrap gap-3">
           <a
             href="/for-agents#try"
-            className="inline-flex items-center rounded-[5px] bg-[var(--accent)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-black hover:bg-[var(--accent-hover)]"
+            className="inline-flex items-center rounded-[5px] bg-[var(--text)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--bg)] hover:bg-[#eaeaea]"
           >
             Try the demo
           </a>
           <a
             href="https://github.com/silverstein/minutes/blob/main/docs/eval/results-v0.1.md"
-            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text)] hover:bg-[var(--bg-hover)]"
+            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--text)] hover:bg-[var(--bg-hover)]"
           >
             Audit v0.1
           </a>

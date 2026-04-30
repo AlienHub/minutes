@@ -130,10 +130,10 @@ const comparisons = [
 function SectionLabel({ n, label }: { n: string; label: string }) {
   return (
     <div className="mb-8 flex items-center gap-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--accent)]">
         {n}
       </span>
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--text-secondary)]">
         {label}
       </span>
       <div className="h-px flex-1 bg-[var(--border)]" />
@@ -146,7 +146,7 @@ function TranscriptCard() {
     <div className="overflow-hidden rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] text-left shadow-[var(--shadow-panel)]">
       <div className="flex flex-col gap-3 border-b border-[color:var(--border)] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Transcript Output
           </p>
           <p className="mt-1 font-mono text-[12px] text-[var(--text-secondary)]">
@@ -154,13 +154,13 @@ function TranscriptCard() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <span className="rounded-full bg-[var(--accent-soft)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">
+          <span className="rounded-full bg-[var(--accent-soft)] px-2 py-1 font-mono text-[10px] uppercase text-[var(--accent)]">
             2 speakers
           </span>
-          <span className="rounded-full bg-[var(--bg-hover)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+          <span className="rounded-full bg-[var(--bg-hover)] px-2 py-1 font-mono text-[10px] uppercase text-[var(--text-secondary)]">
             42 min
           </span>
-          <span className="rounded-full bg-[var(--bg-hover)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+          <span className="rounded-full bg-[var(--bg-hover)] px-2 py-1 font-mono text-[10px] uppercase text-[var(--text-secondary)]">
             3 actions
           </span>
         </div>
@@ -189,7 +189,7 @@ function TranscriptCard() {
         </div>
 
         <div className="border-t border-[color:var(--border)] pt-5">
-          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+          <p className="mb-3 font-mono text-[11px] uppercase text-[var(--text-secondary)]">
             Action Items
           </p>
           <div className="space-y-2 text-[var(--text)]">
@@ -245,17 +245,17 @@ export default function Home() {
       </nav>
 
       <section className="pb-16 pt-16 text-center sm:pb-20 sm:pt-24">
-        <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="mb-5 font-mono text-[11px] uppercase text-[var(--accent)]">
           Open-source. MCP-native.
         </p>
-        <p className="mx-auto mb-5 max-w-[720px] font-mono text-[12px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+        <p className="mx-auto mb-5 max-w-[720px] font-mono text-[12px] uppercase text-[var(--text-secondary)]">
           v{MINUTES_RELEASE_VERSION} • {MINUTES_MCP_TOOL_COUNT} MCP tools •{" "}
           {MINUTES_CLI_COMMAND_COUNT} CLI commands • {MINUTES_TEST_COUNT}+ tests
         </p>
-        <h1 className="mx-auto max-w-[720px] font-serif text-[40px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[58px]">
+        <h1 className="mx-auto max-w-[720px] font-sans text-[40px] leading-[0.98] text-[var(--text)] sm:text-[58px]">
           Every meeting, memo, and voice note,
           <br />
-          <span className="italic text-[var(--accent)]">structured and searchable.</span>
+          <span className="text-[var(--accent)]">structured and searchable.</span>
         </h1>
         <p className="mx-auto mt-5 max-w-[600px] text-[16px] leading-7 text-[var(--text-secondary)] sm:text-[17px]">
           Cloud meeting tools rent your own conversations back to you. Minutes
@@ -266,7 +266,7 @@ export default function Home() {
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <a
             href="#install"
-            className="inline-flex items-center gap-2 rounded-[5px] bg-[var(--accent)] px-6 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-black hover:bg-[var(--accent-hover)]"
+            className="inline-flex items-center gap-2 rounded-[5px] bg-[var(--text)] px-6 py-2.5 font-mono text-[11px] font-medium uppercase text-[var(--bg)] hover:bg-[#eaeaea]"
           >
             Get started
             <svg
@@ -287,13 +287,13 @@ export default function Home() {
           </a>
           <a
             href="https://github.com/silverstein/minutes"
-            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border-mid)] px-6 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:border-[color:var(--accent)] hover:text-[var(--accent)]"
+            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border-mid)] px-6 py-2.5 font-mono text-[11px] uppercase text-[var(--text-secondary)] hover:border-[color:var(--accent)] hover:text-[var(--accent)]"
           >
             View on GitHub
           </a>
           <a
             href="/proof"
-            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border-mid)] px-6 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:border-[color:var(--accent)] hover:text-[var(--accent)]"
+            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border-mid)] px-6 py-2.5 font-mono text-[11px] uppercase text-[var(--text-secondary)] hover:border-[color:var(--accent)] hover:text-[var(--accent)]"
           >
             See proof
           </a>
@@ -332,7 +332,7 @@ export default function Home() {
         >
           <a
             href={APPLE_SILICON_DOWNLOAD_PATH}
-            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--text)] shadow-[var(--shadow-panel)] hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
+            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--text)] shadow-[var(--shadow-panel)] hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
           >
             <svg
               width="14"
@@ -352,7 +352,7 @@ export default function Home() {
           </a>
           <a
             href={WINDOWS_SETUP_EXE}
-            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--text)] shadow-[var(--shadow-panel)] hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
+            className="inline-flex items-center gap-2 rounded-[5px] border border-[color:var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--text)] shadow-[var(--shadow-panel)] hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
           >
             <svg
               width="14"
@@ -393,7 +393,7 @@ export default function Home() {
         </div>
 
         <div className="mt-10 border-t border-[color:var(--border)] pt-8">
-          <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+          <p className="mb-4 font-mono text-[11px] uppercase text-[var(--text-secondary)]">
             Works with any MCP client
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-[var(--text-secondary)]">
@@ -412,7 +412,7 @@ export default function Home() {
 
       <section className="border-t border-[color:var(--border)] py-16">
         <SectionLabel n="01" label="Proof" />
-        <h2 className="font-serif text-[30px] leading-tight tracking-[-0.035em] text-[var(--text)] sm:text-[32px]">
+        <h2 className="font-sans text-[30px] leading-tight text-[var(--text)] sm:text-[32px]">
           Start with the evidence, not the pitch.
         </h2>
         <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -420,7 +420,7 @@ export default function Home() {
             href="/for-agents#try"
             className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5 shadow-[var(--shadow-panel)] transition hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+            <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
               Runnable demo
             </p>
             <p className="mt-3 text-[14px] leading-7 text-[var(--text-secondary)]">
@@ -432,7 +432,7 @@ export default function Home() {
             href="/proof"
             className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5 shadow-[var(--shadow-panel)] transition hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+            <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
               Honest eval
             </p>
             <p className="mt-3 text-[14px] leading-7 text-[var(--text-secondary)]">
@@ -444,7 +444,7 @@ export default function Home() {
             href="https://github.com/silverstein/minutes/tree/main/examples"
             className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5 shadow-[var(--shadow-panel)] transition hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+            <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
               Adapter examples
             </p>
             <p className="mt-3 text-[14px] leading-7 text-[var(--text-secondary)]">
@@ -457,7 +457,7 @@ export default function Home() {
 
       <section id="pipeline" className="border-t border-[color:var(--border)] py-16">
         <SectionLabel n="02" label="Pipeline" />
-        <h2 className="font-serif text-[30px] leading-tight tracking-[-0.035em] text-[var(--text)] sm:text-[32px]">
+        <h2 className="font-sans text-[30px] leading-tight text-[var(--text)] sm:text-[32px]">
           How it works
         </h2>
         <pre className="mt-6 overflow-x-auto rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5 font-mono text-[13px] leading-7 text-[var(--text-secondary)] shadow-[var(--shadow-panel)]">
@@ -478,19 +478,19 @@ export default function Home() {
 
       <section className="border-t border-[color:var(--border)] py-16">
         <SectionLabel n="03" label="Audience" />
-        <h2 className="max-w-[620px] font-serif text-[30px] leading-tight tracking-[-0.035em] text-[var(--text)] sm:text-[32px]">
+        <h2 className="max-w-[620px] font-sans text-[30px] leading-tight text-[var(--text)] sm:text-[32px]">
           Capture it anywhere. Find it everywhere.
         </h2>
-        <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+        <p className="mt-3 font-mono text-[12px] uppercase text-[var(--text-secondary)]">
           From meetings to memos to agents
         </p>
         <div className="mt-8 grid gap-px bg-[var(--border)] sm:grid-cols-2 lg:grid-cols-3">
           {featureGrid.map((item) => (
             <div key={item.title} className="bg-[var(--bg)] px-6 py-6">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">
+              <p className="font-mono text-[10px] uppercase text-[var(--accent)]">
                 {item.label}
               </p>
-              <h3 className="mt-3 font-serif text-[20px] leading-6 text-[var(--text)]">
+              <h3 className="mt-3 font-sans text-[20px] leading-6 text-[var(--text)]">
                 {item.title}
               </h3>
               <p className="mt-3 text-[14px] leading-6 text-[var(--text-secondary)]">
@@ -503,13 +503,13 @@ export default function Home() {
 
       <section className="border-t border-[color:var(--border)] py-16">
         <SectionLabel n="04" label="Features" />
-        <h2 className="font-serif text-[30px] leading-tight tracking-[-0.035em] text-[var(--text)] sm:text-[32px]">
+        <h2 className="font-sans text-[30px] leading-tight text-[var(--text)] sm:text-[32px]">
           What you get
         </h2>
         <div className="mt-10 grid gap-10 lg:grid-cols-3">
           {capabilityColumns.map((column) => (
             <div key={column.label}>
-              <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+              <p className="mb-5 font-mono text-[11px] uppercase text-[var(--accent)]">
                 {column.label}
               </p>
               <div className="space-y-4">
@@ -534,24 +534,24 @@ export default function Home() {
 
       <section className="border-t border-[color:var(--border)] py-16">
         <SectionLabel n="05" label="Comparison" />
-        <h2 className="font-serif text-[30px] leading-tight tracking-[-0.035em] text-[var(--text)] sm:text-[32px]">
+        <h2 className="font-sans text-[30px] leading-tight text-[var(--text)] sm:text-[32px]">
           How it compares
         </h2>
         <div className="mt-8 overflow-x-auto rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] shadow-[var(--shadow-panel)]">
           <table className="w-full min-w-[620px] border-collapse text-[13px]">
             <thead>
               <tr className="bg-[var(--bg-hover)]">
-                <th className="p-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--text-secondary)]" />
-                <th className="p-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+                <th className="p-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]" />
+                <th className="p-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Granola
                 </th>
-                <th className="p-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+                <th className="p-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Otter.ai
                 </th>
-                <th className="p-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+                <th className="p-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Meetily
                 </th>
-                <th className="p-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--accent)]">
+                <th className="p-3 text-left font-mono text-[10px] uppercase text-[var(--accent)]">
                   minutes
                 </th>
               </tr>

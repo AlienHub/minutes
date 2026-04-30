@@ -98,7 +98,7 @@ const docsSections = [
 function SectionLabel({ label }: { label: string }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--accent)]">
         {label}
       </span>
       <div className="h-px flex-1 bg-[var(--border)]" />
@@ -124,10 +124,10 @@ export default function DocsIndexPage() {
       </div>
 
       <section className="max-w-[760px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Docs
         </p>
-        <h1 className="mt-4 font-serif text-[42px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[56px]">
+        <h1 className="mt-4 font-sans text-[42px] leading-[0.98] text-[var(--text)] sm:text-[56px]">
           Minutes docs
         </h1>
         <p className="mt-5 text-[17px] leading-8 text-[var(--text-secondary)]">
@@ -150,7 +150,7 @@ export default function DocsIndexPage() {
                 key={surface.name}
                 className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]"
               >
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+                <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                   {surface.name}
                 </p>
                 <p className="mt-3 text-[15px] leading-8 text-[var(--text-secondary)]">
@@ -178,7 +178,7 @@ export default function DocsIndexPage() {
                   href={link.href}
                   className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)] transition hover:border-[color:var(--border-mid)] hover:bg-[var(--bg-hover)]"
                 >
-                  <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+                  <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                     {section.label}
                   </p>
                   <h2 className="mt-3 text-[18px] font-medium text-[var(--text)]">{link.title}</h2>

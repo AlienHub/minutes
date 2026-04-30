@@ -50,10 +50,10 @@ export default function DojoPage() {
       </div>
 
       <section className="max-w-[760px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Dojo
         </p>
-        <h1 className="mt-4 font-serif text-[42px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[56px]">
+        <h1 className="mt-4 font-sans text-[42px] leading-[0.98] text-[var(--text)] sm:text-[56px]">
           Workflow packs for Minutes
         </h1>
         <p className="mt-5 text-[17px] leading-8 text-[var(--text-secondary)]">
@@ -64,7 +64,7 @@ export default function DojoPage() {
       </section>
 
       <section className="mt-12">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Packs
         </p>
         <div className="mt-5 grid gap-4">
@@ -73,7 +73,7 @@ export default function DojoPage() {
               key={pack.pack_id}
               className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+              <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                 {pack.pack_id}
               </p>
               <h2 className="mt-3 text-[20px] font-medium text-[var(--text)]">{pack.title}</h2>
@@ -97,7 +97,7 @@ export default function DojoPage() {
       </section>
 
       <section className="mt-12">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Skill Metadata
         </p>
         <div className="mt-5 grid gap-3">
@@ -106,7 +106,7 @@ export default function DojoPage() {
               key={skill.skill_name}
               className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+              <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                 {skill.category}
               </p>
               <h3 className="mt-2 text-[17px] font-medium text-[var(--text)]">

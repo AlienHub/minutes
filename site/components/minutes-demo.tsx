@@ -9,18 +9,18 @@ import {
   Sequence,
 } from "remotion";
 
-const BG = "#F8F4ED";
-const FG = "#1A1916";
-const DIM = "#8C8880";
-const DIMMER = "#BDB9B0";
-const GREEN = "#2E7D46";
-const ACCENT = "#C96B4E";
-const PURPLE = "#BF5AF2";
-const ORANGE = "#D4832A";
-const RED = "#C0392B";
-const BORDER = "rgba(0,0,0,0.09)";
-const TERMINAL_BG = "#EFEBE2";
-const BAR_BG = "rgba(0,0,0,0.03)";
+const BG = "#000000";
+const FG = "#FFFFFF";
+const DIM = "#666666";
+const DIMMER = "#333333";
+const GREEN = "#0070F3";
+const ACCENT = "#0070F3";
+const PURPLE = "#0070F3";
+const ORANGE = "#F5A623";
+const RED = "#EE0000";
+const BORDER = "#333333";
+const TERMINAL_BG = "#0A0A0A";
+const BAR_BG = "#111111";
 
 const FONT_MAIN = 15;
 const FONT_SMALL = 12;
@@ -413,7 +413,7 @@ const Scene5: React.FC = () => {
           fontWeight: 700,
           color: FG,
           fontFamily: "var(--font-sans), -apple-system, sans-serif",
-          letterSpacing: -2,
+          letterSpacing: 0,
         }}
       >
         minutes

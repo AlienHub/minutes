@@ -243,12 +243,12 @@ export default function ForAgentsPage() {
 
       {/* Header */}
       <section className="max-w-[760px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Open-source. MCP-native.
         </p>
-        <h1 className="mt-4 font-serif text-[42px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[56px]">
+        <h1 className="mt-4 font-sans text-[42px] leading-[0.98] text-[var(--text)] sm:text-[56px]">
           The meeting corpus your agents{" "}
-          <span className="italic text-[var(--accent)]">read as files</span>.
+          <span className="text-[var(--accent)]">read as files</span>.
         </h1>
         <p className="mt-5 text-[17px] leading-8 text-[var(--text-secondary)]">
           Cloud meeting tools hold your conversations in their database behind
@@ -273,7 +273,7 @@ export default function ForAgentsPage() {
       {/* Try in 60 seconds */}
       <section className="mt-8 max-w-[760px]" id="try">
         <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Try it in 60 seconds
           </p>
           <p className="mt-3 text-[14px] leading-7 text-[var(--text-secondary)]">
@@ -306,7 +306,7 @@ export default function ForAgentsPage() {
 
       <section className="mt-10 max-w-[760px]">
         <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Proof path
           </p>
           <div className="mt-4 space-y-3 text-[13px] leading-6 text-[var(--text-secondary)]">
@@ -325,19 +325,19 @@ export default function ForAgentsPage() {
           <div className="mt-4 flex flex-wrap gap-3">
             <a
               href="/proof"
-              className="inline-flex items-center rounded-[5px] bg-[var(--accent)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-black hover:bg-[var(--accent-hover)]"
+              className="inline-flex items-center rounded-[5px] bg-[var(--text)] px-4 py-2 font-mono text-[11px] uppercase text-[var(--bg)] hover:bg-[#eaeaea]"
             >
               See proof
             </a>
             <a
               href="https://github.com/silverstein/minutes/blob/main/docs/eval/results-v0.1.md"
-              className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text)] hover:bg-[var(--bg-hover)]"
+              className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-4 py-2 font-mono text-[11px] uppercase text-[var(--text)] hover:bg-[var(--bg-hover)]"
             >
               Audit eval
             </a>
             <a
               href="https://github.com/silverstein/minutes/tree/main/examples"
-              className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text)] hover:bg-[var(--bg-hover)]"
+              className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-4 py-2 font-mono text-[11px] uppercase text-[var(--text)] hover:bg-[var(--bg-hover)]"
             >
               Adapter examples
             </a>
@@ -348,7 +348,7 @@ export default function ForAgentsPage() {
       {/* Shape of the category */}
       <section className="mt-10 max-w-[760px]">
         <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Shape of the category
           </p>
           <div className="mt-4 grid gap-x-6 gap-y-3 text-[13px] leading-6 sm:grid-cols-[200px_1fr]">
@@ -381,7 +381,7 @@ export default function ForAgentsPage() {
       {/* Agent compatibility */}
       <section className="mt-10 max-w-[760px]">
         <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Agent compatibility
           </p>
           <p className="mt-3 text-[13px] leading-6 text-[var(--text-secondary)]">
@@ -392,16 +392,16 @@ export default function ForAgentsPage() {
             <table className="w-full min-w-[520px] border-collapse text-[12px]">
               <thead>
                 <tr className="border-b border-[color:var(--border)]">
-                  <th className="py-2 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                  <th className="py-2 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                     Agent
                   </th>
-                  <th className="py-2 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                  <th className="py-2 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                     Native skills
                   </th>
-                  <th className="py-2 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                  <th className="py-2 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                     MCP tools
                   </th>
-                  <th className="py-2 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                  <th className="py-2 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                     Setup
                   </th>
                 </tr>
@@ -505,7 +505,7 @@ export default function ForAgentsPage() {
       {/* Skill catalog */}
       <section className="mt-14 max-w-[860px]">
         <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Native skill catalog
           </p>
           <p className="mt-3 text-[13px] leading-6 text-[var(--text-secondary)]">
@@ -521,7 +521,7 @@ export default function ForAgentsPage() {
             {skillCategories.map(([category, skills]) => (
               <div key={category}>
                 <div className="border-b border-[color:var(--border)] pb-2">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                  <p className="font-mono text-[11px] uppercase text-[var(--text-secondary)]">
                     {category}
                   </p>
                 </div>
@@ -598,7 +598,7 @@ export default function ForAgentsPage() {
         </p>
         <div className="relative overflow-hidden rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)]">
           <div className="flex items-center justify-between border-b border-[color:var(--border)] px-4 py-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+            <span className="font-mono text-[11px] uppercase text-[var(--text-secondary)]">
               MCP config
             </span>
             <CopyButton label="Copy" cmd={mcpConfig} compact />
@@ -631,7 +631,7 @@ export default function ForAgentsPage() {
               key={s.name}
               className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-5 shadow-[var(--shadow-panel)]"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+              <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                 {s.name}
               </p>
               <p className="mt-2 text-[14px] leading-6 text-[var(--text-secondary)]">
@@ -678,7 +678,7 @@ export default function ForAgentsPage() {
         <div className="space-y-6">
           {toolGroups.map((group) => (
             <div key={group.label}>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+              <p className="mb-2 font-mono text-[11px] uppercase text-[var(--accent)]">
                 {group.label}
               </p>
               <div className="space-y-1">
@@ -718,7 +718,7 @@ export default function ForAgentsPage() {
         </p>
         <div className="overflow-hidden rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)]">
           <div className="border-b border-[color:var(--border)] px-4 py-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+            <span className="font-mono text-[11px] uppercase text-[var(--text-secondary)]">
               Meeting file
             </span>
           </div>
@@ -837,10 +837,10 @@ export default function ForAgentsPage() {
 function SectionLabel({ n, label }: { n: string; label: string }) {
   return (
     <div className="mb-8 flex items-center gap-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--accent)]">
         {n}
       </span>
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--text-secondary)]">
         {label}
       </span>
       <div className="h-px flex-1 bg-[var(--border)]" />

@@ -56,7 +56,7 @@ const sources = [
 function SectionLabel({ label }: { label: string }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--accent)]">
         {label}
       </span>
       <div className="h-px flex-1 bg-[var(--border)]" />
@@ -88,10 +88,10 @@ export default function BestMcpMeetingMemoryToolsPage() {
       </div>
 
       <section className="max-w-[800px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Resource
         </p>
-        <h1 className="mt-4 font-serif text-[40px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[58px]">
+        <h1 className="mt-4 font-sans text-[40px] leading-[0.98] text-[var(--text)] sm:text-[58px]">
           Best MCP meeting memory tools
         </h1>
         <p className="mt-5 text-[17px] leading-8 text-[var(--text-secondary)]">
@@ -100,17 +100,17 @@ export default function BestMcpMeetingMemoryToolsPage() {
           more specific category, and the tools in it are not all good at the same thing.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <span className="rounded-full bg-[var(--bg-elevated)] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+          <span className="rounded-full bg-[var(--bg-elevated)] px-3 py-1 font-mono text-[11px] uppercase text-[var(--text-secondary)]">
             Last reviewed: 2026-04-09
           </span>
-          <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--accent)]">
+          <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 font-mono text-[11px] uppercase text-[var(--accent)]">
             Category-creation guide
           </span>
         </div>
       </section>
 
       <section className="mt-12 rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Quick answer
         </p>
         <div className="mt-4 space-y-3 text-[15px] leading-8 text-[var(--text-secondary)]">
@@ -147,7 +147,7 @@ export default function BestMcpMeetingMemoryToolsPage() {
               key={tool.name}
               className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+              <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
                 {tool.bestFor}
               </p>
               <h2 className="mt-3 text-[18px] font-medium text-[var(--text)]">{tool.name}</h2>
@@ -194,25 +194,25 @@ export default function BestMcpMeetingMemoryToolsPage() {
       </section>
 
       <section className="mt-14 rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Next step
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <a
             href="/for-agents"
-            className="inline-flex items-center rounded-[5px] bg-[var(--accent)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-black hover:bg-[var(--accent-hover)]"
+            className="inline-flex items-center rounded-[5px] bg-[var(--text)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--bg)] hover:bg-[#eaeaea]"
           >
             See agent setup
           </a>
           <a
             href="/docs/mcp/tools"
-            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text)] hover:bg-[var(--bg-hover)]"
+            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--text)] hover:bg-[var(--bg-hover)]"
           >
             MCP docs
           </a>
           <a
             href="/compare"
-            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text)] hover:bg-[var(--bg-hover)]"
+            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--text)] hover:bg-[var(--bg-hover)]"
           >
             Compare pages
           </a>

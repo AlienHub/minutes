@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)"],
+        display: ["var(--font-display)"],
         serif: ["var(--font-display)"],
         mono: ["var(--font-mono)"],
       },

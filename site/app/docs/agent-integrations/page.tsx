@@ -64,7 +64,7 @@ const current = [
 function SectionLabel({ label }: { label: string }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--accent)]">
         {label}
       </span>
       <div className="h-px flex-1 bg-[var(--border)]" />
@@ -90,10 +90,10 @@ export default function AgentIntegrationsPage() {
       </div>
 
       <section className="max-w-[760px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Agent integrations
         </p>
-        <h1 className="mt-4 font-serif text-[42px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[56px]">
+        <h1 className="mt-4 font-sans text-[42px] leading-[0.98] text-[var(--text)] sm:text-[56px]">
           Add the smallest useful agent surface.
         </h1>
         <p className="mt-5 text-[17px] leading-8 text-[var(--text-secondary)]">
@@ -128,13 +128,13 @@ export default function AgentIntegrationsPage() {
           <table className="w-full border-collapse text-[13px]">
             <thead>
               <tr className="border-b border-[color:var(--border)]">
-                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Surface
                 </th>
-                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Use when
                 </th>
-                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Examples
                 </th>
               </tr>
@@ -158,13 +158,13 @@ export default function AgentIntegrationsPage() {
           <table className="w-full border-collapse text-[13px]">
             <thead>
               <tr className="border-b border-[color:var(--border)]">
-                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Backend
                 </th>
-                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Class
                 </th>
-                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 text-left font-mono text-[10px] uppercase text-[var(--text-secondary)]">
                   Posture
                 </th>
               </tr>

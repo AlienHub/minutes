@@ -31,7 +31,7 @@ type ComparePageProps = {
 function SectionLabel({ label }: { label: string }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+      <span className="font-mono text-[11px] uppercase text-[var(--accent)]">
         {label}
       </span>
       <div className="h-px flex-1 bg-[var(--border)]" />
@@ -78,27 +78,27 @@ export function ComparePage({
       </div>
 
       <section className="max-w-[780px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Comparison
         </p>
-        <h1 className="mt-4 font-serif text-[40px] leading-[0.98] tracking-[-0.045em] text-[var(--text)] sm:text-[58px]">
+        <h1 className="mt-4 font-sans text-[40px] leading-[0.98] text-[var(--text)] sm:text-[58px]">
           Minutes vs {competitorLabel}
         </h1>
         <p className="mt-5 text-[17px] leading-8 text-[var(--text-secondary)]">
           {heroSummary}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <span className="rounded-full bg-[var(--bg-elevated)] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)]">
+          <span className="rounded-full bg-[var(--bg-elevated)] px-3 py-1 font-mono text-[11px] uppercase text-[var(--text-secondary)]">
             Last reviewed: 2026-04-09
           </span>
-          <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--accent)]">
+          <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 font-mono text-[11px] uppercase text-[var(--accent)]">
             Fit-based comparison
           </span>
         </div>
       </section>
 
       <section className="mt-12 rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Quick verdict
         </p>
         <div className="mt-4 space-y-3 text-[15px] leading-8 text-[var(--text-secondary)]">
@@ -119,13 +119,13 @@ export function ComparePage({
           <table className="min-w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-[color:var(--border)]">
-                <th className="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 font-mono text-[11px] uppercase text-[var(--text-secondary)]">
                   Category
                 </th>
-                <th className="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 font-mono text-[11px] uppercase text-[var(--text-secondary)]">
                   {competitorName}
                 </th>
-                <th className="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+                <th className="px-4 py-3 font-mono text-[11px] uppercase text-[var(--text-secondary)]">
                   Minutes
                 </th>
               </tr>
@@ -151,7 +151,7 @@ export function ComparePage({
 
       <section className="mt-14 grid gap-6 lg:grid-cols-2">
         <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Where {competitorName} wins
           </p>
           <ul className="mt-4 space-y-3 text-[15px] leading-8 text-[var(--text-secondary)]">
@@ -162,7 +162,7 @@ export function ComparePage({
         </div>
 
         <div className="rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+          <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
             Where Minutes wins
           </p>
           <ul className="mt-4 space-y-3 text-[15px] leading-8 text-[var(--text-secondary)]">
@@ -210,25 +210,25 @@ export function ComparePage({
       </section>
 
       <section className="mt-14 rounded-[8px] border border-[color:var(--border)] bg-[var(--bg-elevated)] p-6 shadow-[var(--shadow-panel)]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--accent)]">
+        <p className="font-mono text-[11px] uppercase text-[var(--accent)]">
           Next step
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <a
             href="/for-agents"
-            className="inline-flex items-center rounded-[5px] bg-[var(--accent)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-black hover:bg-[var(--accent-hover)]"
+            className="inline-flex items-center rounded-[5px] bg-[var(--text)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--bg)] hover:bg-[#eaeaea]"
           >
             See agent setup
           </a>
           <a
             href="/docs/mcp/tools"
-            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text)] hover:bg-[var(--bg-hover)]"
+            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--text)] hover:bg-[var(--bg-hover)]"
           >
             Browse MCP docs
           </a>
           <a
             href="/compare"
-            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--text)] hover:bg-[var(--bg-hover)]"
+            className="inline-flex items-center rounded-[5px] border border-[color:var(--border-mid)] px-5 py-2.5 font-mono text-[11px] uppercase text-[var(--text)] hover:bg-[var(--bg-hover)]"
           >
             All comparisons
           </a>
