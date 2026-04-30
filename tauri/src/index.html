@@ -5191,7 +5191,7 @@
         "settings.voiceDiarizationOff": "说话人分离已关闭。录制或匹配声纹前，请先开启说话人分离。",
         "settings.voiceConservativeMatching": "保守匹配：阈值 {threshold}，边际 {margin}。",
         "settings.voiceLoadFailed": "无法加载声纹档案：{error}",
-        "settings.voiceNamePrompt": "要绑定到这个声纹的姓名：",
+        "settings.voiceNameRequired": "请先在上方填写你的名字，然后再录制声纹。",
         "settings.voiceRecording": "正在录制 10 秒。请用平常说话的方式朗读...",
         "settings.voiceSaved": "已为 {name} 保存声纹档案。",
         "settings.voiceEnrollFailed": "无法录制声纹：{error}",
@@ -8417,16 +8417,21 @@
     document.getElementById('btn-enroll-voice').addEventListener('click', async () => {
       const status = document.getElementById('settings-voice-status');
       const nameInput = document.getElementById('settings-identity-name');
-      const name = prompt(translate('settings.voiceNamePrompt', 'Name to attach to your voice profile:'), nameInput.value || '');
-      if (!name || !name.trim()) return;
+      const name = (nameInput.value || '').trim();
+      if (!name) {
+        status.textContent = translate('settings.voiceNameRequired', 'Enter your name above before recording a voice profile.');
+        nameInput.focus();
+        nameInput.select();
+        return;
+      }
       const btn = document.getElementById('btn-enroll-voice');
       btn.disabled = true;
       status.textContent = translate('settings.voiceRecording', 'Recording 10 seconds. Speak normally...');
       try {
-        const result = await invoke('cmd_enroll_voice', { name: name.trim(), durationSecs: 10 });
-        nameInput.value = result.name || name.trim();
+        const result = await invoke('cmd_enroll_voice', { name, durationSecs: 10 });
+        nameInput.value = result.name || name;
         await refreshVoiceProfiles();
-        status.textContent = translateTemplate('settings.voiceSaved', `Voice profile saved for ${result.name || name.trim()}.`, { name: result.name || name.trim() });
+        status.textContent = translateTemplate('settings.voiceSaved', `Voice profile saved for ${result.name || name}.`, { name: result.name || name });
       } catch (e) {
         status.textContent = translateTemplate('settings.voiceEnrollFailed', `Could not enroll voice: ${e}`, { error: e });
       } finally {
