@@ -5826,7 +5826,9 @@ pub async fn cmd_enroll_voice(
             );
         }
         if !minutes_core::diarize::models_installed(&config) {
-            return Err("Speaker diarization models are not installed. Run `minutes setup --diarization` first.".into());
+            return Err(
+                "Speaker diarization models are not installed. Run `minutes setup --diarization` first. If you are running from a source checkout without the CLI installed, run `cargo run --bin minutes -- setup --diarization` from the repository.".into(),
+            );
         }
 
         let tmp_dir = std::env::temp_dir().join("minutes-desktop-enroll");

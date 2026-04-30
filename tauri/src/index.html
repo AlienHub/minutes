@@ -5189,7 +5189,7 @@
         "settings.voiceDeleteConfirm": "删除 {name} 的声纹档案？历史会议中的发言人确认不会被删除。",
         "settings.voiceDeleteFailed": "无法删除声纹档案：{error}",
         "settings.voiceDiarizationOff": "说话人分离已关闭。录制或匹配声纹前，请先开启说话人分离。",
-        "settings.voiceModelsMissing": "声纹录制需要先安装说话人分离模型。请在终端运行：minutes setup --diarization（约 34 MB）。",
+        "settings.voiceModelsMissing": "声纹录制需要先安装说话人分离模型。请在终端运行：minutes setup --diarization。如果是源码开发环境没有 minutes 命令，请在仓库里运行：cargo run --bin minutes -- setup --diarization（约 34 MB）。",
         "settings.voiceConservativeMatching": "保守匹配：阈值 {threshold}，边际 {margin}。",
         "settings.voiceLoadFailed": "无法加载声纹档案：{error}",
         "settings.voiceNameRequired": "请先在上方填写你的名字，然后再录制声纹。",
@@ -7849,7 +7849,7 @@
           status.textContent = translate('settings.voiceDiarizationOff', 'Speaker diarization is off. Turn it on before enrolling or matching voices.');
           if (enrollButton) enrollButton.disabled = true;
         } else if (settings?.diarization?.models_installed === false) {
-          status.textContent = translate('settings.voiceModelsMissing', 'Voice enrollment needs speaker diarization models first. Run this in Terminal: minutes setup --diarization (~34 MB).');
+          status.textContent = translate('settings.voiceModelsMissing', 'Voice enrollment needs speaker diarization models first. Run this in Terminal: minutes setup --diarization. From a source checkout without the CLI installed, run: cargo run --bin minutes -- setup --diarization (~34 MB).');
           if (enrollButton) enrollButton.disabled = true;
         } else {
           const voice = settings?.voice || {};
@@ -8447,7 +8447,7 @@
       } catch (e) {
         const errorText = String(e || '');
         if (errorText.includes('models are not installed')) {
-          status.textContent = translate('settings.voiceModelsMissing', 'Voice enrollment needs speaker diarization models first. Run this in Terminal: minutes setup --diarization (~34 MB).');
+          status.textContent = translate('settings.voiceModelsMissing', 'Voice enrollment needs speaker diarization models first. Run this in Terminal: minutes setup --diarization. From a source checkout without the CLI installed, run: cargo run --bin minutes -- setup --diarization (~34 MB).');
           keepDisabled = true;
         } else if (errorText.includes('diarization is turned off')) {
           status.textContent = translate('settings.voiceDiarizationOff', 'Speaker diarization is off. Turn it on before enrolling or matching voices.');
