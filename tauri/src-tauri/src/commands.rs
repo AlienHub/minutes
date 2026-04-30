@@ -966,6 +966,87 @@ pub struct VoiceEnrollmentResult {
     pub model_version: String,
 }
 
+const MIN_VOICE_MATCH_SPEECH_SECS: f64 = 3.0;
+
+fn refresh_speaker_map_with_voice_profiles(
+    speaker_map: &mut Vec<minutes_core::diarize::SpeakerAttribution>,
+    meeting_path: &std::path::Path,
+    config: &Config,
+) {
+    if !config.voice.enabled {
+        return;
+    }
+
+    let Some(records) = minutes_core::voice::load_meeting_embedding_records(meeting_path) else {
+        return;
+    };
+    if records.is_empty() {
+        return;
+    }
+
+    let profiles = minutes_core::voice::open_db()
+        .ok()
+        .and_then(|conn| minutes_core::voice::load_all_with_embeddings(&conn).ok())
+        .unwrap_or_default();
+    if profiles.is_empty() {
+        return;
+    }
+
+    let mut claimed_profiles = std::collections::HashSet::new();
+    for attr in speaker_map.iter() {
+        if attr.confidence == minutes_core::diarize::Confidence::High
+            && attr.source == minutes_core::diarize::AttributionSource::Enrollment
+        {
+            claimed_profiles.insert(minutes_core::voice::profile_slug(&attr.name));
+        }
+    }
+
+    let mut labels: Vec<_> = records.keys().cloned().collect();
+    labels.sort();
+    for label in labels {
+        let Some(record) = records.get(&label) else {
+            continue;
+        };
+        if record.embedding.is_empty() || record.speech_secs < MIN_VOICE_MATCH_SPEECH_SECS {
+            continue;
+        }
+        if speaker_map.iter().any(|attr| {
+            attr.speaker_label == label
+                && attr.confidence == minutes_core::diarize::Confidence::High
+                && attr.source == minutes_core::diarize::AttributionSource::Manual
+        }) {
+            continue;
+        }
+
+        let Some(matched) = minutes_core::voice::match_embedding_with_margin(
+            &record.embedding,
+            &profiles,
+            config.voice.match_threshold,
+            config.voice.match_margin,
+        ) else {
+            continue;
+        };
+        if !claimed_profiles.insert(matched.person_slug.clone()) {
+            continue;
+        }
+
+        let attribution = minutes_core::diarize::SpeakerAttribution {
+            speaker_label: label.clone(),
+            name: matched.name,
+            confidence: minutes_core::diarize::Confidence::High,
+            source: minutes_core::diarize::AttributionSource::Enrollment,
+        };
+        if let Some(existing) = speaker_map
+            .iter_mut()
+            .find(|attr| attr.speaker_label == label)
+        {
+            *existing = attribution;
+        } else {
+            speaker_map.push(attribution);
+        }
+    }
+}
+
 #[derive(Debug, Clone, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TextFileAccess {
@@ -5557,6 +5638,7 @@ pub fn cmd_get_meeting_detail(path: String) -> Result<MeetingDetail, String> {
             e
         ),
     }
+    refresh_speaker_map_with_voice_profiles(&mut frontmatter.speaker_map, &meeting_path, &config);
 
     let content_type = match frontmatter.r#type {
         ContentType::Meeting => "meeting",
@@ -8797,6 +8879,155 @@ mod tests {
                 hash_before, hash_after,
                 "overlay write must not mutate the raw meeting markdown"
             );
+        });
+    }
+
+    #[test]
+    fn meeting_detail_reflects_enrolled_voice_matches_from_sidecar() {
+        with_temp_home(|home| {
+            let meetings_dir = home.join("meetings");
+            std::fs::create_dir_all(&meetings_dir).unwrap();
+
+            let meeting_path = meetings_dir.join("2026-04-24-voice-match.md");
+            let raw_markdown = concat!(
+                "---\n",
+                "title: Voice Match\n",
+                "type: meeting\n",
+                "date: 2026-04-24T10:00:00-07:00\n",
+                "duration: 15m\n",
+                "tags: []\n",
+                "attendees: []\n",
+                "people: []\n",
+                "action_items: []\n",
+                "decisions: []\n",
+                "intents: []\n",
+                "speaker_map:\n",
+                "  - speaker_label: SPEAKER_0\n",
+                "    name: Speaker 0\n",
+                "    confidence: medium\n",
+                "    source: llm\n",
+                "---\n\n",
+                "## Transcript\n\n",
+                "[SPEAKER_0 0:00] hello there\n",
+            );
+            std::fs::write(&meeting_path, raw_markdown).unwrap();
+            let hash_before = hash_file_bytes(&meeting_path);
+
+            let conn = minutes_core::voice::open_db().unwrap();
+            minutes_core::voice::save_profile(
+                &conn,
+                "mat-silverstein",
+                "Mat Silverstein",
+                &[1.0f32, 0.0],
+                "self-enrollment",
+                "test-model",
+            )
+            .unwrap();
+
+            let mut records = std::collections::HashMap::new();
+            records.insert(
+                "SPEAKER_0".to_string(),
+                minutes_core::voice::MeetingEmbeddingRecord {
+                    embedding: vec![1.0f32, 0.0],
+                    speech_secs: 8.0,
+                    segment_count: 2,
+                    model_version: "test-model".into(),
+                },
+            );
+            minutes_core::voice::save_meeting_embedding_records(&meeting_path, &records);
+
+            let detail =
+                cmd_get_meeting_detail(meeting_path.to_string_lossy().to_string()).unwrap();
+            let matched = detail
+                .speaker_map
+                .iter()
+                .find(|attr| attr.speaker_label == "SPEAKER_0")
+                .expect("SPEAKER_0 must appear in meeting detail");
+            assert_eq!(matched.name, "Mat Silverstein");
+            assert_eq!(matched.confidence, "high");
+            assert_eq!(matched.source, "enrollment");
+            assert_eq!(
+                hash_before,
+                hash_file_bytes(&meeting_path),
+                "voice refresh must not mutate historical markdown"
+            );
+        });
+    }
+
+    #[test]
+    fn meeting_detail_voice_match_does_not_override_manual_overlay() {
+        with_temp_home(|home| {
+            let meetings_dir = home.join("meetings");
+            std::fs::create_dir_all(&meetings_dir).unwrap();
+
+            let meeting_path = meetings_dir.join("2026-04-24-manual-wins.md");
+            std::fs::write(
+                &meeting_path,
+                concat!(
+                    "---\n",
+                    "title: Manual Wins\n",
+                    "type: meeting\n",
+                    "date: 2026-04-24T10:00:00-07:00\n",
+                    "duration: 15m\n",
+                    "tags: []\n",
+                    "attendees: []\n",
+                    "people: []\n",
+                    "action_items: []\n",
+                    "decisions: []\n",
+                    "intents: []\n",
+                    "speaker_map:\n",
+                    "  - speaker_label: SPEAKER_0\n",
+                    "    name: Speaker 0\n",
+                    "    confidence: medium\n",
+                    "    source: llm\n",
+                    "---\n\n",
+                    "## Transcript\n\n",
+                    "[SPEAKER_0 0:00] hello there\n",
+                ),
+            )
+            .unwrap();
+
+            minutes_core::overlays::write_speaker_confirmation(
+                &meeting_path,
+                "SPEAKER_0",
+                "Alex Kim",
+                Some("Speaker 0"),
+                Some("manual wins test"),
+            )
+            .unwrap();
+
+            let conn = minutes_core::voice::open_db().unwrap();
+            minutes_core::voice::save_profile(
+                &conn,
+                "mat-silverstein",
+                "Mat Silverstein",
+                &[1.0f32, 0.0],
+                "self-enrollment",
+                "test-model",
+            )
+            .unwrap();
+            let mut records = std::collections::HashMap::new();
+            records.insert(
+                "SPEAKER_0".to_string(),
+                minutes_core::voice::MeetingEmbeddingRecord {
+                    embedding: vec![1.0f32, 0.0],
+                    speech_secs: 8.0,
+                    segment_count: 2,
+                    model_version: "test-model".into(),
+                },
+            );
+            minutes_core::voice::save_meeting_embedding_records(&meeting_path, &records);
+
+            let detail =
+                cmd_get_meeting_detail(meeting_path.to_string_lossy().to_string()).unwrap();
+            let matched = detail
+                .speaker_map
+                .iter()
+                .find(|attr| attr.speaker_label == "SPEAKER_0")
+                .expect("SPEAKER_0 must appear in meeting detail");
+            assert_eq!(matched.name, "Alex Kim");
+            assert_eq!(matched.confidence, "high");
+            assert_eq!(matched.source, "manual");
         });
     }
 
